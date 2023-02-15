@@ -4,10 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Satoshi: "Satoshi, sans-serif",
-      },
-      width: {
-        fullscreen: "1512px",
+        Zendots: "Zen Dots, cursive",
       },
     },
   },

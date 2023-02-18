@@ -21,22 +21,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-// const firebaseConfig = {
-//   apiKey: process.env.API_KEY,
-//   authDomain: "mxrequest-app.firebaseapp.com",
-//   projectId: "mxrequest-app",
-//   storageBucket: "mxrequest-app.appspot.com",
-//   messagingSenderId: "974485100831",
-//   appId: process.env.API_ID,
-// };
-
 const firebaseConfig = {
-  apiKey: "AIzaSyCTDqgeo0BzLvV-I8LlGuRX5z8_UAusFCk",
+  apiKey: process.env.API_KEY || "mock_key",
   authDomain: "mxrequest-app.firebaseapp.com",
   projectId: "mxrequest-app",
   storageBucket: "mxrequest-app.appspot.com",
   messagingSenderId: "974485100831",
-  appId: "1:974485100831:web:f5df2e7c071cbe1fccb82a",
+  appId: process.env.API_ID || "mock_key",
 };
 
 // Initialize Firebase

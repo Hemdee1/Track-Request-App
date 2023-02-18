@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Zendots: "Zen Dots, cursive",
+        Inter: "Inter, sans-serif"
       },
     },
   },

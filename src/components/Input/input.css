@@ -1,0 +1,11 @@
+.password__input{
+    /* width: fit-content; */
+    /* border: 1px solid red; */
+    position: relative;
+}
+
+.password__inputButton{
+    position: absolute;
+    right: 28px;
+    top: 60%;
+}

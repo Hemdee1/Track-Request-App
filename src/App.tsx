@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home } from "./pages";
-import TestingAPI from "./pages/TestingAPI";
+import { Home, TestingAPI } from "./pages";
 
 function App() {
   return (

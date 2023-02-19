@@ -3,13 +3,17 @@ import {
   MusicType,
   useAuthChange,
   useClearClubSession,
+  useCustomError,
   useGetRequest,
   useLogin,
   useLogout,
   useRequestMusic,
+  UserType,
   useSignIn,
+  useSignInWithGoogle,
   useUpdateMusicState,
-} from "../firebase/useFirebase";
+} from "../hooks/useFirebase";
+import { uploadImage } from "../hooks/useUpload";
 
 const TestingAPI = () => {
   const [title, setTitle] = useState("");
@@ -20,8 +24,11 @@ const TestingAPI = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
 
-  const [user, setUser] = useState<any>(null);
+  const [img, setImg] = useState<File>();
+
+  const [user, setUser] = useState<UserType | null>(null);
 
   const [datas, setDatas] = useState<MusicType[]>();
   const [newDatas, setNewDatas] = useState<MusicType[]>();
@@ -36,6 +43,12 @@ const TestingAPI = () => {
     console.log(datas);
   }, [datas]);
 
+  const upload = () => {
+    if (img) {
+      uploadImage(img);
+    }
+  };
+
   const sendRequest = async () => {
     await useRequestMusic("DJ YK", { title, artist, cover: "cover.jpg" });
 
@@ -45,11 +58,12 @@ const TestingAPI = () => {
 
   const Signin = async () => {
     try {
-      await useSignIn(email, password);
+      await useSignIn(email, password, userName);
 
       setEmail("");
       setPassword("");
-    } catch (error) {
+    } catch (err: any) {
+      const error = useCustomError(err.message);
       console.log(error);
     }
   };
@@ -60,7 +74,8 @@ const TestingAPI = () => {
 
       setEmail("");
       setPassword("");
-    } catch (error) {
+    } catch (err: any) {
+      const error = useCustomError(err.message);
       console.log(error);
     }
   };
@@ -110,7 +125,7 @@ const TestingAPI = () => {
           onChange={(e) => setArtist(e.target.value)}
         />
         <button onClick={sendRequest}>Request</button>
-        <button className="ml-10" onClick={() => useClearClubSession("clubs")}>
+        <button className="ml-10" onClick={() => useClearClubSession("DJ YK")}>
           Clear Datas
         </button>
       </div>
@@ -136,8 +151,15 @@ const TestingAPI = () => {
       <div className="bg-slate-300 p-3 mt-5">
         <h4>Sign In</h4>
         <input
+          type="text"
+          placeholder="username"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <input
           type="email"
           placeholder="email"
+          className="ml-4"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -148,13 +170,31 @@ const TestingAPI = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={Signin} className="ml-4">
+        <br />
+        <input
+          type="file"
+          name="image"
+          id="image"
+          onChange={(e) => {
+            const target = e.target.files;
+            if (target) {
+              console.log(target[0]);
+              setImg(target[0]);
+            }
+          }}
+        />
+        <button onClick={upload}>Upload</button>
+        <br />
+        <button onClick={Signin} className="m-2">
           Signin
         </button>
-        <button onClick={Login} className="ml-4">
+        <button onClick={Login} className="m-2">
           Login
         </button>
-        <button onClick={() => useLogout()} className="ml-4">
+        <button onClick={() => useSignInWithGoogle()} className="m-2">
+          SignInWithGoogle
+        </button>
+        <button onClick={() => useLogout()} className="m-2">
           Logout
         </button>
       </div>

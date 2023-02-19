@@ -10,7 +10,6 @@ import {
   orderBy,
   query,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -20,26 +19,16 @@ import {
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
-  updateProfile,
 } from "firebase/auth";
-import { async } from "@firebase/util";
 import { uploadImage } from "./useUpload";
 
-// const firebaseConfig = {
-//   apiKey: process.env.API_KEY || "mock_key",
-//   authDomain: "mxrequest-app.firebaseapp.com",
-//   projectId: "mxrequest-app",
-//   storageBucket: "mxrequest-app.appspot.com",
-//   messagingSenderId: "974485100831",
-//   appId: process.env.API_ID || "mock_key",
-// };
 const firebaseConfig = {
-  apiKey: "AIzaSyCTDqgeo0BzLvV-I8LlGuRX5z8_UAusFCk",
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "mxrequest-app.firebaseapp.com",
   projectId: "mxrequest-app",
   storageBucket: "mxrequest-app.appspot.com",
-  messagingSenderId: "974485100831",
-  appId: "1:974485100831:web:f5df2e7c071cbe1fccb82a",
+  messagingSenderId: import.meta.env.VITE_SENDER_ID,
+  appId: import.meta.env.VITE_API_ID,
 };
 
 // Initialize Firebase
@@ -63,8 +52,8 @@ export type UserType = {
   id: string;
   email: string;
   username: string;
-  photoURL: string;
-  photoQR: string;
+  photoURL: string | File;
+  photoQR: string | File;
   facebook: string;
   twitter: string;
   instagram: string;
@@ -245,7 +234,7 @@ export const useAuthChange = async (
 };
 
 export type UserTypeWithImage = {
-  id?: string;
+  id: string;
   email?: string;
   username?: string;
   photoQR?: string | File;
@@ -257,8 +246,8 @@ export type UserTypeWithImage = {
 
 // UPDATE THE USER PROFILE
 export const useUpdateProfile = async (
-  email: string,
-  value: UserTypeWithImage
+  value: UserTypeWithImage,
+  setDatas: React.Dispatch<React.SetStateAction<UserType | null>>
 ) => {
   try {
     // if there is a new photo, upload and return the url
@@ -274,10 +263,32 @@ export const useUpdateProfile = async (
       value.photoQR = url;
     }
 
-    const docRef = doc(db, "profile", "document", email, value.id!);
-    await updateDoc(docRef, {
+    const docRef = doc(
+      db,
+      "profile",
+      "document",
+      value.email!.toLowerCase(),
+      value.id!
+    );
+
+    // update user profile
+    const data = await updateDoc(docRef, {
       ...value,
     });
+
+    // fetch the updated profile
+    const colRef = collection(
+      db,
+      "profile",
+      "document",
+      value.email!.toLowerCase()
+    );
+    const snapshot = await getDocs(colRef);
+    const res = snapshot.docs[0];
+
+    setDatas({ ...(res.data() as UserType), id: res.id });
+
+    console.log(data);
   } catch (error) {
     console.log(error);
   }
@@ -326,64 +337,3 @@ export const useCustomError = (message: string) => {
     return "Password should be at least 6 characters";
   }
 };
-
-//
-//
-//
-// get realtime collection data by status
-// export const useGetRequestByStatus = async (
-//   collectionName: string,
-//   status: "new" | "que" | "unavailable" | "played",
-//   setDatas: React.Dispatch<React.SetStateAction<MusicType[] | undefined>>
-// ) => {
-//   const colRef = collection(db, collectionName);
-//   const q = query(
-//     colRef,
-//     where("status", "==", status),
-//     orderBy("time", "desc")
-//   );
-
-//   console.log("getting realtime collection of data by status");
-
-//   try {
-//     onSnapshot(q, (snap) => {
-//       const clubs = snap.docs.map((doc) => {
-//         return { ...((doc.data()as UserType ) as MusicType), id: doc.id };
-//       });
-
-//       setDatas(clubs);
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// // get realtime collection data by user
-// export const useGetRequestByUser = async (
-//   collectionName: string,
-//   setDatas: React.Dispatch<React.SetStateAction<MusicType[] | undefined>>
-// ) => {
-//   // get the generated id for the user
-//   const user_id = JSON.parse(localStorage.getItem("mxrequest_id") || "");
-
-//   const colRef = collection(db, collectionName);
-//   const q = query(
-//     colRef,
-//     where("user_id", "==", user_id),
-//     orderBy("time", "desc")
-//   );
-
-//   console.log("getting realtime collection of data by user");
-
-//   try {
-//     onSnapshot(q, (snap) => {
-//       const clubs = snap.docs.map((doc) => {
-//         return { ...((doc.data()as UserType ) as MusicType), id: doc.id };
-//       });
-
-//       setDatas(clubs);
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };

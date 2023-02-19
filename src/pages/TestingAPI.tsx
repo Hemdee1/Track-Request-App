@@ -12,6 +12,7 @@ import {
   useSignIn,
   useSignInWithGoogle,
   useUpdateMusicState,
+  useUpdateProfile,
 } from "../hooks/useFirebase";
 import { uploadImage } from "../hooks/useUpload";
 
@@ -47,6 +48,25 @@ const TestingAPI = () => {
     if (img) {
       uploadImage(img);
     }
+  };
+
+  const update = async () => {
+    if (user) {
+      const value = {
+        ...user,
+        username: userName,
+        facebook: email,
+        instagram: password,
+      };
+
+      if (img) {
+        value.photoURL = img;
+      } else {
+        value.photoURL = user.photoURL;
+      }
+
+      await useUpdateProfile(value, setUser);
+    } else return;
   };
 
   const sendRequest = async () => {
@@ -170,6 +190,20 @@ const TestingAPI = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <br />
+        <button onClick={Signin} className="m-2">
+          Signin
+        </button>
+        <button onClick={Login} className="m-2">
+          Login
+        </button>
+        <button onClick={() => useSignInWithGoogle()} className="m-2">
+          SignInWithGoogle
+        </button>
+        <button onClick={() => useLogout()} className="m-2">
+          Logout
+        </button>
         <br />
         <input
           type="file"
@@ -184,19 +218,45 @@ const TestingAPI = () => {
           }}
         />
         <button onClick={upload}>Upload</button>
+      </div>
+
+      <div className="bg-slate-300 p-3 mt-5">
+        <h4>Update User Profile</h4>
+        <input
+          type="text"
+          placeholder="username"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="email"
+          className="ml-4"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="password"
+          className="ml-4"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <br />
-        <button onClick={Signin} className="m-2">
-          Signin
-        </button>
-        <button onClick={Login} className="m-2">
-          Login
-        </button>
-        <button onClick={() => useSignInWithGoogle()} className="m-2">
-          SignInWithGoogle
-        </button>
-        <button onClick={() => useLogout()} className="m-2">
-          Logout
-        </button>
+        <input
+          type="file"
+          name="image"
+          id="image"
+          onChange={(e) => {
+            const target = e.target.files;
+            if (target) {
+              console.log(target[0]);
+              setImg(target[0]);
+            }
+          }}
+        />
+        <button onClick={update}>Update</button>
+        <br />
       </div>
 
       <h1 className="mt-10">All Datas</h1>

@@ -7,7 +7,9 @@ export const uploadImage = async (file: File) => {
 
   try {
     const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.VITE_CLOUD_NAME
+      }/image/upload`,
       formData
     );
 

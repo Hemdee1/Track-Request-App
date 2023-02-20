@@ -36,7 +36,7 @@ const Welcome = () => {
 
       <Pulse type="queued" />
 
-      <TrackCard />
+      <TrackCard isResult={false}/>
     </div>
   );
 };

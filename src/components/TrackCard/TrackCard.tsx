@@ -1,20 +1,21 @@
 import React from 'react'
 import Pulse from '../Pulse'
 import AlbumArt from '../../assets/Images/album-cover.png'
+import { TrackCardProps } from './Track.card.type';
 
-const TrackCard = () => {
+const TrackCard = (props:TrackCardProps):JSX.Element => {
   return (
     <div className='flex items-center'>
-      <Pulse type='played'/>
+      <Pulse type={props.type ?? 'played'}/>
 
-      <div className='
+      <div className={`
           flex items-center md:gap-5 gap-2 
           border-[2px]
           md:p-2 p-2 
-          rounded-full 
-          md:w-[300px] min-w-auto max-w-[80%]
+          ${props.isResult ? ' rounded-lg' : 'rounded-full'}
+          ${props.isResult ? 'w-full' : 'md:w-[300px] min-w-auto max-w-[80%]'}
           pr-10
-        '>
+        `}>
         <div className="
           image 
           md:w-[80px] w-[55px]

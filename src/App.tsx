@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home } from "./pages";
+import { Home, TestingAPI } from "./pages";
 import './global.css';
 import './tailwind.css';
 import Navbar from './components/NavBar/Navbar';
@@ -11,6 +11,7 @@ function App() {
     <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/test" element={<TestingAPI />} />
     </Routes>
     <Footer />
     </>

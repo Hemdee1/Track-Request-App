@@ -29,7 +29,7 @@ const Welcome = () => {
       <Button type="primary" Label="Loading" onClick={btn} isLoading={true} />
       <Button type="secondary" Label="Create club profile" onClick={() => console.log('create club profile')}  />
       <Button type="primary-rounded" Label="play"/>
-      <Button type="secondary-rounded" Label="Track unavailable" />
+      <Button type="secondary-rounded" Label="Track unavailable" Label="Track unavailable" />
 
 
       <Pulse type="queued" />

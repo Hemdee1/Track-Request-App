@@ -1,9 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import "./global.css";
 import "./tailwind.css";
+import { Dashboard, Home, TestingAPI } from "./pages";
+import "./global.css";
+import "./tailwind.css";
 import Navbar from "./components/NavBar/Navbar";
 import Footer from "./components/Footer";
-import { Dashboard, Home, TestingAPI } from "./pages";
 
 function App() {
   return (

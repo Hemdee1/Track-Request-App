@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "../Logo";
+import FullLogo from "../../assets/SVGs/FullLogo";
 
 const Header = () => {
   const [session, setSession] = useState(false);
@@ -13,7 +13,7 @@ const Header = () => {
     <header className="w-full h-[124px] flex items-center bg-white font-Inter">
       <div className="w-[1200px] max-w-full mx-auto flex justify-between">
         <div className="flex gap-14">
-          <Logo />
+          <FullLogo />
           <button className="bg-[#61818E] rounded-[26px] w-[162px] h-[47px] grid place-items-center text-white font-Inter font-medium">
             Track requests
           </button>

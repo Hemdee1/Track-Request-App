@@ -2,29 +2,29 @@ import { useState } from "react";
 import { Welcome, Input } from "../components";
 
 const Home = () => {
-  const [fullName, setFullName] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [fullName, setFullName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const handleNameChange = (newValue: string) => {
-    setFullName(newValue)
-  }
+    setFullName(newValue);
+  };
 
   const handlePasswordChange = (newValue: string) => {
     setPassword(newValue);
-  }
+  };
 
   const handleSubmit = () => {
-   if(fullName.length === 0 || password.length === 0){
-    alert("field cannot be empty")
-    return
-   }
-   console.log(fullName, password);
-  }
+    if (fullName.length === 0 || password.length === 0) {
+      alert("field cannot be empty");
+      return;
+    }
+    console.log(fullName, password);
+  };
 
   return (
     <main>
       <Welcome />
-      <Input 
+      <Input
         label="username"
         name="username"
         type="string"
@@ -35,7 +35,7 @@ const Home = () => {
         required
       />
 
-      <Input 
+      <Input
         label="Password"
         name="password"
         onChange={handlePasswordChange}

@@ -4,6 +4,7 @@ import './global.css';
 import './tailwind.css';
 import Navbar from './components/NavBar/Navbar';
 import Footer from "./components/Footer";
+import { Home, TestingAPI } from "./pages";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
     <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/test" element={<TestingAPI />} />
     </Routes>
     <Footer />
     </>

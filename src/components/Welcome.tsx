@@ -31,10 +31,10 @@ const Welcome = () => {
       <Button type="primary-rounded" Label="play"/>
       <Button type="secondary-rounded" Label="Track unavailable" />
 
-
       <Pulse type="queued" />
 
       <TrackCard />
+
 
     </div>
   );

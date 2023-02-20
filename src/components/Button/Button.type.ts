@@ -4,7 +4,7 @@ import { ReactFragment, ReactNode } from 'react';
 
 
 export type ButtonProps = {
-  Label?: string;
+  Label: string;
   isActive?: boolean;
   onClick?: ()=> void;
   halfWidth?: boolean; 

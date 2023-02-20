@@ -12,7 +12,7 @@ const ButtonPrimary =(props:ButtonProps):JSX.Element => {
     pButton 
     h-[60px]  
     ${props.fullWidth ? `w-full` : props.halfWidth ? `w-1/2` : props.Width ? `w-[${props.Width}]`: 'w-auto'}
-    px-[60px]
+    px-[40px]
     bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)]
     text-slate-50
     rounded-md

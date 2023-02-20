@@ -4,6 +4,8 @@ import MessageImg from '../assets/message.svg';
 import { Button } from "./Button";
 
 import { FaPlay } from "react-icons/fa";
+import Pulse from "./Pulse";
+import TrackCard from "./TrackCard";
 
 const Welcome = () => {
 
@@ -28,6 +30,11 @@ const Welcome = () => {
       <Button type="secondary" Label="Create club profile" onClick={() => console.log('create club profile')}  />
       <Button type="primary-rounded" Label="play"/>
       <Button type="secondary-rounded" Label="Track unavailable" />
+
+      <Pulse type="queued" />
+
+      <TrackCard />
+
 
     </div>
   );

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "hamburger-react": "^2.5.0",
     "axios": "^1.3.3",
     "cloudinary": "^1.34.0",
     "firebase": "^9.17.1",

@@ -11,8 +11,8 @@ const Navbar = ():JSX.Element => {
   const closeMenu = ()=> setIsOpen(false);
 
   return (
-    <nav className=' lg:h-[100px] flex items-center justify-center overflow-x-hidden bg-white z-[1000] w-full top-0 ]'>
-     <div className="navbarContent xl:w-[1200px] sm:w-3/4 w-[96%]  items-center justify-between lg:flex fixed hidden">
+    <nav className=' lg:h-[100px] flex items-center justify-center overflow-x-hidden fixed bg-white z-[1000] w-full top-0'>
+     <div className="navbarContent xl:w-[1200px] sm:w-3/4 w-[96%]  items-center justify-between lg:flex  hidden ">
         <Link to="/" className="brand">
             <FullLogo />
         </Link>
@@ -25,7 +25,7 @@ const Navbar = ():JSX.Element => {
         </div>
 
         <div className="cta flex gap-5">
-          <NavLink to="/register" className={({isActive}) => isActive ? ' text-[var(--primary-color)]' : ''}><Button type='secondary' Label='Create club profile'/></NavLink>
+          <NavLink to="/register" className={({isActive}) => isActive ? ' text-[var(--primary-color)]' : ''}><Button type='secondary' Label='Create club profile' className='px-[20px]'/></NavLink>
           <NavLink to="/login" className={({isActive}) => isActive ? ' text-[var(--primary-color)]' : ''}><Button type='primary' Label='Login'/></NavLink>
         </div>
 
@@ -40,7 +40,7 @@ const Navbar = ():JSX.Element => {
           </Link>
 
           <div className="mobile-cta flex items-center gap-2 ">
-          <NavLink to="/register" className={`${ isOpen ? 'hidden' : 'flex'}`}><Button type='secondary' Label='Create club profile'/></NavLink>
+          <NavLink to="/register" className={`${ isOpen ? 'hidden' : 'flex'}`}><Button type='secondary' Label='Create club profile' className='px-[10px]'/></NavLink>
           <span className=''><Hamburger toggled={isOpen} toggle={setIsOpen}/></span>
           </div>
         </div>

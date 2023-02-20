@@ -12,7 +12,7 @@ const Navbar = ():JSX.Element => {
 
   return (
     <nav className=' lg:h-[100px] flex items-center justify-center overflow-x-hidden bg-white z-[1000] w-full top-0 ]'>
-     <div className="navbarContent  items-center justify-between w-3/4 lg:flex fixed hidden">
+     <div className="navbarContent xl:w-[1200px] sm:w-3/4 w-[96%]  items-center justify-between lg:flex fixed hidden">
         <Link to="/" className="brand">
             <FullLogo />
         </Link>

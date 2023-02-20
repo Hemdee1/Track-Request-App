@@ -12,6 +12,7 @@ export type ButtonProps = {
   Width?: string;
   setIcon? : JSX.Element | string ;
   isLoading?: boolean;
+  className?: string;
 }
 
 export type ButtonTypeProp = ButtonProps & {

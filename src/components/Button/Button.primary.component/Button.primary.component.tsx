@@ -16,6 +16,7 @@ const ButtonPrimary =(props:ButtonProps):JSX.Element => {
     bg-[var(--primary-color)] hover:bg-[var(--primary-color-hover)]
     text-slate-50
     rounded-md
+    ${props.className ?? ''}
     `}
 
     onClick={props.onClick}

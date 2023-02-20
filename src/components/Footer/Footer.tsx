@@ -8,7 +8,7 @@ const Footer = () => {
     flex sm:flex-row flex-col
     items-center 
     justify-between 
-    lg:w-3/4 w-[94%] 
+    xl:w-[1200px] sm:w-3/4 w-[96%] 
     text-slate-400' >
       <span className='flex items-center gap-5'> <SpotifyIcon />  <p>Music search powered by spotify</p> </span>
       <p>© copyright mxrequest 2023</p>

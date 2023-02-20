@@ -1,5 +1,19 @@
-import Home from "./Home";
 import TestingAPI from "./TestingAPI";
-import Dashboard from "./Dashboard";
+import HomePage from "./Homepage";
+import NewRequest from "./NewRequest";
+import PlayedRequest from "./PlayedRequest";
+import QueuedRequest from "./QueuedRequest";
+import UnavailableRequest from "./UnavailableRequest";
+import Profile from "./Profile";
+import EditProfile from "./EditProfile";
 
-export { Home, TestingAPI, Dashboard };
+export {
+  TestingAPI,
+  HomePage,
+  NewRequest,
+  PlayedRequest,
+  QueuedRequest,
+  UnavailableRequest,
+  Profile,
+  EditProfile,
+};

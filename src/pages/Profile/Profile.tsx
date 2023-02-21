@@ -58,32 +58,32 @@ const Profile = () => {
         <div className="mt-20">
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
             <FaTwitter size={24} />
-            <span className="font-medium text-xl">
+            <span className="font-medium text-xl break-all">
               twitter.com/dj_hoolander
             </span>
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
             <FaFacebook size={24} />
-            <span className="font-medium text-xl">
+            <span className="font-medium text-xl break-all">
               facebook.com/dj_hoolander
             </span>
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
             <FaInstagram size={24} />
-            <span className="font-medium text-xl">
+            <span className="font-medium text-xl break-all">
               finstagram.com/dj_hoolander
             </span>
           </article>
         </div>
 
-        <div className="flex justify-center items-center gap-10 mt-8">
+        <div className="flex justify-center items-center gap-10 mt-20">
           <Link
             to="/profile/edit"
-            className="px-7 py-2 bg-white rounded-3xl font-medium flex items-center gap-2 text-[#6B6B6B] border border-[#969696]"
+            className="px-7 py-2 bg-white rounded-md font-medium flex items-center gap-2 text-[#6B6B6B] border border-[#969696]"
           >
             Edit <FaPen />
           </Link>
-          <button className="px-7 py-2 bg-red-200 rounded-3xl font-medium flex items-center gap-2 text-[#6B6B6B] border border-red-300">
+          <button className="px-7 py-2 bg-red-200 rounded-md font-medium flex items-center gap-2 text-[#6B6B6B] border border-red-300">
             Logout <FiLogOut size={24} />
           </button>
         </div>

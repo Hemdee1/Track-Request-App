@@ -1,6 +1,4 @@
 import Message from "./Message/Message";
-// import MessageImg from '../../assets/message.svg'
-import MessageImg from "../assets/message.svg";
 import { Button } from "./Button";
 
 import { FaPlay } from "react-icons/fa";
@@ -21,7 +19,7 @@ const Welcome = () => {
       </h1>
 
       <Message
-        image={MessageImg}
+        image="/message.svg"
         text="You currently have not made any track requests, your requests will be displayed in this section"
       />
 

@@ -88,7 +88,7 @@ const Header = () => {
       </div>
 
       {/* Mobile navigation */}
-      <section className="lg:hidden flex items-center w-full h-full">
+      <section className="lg:hidden flex items-center w-full h-full z-20">
         <div className="mobile-menue-top w-full px-4 flex mx-auto items-center justify-between bg-white">
           <Link to="/" onClick={closeMenu}>
             <LogoIcon />
@@ -127,7 +127,7 @@ const Header = () => {
         </div>
 
         <div
-          className={`fixed left-0 top-[80px] w-full bg-white ${
+          className={`fixed left-0 top-[80px] h-full w-full bg-white ${
             isOpen
               ? "translate-x-[0%] h-[calc(100vh-100px)]"
               : "-translate-x-[100%] h-auto"

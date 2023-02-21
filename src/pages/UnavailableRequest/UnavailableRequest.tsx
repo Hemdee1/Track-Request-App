@@ -29,7 +29,7 @@ const UnavailableRequest = () => {
   }
 
   return (
-    <section className="min-h-[90vh] py-[87px] w-[606px] max-w-full mx-auto font-Inter">
+    <section className="min-h-[90vh] py-[30px] sm:py-[87px] w-[606px] max-w-full mx-auto font-Inter">
       {allMusic.map((data, index) => (
         <MusicUnavailableBox key={index} {...data} />
       ))}

@@ -27,7 +27,7 @@ const Home = () => {
       <Input 
         label="username"
         name="username"
-        type="string"
+        type="text"
         value={fullName}
         placeholder="Name"
         onChange={handleNameChange}

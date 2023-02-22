@@ -11,7 +11,7 @@ import Photo from '../../assets/Images/album-cover.png'
 const Clubpage = () => {
 
   const [search, setSearch] = useState<string>('');
-  const [isEmpty, setIsEmpty] = useState<boolean>(true)
+  const [isEmpty, setIsEmpty] = useState<boolean>(false)
   const handleSearchChange = (newValue: string) => {
     setSearch(newValue);
   };

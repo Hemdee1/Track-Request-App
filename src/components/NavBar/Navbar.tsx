@@ -4,15 +4,20 @@ import LogoIcon from '../../assets/SVGs/LogoIcon';
 import { Link, NavLink } from 'react-router-dom';
 import { Button } from '../Button';
 import Hamburger from 'hamburger-react';
+import { widthSetter } from '../../utils';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = ():JSX.Element => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const closeMenu = ()=> setIsOpen(false);
 
-  return (
+  const location = useLocation();
+  
+
+  if(!location.pathname.includes('dashboard')) return (
     <nav className=' lg:h-[100px] flex items-center justify-center overflow-x-hidden fixed bg-white z-[1000] w-full top-0'>
-     <div className="navbarContent xl:w-[1200px] sm:w-3/4 w-[96%]  items-center justify-between lg:flex  hidden ">
+     <div className={`navbarContent ${widthSetter} items-center justify-between lg:flex  hidden`}>
         <Link to="/" className="brand">
             <FullLogo />
         </Link>
@@ -71,6 +76,8 @@ const Navbar = ():JSX.Element => {
      </section>
     </nav>
   )
+
+  return <></>
 }
 
 export default Navbar

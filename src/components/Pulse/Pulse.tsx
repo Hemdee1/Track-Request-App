@@ -15,7 +15,7 @@ const Pulse = memo(function Pulse ({type, color}:PulseProp) :JSX.Element{
   const FakeArray = new Array(1,2,3)
 
   return (
-    <div className='flex items-center justify-center w-[100px] h-[100px]'>
+    <div className='flex items-center justify-center w-[100px] h-[100px] relative'>
     {
       FakeArray.map((item, index) => {
         console.log(index)

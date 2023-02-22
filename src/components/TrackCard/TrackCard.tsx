@@ -5,7 +5,7 @@ import { TrackCardProps } from './Track.card.type';
 
 const TrackCard = (props:TrackCardProps):JSX.Element => {
   return (
-    <div className='flex items-center'>
+    <div className={`flex items-center ${props.className ?? ''}`}>
       <Pulse type={props.type ?? 'played'}/>
 
       <div className={`

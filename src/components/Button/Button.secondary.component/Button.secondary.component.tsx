@@ -7,7 +7,7 @@ const ButtonSecondary = (props: ButtonProps) => {
    <button
    className={`
    ${props.className ?? ''}
-    flex items-center align-middle
+    flex items-center justify-center
     pButton 
     h-[60px]  
     ${props.fullWidth ? `w-full` : props.halfWidth ? `w-1/2` : props.Width ? `w-[${props.Width}]`: 'w-auto'}

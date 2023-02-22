@@ -19,7 +19,7 @@ const Input = (props: InputFieldProps) => {
 
   return (
     // try to 
-    <div className={props.type === "password" ? 'password__input w-[60%]' : 'w-[60%]'}>
+    <div className={props.type === "password" ? 'password__input w-[100%]' : 'w-[100%]'}>
         <label htmlFor={props.name} className="font-normal text-xl mb-2 block text-black font-Inter">
             {props.label}
         </label>

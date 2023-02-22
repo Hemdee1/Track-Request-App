@@ -22,6 +22,7 @@ const ButtonSecondary = (props: ButtonProps) => {
    >
 
     {props.isLoading ? <BtnLoaderDark /> : ''}
+    {props.setIcon ? <img className='mr-[25px]' src={props.icon} alt={props.altText}/> : ''}
     {props.Label ?? 'Label'}
    </button>
   )

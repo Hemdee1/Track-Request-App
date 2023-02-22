@@ -11,6 +11,8 @@ export type ButtonProps = {
   fullWidth?: boolean;
   Width?: string;
   setIcon? : JSX.Element | string ;
+  icon?: string;
+  altText?: string
   isLoading?: boolean;
   className?: string;
 }

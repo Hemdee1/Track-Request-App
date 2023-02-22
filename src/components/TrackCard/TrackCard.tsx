@@ -6,7 +6,7 @@ import { TrackCardProps } from './Track.card.type';
 const TrackCard = (props:TrackCardProps):JSX.Element => {
   return (
     <div className={`flex items-center ${props.className ?? ''}`}>
-      <Pulse type={props.type ?? 'played'}/>
+      { props.isResult ? '' : <Pulse type={props.type ?? 'played'}/>}
 
       <div className={`
           flex items-center md:gap-5 gap-2 
@@ -22,12 +22,12 @@ const TrackCard = (props:TrackCardProps):JSX.Element => {
           rounded-full 
           overflow-hidden
         ">
-          <img src={AlbumArt} alt="song title"/>
+          <img src={props.cover ?? AlbumArt} alt="song title"/>
         </div>
 
         <div className="details">
-          <p className="songTitle">Terminator</p>
-          <p className="artistName text-stone-400">Asake</p>
+          <p className="songTitle">{props.title}</p>
+          <p className="artistName text-stone-400">{props.artist}</p>
         </div>
       </div>
     </div>

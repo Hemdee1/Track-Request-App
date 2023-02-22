@@ -21,7 +21,7 @@ const Login = () => {
 
   return (
     <div className='mt-[200px] w-full min-h-[50vh]'>
-      <form className='w-[94%] sm:w-2/4 lg:w-1/3 mx-auto'>
+      <form className='w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto'>
 
         <h1 className=' text-2xl text-center my-10'>Club login</h1>
         <div className='mb-4'>
@@ -60,7 +60,7 @@ const Login = () => {
             </div>            
 
             <Button 
-                Label='Sign up with Google'
+                Label='Sign in with Google'
                 setIcon={GoogleIcon}
                 type="secondary"
                 fullWidth

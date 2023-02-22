@@ -6,4 +6,7 @@ export type TrackCardProps = {
   type?: PulseProp["type"] | string;
   isResult: boolean;
   className?: string;
+  artist: string;
+  title: string;
+  cover: string;
 }

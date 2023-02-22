@@ -11,12 +11,12 @@ const HomePage = () => {
   return (
     <>
     <AnimatedBackground />
-    <section className='xl:w-[1200px] sm:w-3/4 w-[96%] mx-auto flex flex-wrap items-center xl:justify-between justify-center md:min-h-[76vh] h-auto'>
+    <section className='xl:w-[1200px] sm:w-3/4 w-[90%] mx-auto flex flex-wrap items-center xl:justify-between justify-center md:min-h-[76vh] h-auto'>
       <div className='xl:w-[45%] lg:[45%] w-[100%] lg:mt-[200px] mt-[150px]'>
         <h1 className=' text-4xl text-slate-500'>An easy way to receive and <span className='text-[var(--primary-color)]'>manage song requests</span>  from your audience</h1>
         <p className='text-slate-500 mt-5'>Get Apply For Work Permit In USA. Discover Millions Of Results Here. Powerful and Easy to Use. 100+ Qualitative Results. Get More Related Info. Discover Quality Results. Find Related</p>
 
-        <div className='mt-10'><TrackCard isResult={false}/></div>
+        <div className='mt-10'><TrackCard artist="Rema" title="Calm down" cover={Image} isResult={false}/></div>
         <Button type='primary' Label='Get started' className='mt-10' onClick={() => navigate('/register')}/>
       </div>
 

@@ -20,9 +20,9 @@ const Register = () => {
     }
 
   return (
-    <div className='min-h-screen '>
+    <div className='h-auto '>
 
-    <div className="w-1/3 mx-auto mt-[89px]">
+    <div className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto mt-[120px]">
         <h1 className="text-center mb-[41px] font-Inter text-[32px]">Club Register</h1>
 
         <form className=''>
@@ -63,11 +63,6 @@ const Register = () => {
                     placeholder='XXXXXX'
                     type='password'
                 />
-            </div>
-
-            <div className="flex my-[25px]">
-                <input type="checkbox" className='w-[26px] h-[26px]'/>
-                <p className="ml-4">Remember me</p>
             </div>
 
             <Button 

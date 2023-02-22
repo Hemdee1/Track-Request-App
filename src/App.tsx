@@ -1,6 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import "./global.css";
-import "./tailwind.css";
 import {
   EditProfile,
   HomePage,
@@ -8,6 +6,7 @@ import {
   PlayedRequest,
   Profile,
   QueuedRequest,
+  Register,
   TestingAPI,
   UnavailableRequest,
 } from "./pages";
@@ -16,6 +15,7 @@ import "./tailwind.css";
 import { DashboardLayout, HomepageLayout } from "./components";
 import Clubpage from "./pages/Clubpage";
 import Login from "./pages/Login";
+
 
 function App() {
   return (
@@ -36,6 +36,7 @@ function App() {
         </Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
+        <Route path="/register" element={<Register />} />
         {/* <Route path="/test" element={<TestingAPI />} /> */}
       <Route path="/login" element={<Login />} />
       </Routes>

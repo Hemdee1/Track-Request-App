@@ -4,8 +4,10 @@ import TrackCard from '../../components/TrackCard';
 import { Button } from '../../components';
 import Image from '../../assets/Images/album-cover.png'
 import RoundedRectangleSVG from '../../assets/SVGs/RoundedRectangleSVG';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <>
     <AnimatedBackground />
@@ -15,7 +17,7 @@ const HomePage = () => {
         <p className='text-slate-500 mt-5'>Get Apply For Work Permit In USA. Discover Millions Of Results Here. Powerful and Easy to Use. 100+ Qualitative Results. Get More Related Info. Discover Quality Results. Find Related</p>
 
         <div className='mt-10'><TrackCard isResult={false}/></div>
-        <Button type='primary' Label='Get started' className='mt-10'/>
+        <Button type='primary' Label='Get started' className='mt-10' onClick={() => navigate('/register')}/>
       </div>
 
 

@@ -23,11 +23,13 @@ function App() {
       <Routes>
         <Route element={<HomepageLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cp/:clubid" element={<Clubpage />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard/new" element={<NewRequest />} />
           <Route path="/dashboard/queued" element={<QueuedRequest />} />
-        <Route path="/cp/:clubid" element={<Clubpage />} />
           <Route path="/dashboard/played" element={<PlayedRequest />} />
           <Route
             path="/dashboard/unavailable"
@@ -36,9 +38,7 @@ function App() {
         </Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/register" element={<Register />} />
-        {/* <Route path="/test" element={<TestingAPI />} /> */}
-      <Route path="/login" element={<Login />} />
+       
       </Routes>
     </>
   );

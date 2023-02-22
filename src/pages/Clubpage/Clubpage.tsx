@@ -10,7 +10,7 @@ import Photo from '../../assets/Images/album-cover.png'
 const Clubpage = () => {
 
   const [search, setSearch] = useState<string>('');
-  const [isEmpty, setIsEmpty] = useState<boolean>(true)
+  const [isEmpty, setIsEmpty] = useState<boolean>(false)
   const handleSearchChange = (newValue: string) => {
     setSearch(newValue);
   };
@@ -20,18 +20,20 @@ const Clubpage = () => {
     <>
       <section className={`${widthSetter} mx-auto mt-[150px] flex flex-wrap`}>
         <div className=' w-[96%] md:w-[60%]'>
-          <ClubInfoCard clubPhoto={Photo} clubUserName='Quilox' />
+          <ClubInfoCard clubPhoto={Photo} clubUserName='Quilox' clubSocials={{twitter: '/', instagram: '/', facebook: '/'}} />
           <div>
+          <form className='w-[94%]'>
           <Input
             label="Search"
             name="Search"
-            type="string"
+            type="text"
             value={search}
             placeholder="Search track"
             onChange={handleSearchChange}
             autocomplete="off"
             required
             />
+          </form>
 
             <p className='text-slate-500 my-2'>Search for tracks and click on the result to request them</p>
             <Tag content={'04:58 until you can request again'} isFilled={true} className='my-5'/>

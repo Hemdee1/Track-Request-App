@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer";
-import Navbar from "../NavBar/Navbar";
+import Navbar from "../NavBar/";
 
 const HomepageLayout = () => {
   return (
     <>
-      <Navbar />
+     <Navbar />
       <Outlet />
       <Footer />
     </>

@@ -5,16 +5,13 @@ import { Link, NavLink } from "react-router-dom";
 import { Button } from "../Button";
 import Hamburger from "hamburger-react";
 import { widthSetter } from '../../utils';
-import { useLocation } from 'react-router-dom';
 
-const Navbar = (): JSX.Element => {
+export const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const closeMenu = () => setIsOpen(false);
 
-  const location = useLocation();
-  
 
-  if(!location.pathname.includes('dashboard')) return (
+ return (
     <nav className=" lg:h-[100px] flex items-center justify-center overflow-x-hidden fixed bg-white z-[1000] w-full top-0">
       <div className={`navbarContent ${widthSetter} items-center justify-between lg:flex  hidden`}>
         <Link to="/" className="brand">
@@ -162,5 +159,5 @@ const Navbar = (): JSX.Element => {
     </nav>
   )
 
-  return <></>
+ 
 }

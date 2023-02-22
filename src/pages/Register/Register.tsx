@@ -21,7 +21,6 @@ const Register = () => {
 
   return (
     <div className='min-h-screen '>
-    <Navbar />
 
     <div className="w-1/3 mx-auto mt-[89px]">
         <h1 className="text-center mb-[41px] font-Inter text-[32px]">Club Register</h1>

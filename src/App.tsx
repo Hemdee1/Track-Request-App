@@ -13,6 +13,8 @@ import {
 import "./global.css";
 import "./tailwind.css";
 import { DashboardLayout, HomepageLayout } from "./components";
+import Clubpage from "./pages/Clubpage";
+import Login from "./pages/Login";
 
 
 function App() {
@@ -21,6 +23,9 @@ function App() {
       <Routes>
         <Route element={<HomepageLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cp/:clubid" element={<Clubpage />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard/new" element={<NewRequest />} />
@@ -33,8 +38,7 @@ function App() {
         </Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/register" element={<Register />} />
-        {/* <Route path="/test" element={<TestingAPI />} /> */}
+       
       </Routes>
     </>
   );

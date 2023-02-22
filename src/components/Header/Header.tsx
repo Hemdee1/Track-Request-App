@@ -1,6 +1,6 @@
 import Hamburger from "hamburger-react";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import FullLogo from "../../assets/SVGs/FullLogo";
 import LogoIcon from "../../assets/SVGs/LogoIcon";
 import { GoInfo } from "react-icons/go";
@@ -8,6 +8,8 @@ import { GoInfo } from "react-icons/go";
 const Header = () => {
   const [session, setSession] = useState(false);
   const img = true;
+
+  const { pathname } = useLocation();
 
   const handleSession = () => {
     setSession((prev) => !prev);
@@ -27,7 +29,7 @@ const Header = () => {
             to="/dashboard/new"
             className={({ isActive }) =>
               `rounded-[26px] w-[162px] h-[47px] grid place-items-center font-Inter font-medium ${
-                isActive
+                isActive || pathname.includes("dashboard")
                   ? "bg-[#61818E] text-white"
                   : "bg-transparent text-[#6B6B6B]"
               }`

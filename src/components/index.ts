@@ -1,4 +1,3 @@
-import Welcome from "./Welcome";
 import Input from "./Input/Input";
 import Message from "./Message/Message";
 import { Button } from "./Button/index";
@@ -13,10 +12,8 @@ import MusicPlayedBox from "./MusicPlayedBox";
 import MusicNewBox from "./MusicNewBox";
 import MusicQueuedBox from "./MusicQueuedBox";
 import MusicUnavailableBox from "./MusicUnavailableBox";
-import MusicRequestBox from "./MusicRequestBox";
 
 export {
-  Welcome,
   Input,
   Message,
   Button,
@@ -31,5 +28,4 @@ export {
   MusicNewBox,
   MusicQueuedBox,
   MusicUnavailableBox,
-  MusicRequestBox,
 };

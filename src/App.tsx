@@ -6,7 +6,6 @@ import {
   PlayedRequest,
   Profile,
   QueuedRequest,
-  RequestPage,
   Register,
   TestingAPI,
   UnavailableRequest,
@@ -24,7 +23,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/cp/:clubid" element={<Clubpage />} />
+          <Route path="/cp/:id" element={<Clubpage />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard/new" element={<NewRequest />} />

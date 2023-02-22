@@ -6,7 +6,6 @@ import QueuedRequest from "./QueuedRequest";
 import UnavailableRequest from "./UnavailableRequest";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
-import RequestPage from "./RequestPage";
 import Register from "./Register/Register";
 
 export {
@@ -18,6 +17,5 @@ export {
   UnavailableRequest,
   Profile,
   EditProfile,
-  RequestPage,
   Register,
 };

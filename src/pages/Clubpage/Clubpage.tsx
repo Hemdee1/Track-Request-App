@@ -7,10 +7,11 @@ import ClubInfoCard from '../../components/ClubInfoCard';
 import Image from '../../assets/Images/emptyy.png';
 import Photo from '../../assets/Images/album-cover.png'
 
+
 const Clubpage = () => {
 
   const [search, setSearch] = useState<string>('');
-  const [isEmpty, setIsEmpty] = useState<boolean>(false)
+  const [isEmpty, setIsEmpty] = useState<boolean>(true)
   const handleSearchChange = (newValue: string) => {
     setSearch(newValue);
   };
@@ -19,7 +20,7 @@ const Clubpage = () => {
   return (
     <>
       <section className={`${widthSetter} mx-auto mt-[150px] flex flex-wrap`}>
-        <div className=' w-[96%] md:w-[60%]'>
+        <div className=' w-[90%] md:w-[60%] mx-auto'>
           <ClubInfoCard clubPhoto={Photo} clubUserName='Quilox' clubSocials={{twitter: '/', instagram: '/', facebook: '/'}} />
           <div>
           <form className='w-[94%]'>
@@ -47,7 +48,7 @@ const Clubpage = () => {
           <div className='w-full mt-10 md:max-h-[50vh] md:overflow-y-scroll'>
             {
               !isEmpty ? arr.map( (item, index )=> {
-                return <TrackCard type={`${item}`} isResult={false} key={index} className='my-2'/> 
+                return <TrackCard title="Terminator" artist="Asake" cover={Photo} type={`${item}`} isResult={false} key={index} className='my-2'/> 
               })
               : <Message image={Image} text='You currently have not made any track requests, your requests will be displayed in this section'/>
 

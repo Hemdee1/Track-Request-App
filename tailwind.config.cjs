@@ -4,12 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Zendots: "Zen Dots, cursive",
-        Inter: "Inter, sans-serif"
+        Inter: "Inter, sans-serif",
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [require("@tailwindcss/forms")],
 };

@@ -20,9 +20,9 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen ">
-      <div className="w-[450px] px-6 max-w-full mx-auto mt-[100px]">
-        <h1 className="text-center mb-[41px] font-Inter font-medium text-[32px] text-[#7C7C7C]">
+    <div className="h-auto ">
+      <div className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto mt-[120px]">
+        <h1 className="text-center mb-[41px] text-2xl font-medium">
           Club Register
         </h1>
 
@@ -39,6 +39,34 @@ const Register = () => {
               type="text"
             />
           </div>
+
+          <div className="mb-4">
+            <Input
+              label="Email"
+              name="email"
+              onChange={handleEmailChange}
+              required
+              value={email}
+              autocomplete="off"
+              placeholder="hello@example@gmail.com"
+              type="text"
+            />
+          </div>
+
+          <div className="mb-4">
+            <Input
+              label="Password"
+              name="password"
+              onChange={handlePasswordChange}
+              required
+              value={password}
+              autocomplete="off"
+              placeholder="XXXXXX"
+              type="password"
+            />
+          </div>
+
+          <Button type="primary" Label="Create Club Profile" fullWidth />
 
           <div className="mb-4">
             <Input

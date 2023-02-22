@@ -2,10 +2,25 @@ import { FaFacebook, FaInstagram, FaPen, FaTwitter } from "react-icons/fa";
 import { FiDownload, FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { CopyIcon, Header } from "../../components";
+import { useEffect, useState } from "react";
+import { useAuthChange, useLogout, UserType } from "../../hooks/useFirebase";
+import { useNavigate } from "react-router-dom";
 
 const img = true;
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<UserType>();
+
+  useEffect(() => {
+    useAuthChange(setUser);
+  }, []);
+
+  const handleLogout = async () => {
+    await useLogout();
+    navigate("/login");
+  };
+
   return (
     <main className="pb-20">
       <div className="fixed left-0 top-0 w-full">
@@ -29,21 +44,21 @@ const Profile = () => {
       <section className="w-[640px] max-w-full mx-auto px-6 mt-72 font-Inter">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex gap-5 items-center">
-            {img ? (
+            {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
-                src="/user.png"
+                src={user?.photoURL}
                 alt="user"
-                className="w-[90px] h-[90px] rounded-full bg-cover"
+                className="w-[90px] h-[90px] rounded-full object-cover"
               />
             ) : (
               <div className="h-[90px] w-[90px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
-                D
+                {user?.clubName.slice(0, 1)}
               </div>
             )}
 
             <div className="font-medium text-[#6B6B6B]">
-              <h3 className="text-[22px] mb-1">DJ Hoolander</h3>
-              <h5>hello@gmail.com</h5>
+              <h3 className="text-[22px] mb-1">{user?.clubName}</h3>
+              <h5>{user?.email}</h5>
             </div>
           </div>
           <div>
@@ -59,19 +74,22 @@ const Profile = () => {
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
             <FaTwitter size={24} />
             <span className="font-medium text-xl break-all">
-              twitter.com/dj_hoolander
+              {/* twitter.com/dj_hoolander */}
+              {user?.twitter}
             </span>
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
             <FaFacebook size={24} />
             <span className="font-medium text-xl break-all">
-              facebook.com/dj_hoolander
+              {/* facebook.com/dj_hoolander */}
+              {user?.facebook}
             </span>
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
             <FaInstagram size={24} />
             <span className="font-medium text-xl break-all">
-              finstagram.com/dj_hoolander
+              {/* finstagram.com/dj_hoolander */}
+              {user?.instagram}
             </span>
           </article>
         </div>
@@ -83,7 +101,10 @@ const Profile = () => {
           >
             Edit <FaPen />
           </Link>
-          <button className="px-7 py-2 bg-red-200 rounded-md font-medium flex items-center gap-2 text-[#6B6B6B] border border-red-300">
+          <button
+            className="px-7 py-2 bg-red-200 rounded-md font-medium flex items-center gap-2 text-[#6B6B6B] border border-red-300"
+            onClick={handleLogout}
+          >
             Logout <FiLogOut size={24} />
           </button>
         </div>

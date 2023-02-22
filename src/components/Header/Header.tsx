@@ -1,13 +1,19 @@
 import Hamburger from "hamburger-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import FullLogo from "../../assets/SVGs/FullLogo";
 import LogoIcon from "../../assets/SVGs/LogoIcon";
 import { GoInfo } from "react-icons/go";
+import { useAuthChange, UserType } from "../../hooks/useFirebase";
 
 const Header = () => {
+  const [user, setUser] = useState<UserType>();
+
+  useEffect(() => {
+    useAuthChange(setUser);
+  }, []);
+
   const [session, setSession] = useState(false);
-  const img = true;
 
   const { pathname } = useLocation();
 
@@ -71,18 +77,19 @@ const Header = () => {
           </span>
 
           <span className="flex gap-6 items-center">
-            <h5 className="text-[#6B6B6B] font-Inter font-medium">
-              DJ Hoolander
+            <h5 className="text-[#6B6B6B] font-Inter font-medium capitalize">
+              {user?.clubName}
             </h5>
-            {img ? (
+
+            {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
-                src="/user.png"
+                src={user?.photoURL}
                 alt="user"
-                className="h-[54px] w-[54px] object-cover rounded-full"
+                className="h-[54px] w-[54px] rounded-full object-cover"
               />
             ) : (
               <div className="h-[54px] w-[54px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
-                D
+                {user?.clubName.slice(0, 1)}
               </div>
             )}
           </span>
@@ -110,18 +117,17 @@ const Header = () => {
               ></span>
             </button>
 
-            {img ? (
+            {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
-                src="/user.png"
+                src={user?.photoURL}
                 alt="user"
-                className="h-10 lg:h-[54px] w-10 lg:w-[54px] object-cover rounded-full"
+                className="h-10 lg:h-[54px] w-10 lg:w-[54px] rounded-full object-cover"
               />
             ) : (
               <div className="h-10 lg:h-[54px] w-10 lg:w-[54px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
-                D
+                {user?.clubName.slice(0, 1)}
               </div>
             )}
-
             <span className="ml-3">
               <Hamburger toggled={isOpen} toggle={setIsOpen} />
             </span>

@@ -13,7 +13,7 @@ const MusicQueuedBox = ({ cover, title, artist }: MusicQueuedBoxProps) => {
         <img
           src={cover}
           alt="cover-image"
-          className="w-14 h-14 rounded-full bg-cover"
+          className="w-14 h-14 rounded-full object-cover"
         />
         <div>
           <h3 className="font-medium text-[#676767]">{title}</h3>

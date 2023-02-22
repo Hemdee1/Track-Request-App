@@ -36,6 +36,7 @@ function App() {
         </Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
+        <Route path="/test" element={<TestingAPI />} />
       </Routes>
     </>
   );

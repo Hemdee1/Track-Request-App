@@ -16,16 +16,20 @@ const Input = (props: InputFieldProps) => {
         return props.onChange(newValue);
     };
 
+    const handleIconToggle = (e: any) => {
+        e.preventDefault();
+        setShowPassword(!showPassword)
+    }
 
   return (
     // try to 
-    <div className={props.type === "password" ? 'password__input w-[60%]' : 'w-[60%]'}>
+    <div className={props.type === "password" ? `password__input w-full` : `w-full`}>
         <label htmlFor={props.name} className="font-normal text-xl mb-2 block text-black font-Inter">
             {props.label}
         </label>
 
         <input 
-            className={"border border-gray-600 rounded py-4 pl-7 w-full"}
+            className={"border border-gray-300 placeholder-[#B4B4B4] rounded py-4 pl-7 w-full"}
             id={props.name}
             name={props.name}
             type={showPassword ? "text" : props.type || 'text'}
@@ -39,7 +43,7 @@ const Input = (props: InputFieldProps) => {
         {props.type === "password" && 
         <button 
             className={props.type === "password" ? 'password__inputButton' : ''}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={handleIconToggle}
 
         >
             {showPassword ? (

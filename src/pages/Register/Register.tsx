@@ -49,7 +49,7 @@ const Register = () => {
               value={email}
               autocomplete="off"
               placeholder="hello@example@gmail.com"
-              type="text"
+              type="email"
             />
           </div>
 
@@ -66,40 +66,9 @@ const Register = () => {
             />
           </div>
 
-          <Button type="primary" Label="Create Club Profile" fullWidth />
+          
 
-          <div className="mb-4">
-            <Input
-              label="Email"
-              name="email"
-              onChange={handleEmailChange}
-              required
-              value={email}
-              autocomplete="off"
-              placeholder="hello@example@gmail.com"
-              type="text"
-            />
-          </div>
-
-          <div className="mb-4">
-            <Input
-              label="Password"
-              name="password"
-              onChange={handlePasswordChange}
-              required
-              value={password}
-              autocomplete="off"
-              placeholder="XXXXXX"
-              type="password"
-            />
-          </div>
-
-          <div className="flex my-[25px]">
-            <input type="checkbox" className="w-[26px] h-[26px]" />
-            <p className="ml-4">Remember me</p>
-          </div>
-
-          <Button type="primary" Label="Create Club Profile" fullWidth />
+          <Button type="primary" Label="Create Club Profile" fullWidth className="mt-10"/>
 
           <div className="flex items-center my-[25px]">
             <hr className="flex-[0.5]" />

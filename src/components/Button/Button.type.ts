@@ -1,12 +1,12 @@
 
 import { IconType } from "react-icons";
-import { ReactFragment, ReactNode } from 'react';
+import { ReactFragment, ReactNode, FormEvent } from 'react';
 
 
 export type ButtonProps = {
   Label: string;
   isActive?: boolean;
-  onClick?: ()=> void;
+  onClick?: (e:FormEvent<HTMLButtonElement>)=> void;
   halfWidth?: boolean; 
   fullWidth?: boolean;
   Width?: string;

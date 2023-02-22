@@ -1,0 +1,1 @@
+export const widthSetter:string = "xl:w-[1200px] sm:w-3/4 w-[96%]"

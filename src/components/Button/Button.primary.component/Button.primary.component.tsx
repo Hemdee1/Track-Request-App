@@ -5,9 +5,9 @@ import BtnLoader from "../btnLoader";
 
 const ButtonPrimary = (props: ButtonProps): JSX.Element => {
   return (
-    <button
-      className={`
-    flex items-center align-middle
+    <button 
+    className={`
+    flex items-center justify-center
     pButton 
     h-[60px]  
     ${

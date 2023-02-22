@@ -3,7 +3,7 @@ import Input from "./Input/Input";
 import Message from "./Message/Message";
 import { Button } from "./Button/index";
 import Header from "./Header";
-import Navbar from "./NavBar/Navbar";
+import Navbar from "./NavBar";
 import Footer from "./Footer";
 import CopyIcon from "./Icons/CopyIcon";
 import DownloadIcon from "./Icons/DownloadIcon";

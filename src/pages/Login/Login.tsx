@@ -2,7 +2,7 @@ import React, { FormEvent, useState, useEffect } from "react";
 import { Button, Input } from "../../components";
 import Radio from "../../components/Radio";
 import GoogleIcon from "../../assets/google.svg";
-import { useLogin, useCustomError, useSignInWithGoogle, } from "../../hooks/useFirebase";
+import { useLogin, useCustomError, useSignInWithGoogle, useAuthChange, UserType } from '../../hooks/useFirebase';
 import { Logger } from '../../utils';
 import Alert from "../../components/Alert";
 import { AlertProps } from "../../components/Alert/Alert";
@@ -15,6 +15,13 @@ const Login = () => {
     setPassword(newValue);
   };
 
+  const [getUser, setUser] = useState<UserType | null>(null)
+
+  useEffect( ()=> {
+    useAuthChange(setUser)
+  }, [])
+
+
   const [email, setEmail] = useState<string>("");
   const handleEmailChange = (newValue: string) => {
     setEmail(newValue);
@@ -26,6 +33,12 @@ const Login = () => {
 
   const [getErrors, setErrors] = useState<AlertProps>({type: "failed", status: true, message: ''});
   const navigate = useNavigate()
+
+  useEffect( ()=> {
+    console.log(getUser)
+    if(getUser)  navigate("/dashboard/new");
+  }, [getUser])
+
 
   const LoginAction = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -56,6 +69,8 @@ const Login = () => {
 function CloseError(data:boolean){
   setErrors({...getErrors, status:data})
 }
+
+
 
 
   return (

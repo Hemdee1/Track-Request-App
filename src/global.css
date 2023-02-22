@@ -1,14 +1,19 @@
 :root {
-  --primary-color: #35CA8B;
-  --primary-color-hover: #28BA7C;
-  --secondary-color: #61818E;
+  --primary-color: #35ca8b;
+  --primary-color-hover: #28ba7c;
+  --secondary-color: #61818e;
   --secondary-color-hover: #4b656f;
 
-  --light-green: rgba(52, 202, 139, .2);
-
-  --header-color: #7C7C7C;
+  --light-green: rgba(52, 202, 139, 0.2);
 }
 
-*{
-  /* transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1); */
+* {
+  transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
 }

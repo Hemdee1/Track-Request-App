@@ -14,6 +14,7 @@ export type ButtonProps = {
   icon?: string;
   altText?: string
   isLoading?: boolean;
+  className?: string;
 }
 
 export type ButtonTypeProp = ButtonProps & {

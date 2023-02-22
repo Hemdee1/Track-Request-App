@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input } from '../../components'
+import { Button, Input, Navbar } from '../../components'
 import GoogleIcon from '../../assets/google.svg';
 
 const Register = () => {
@@ -20,46 +20,51 @@ const Register = () => {
     }
 
   return (
-    <div className='min-h-screen bg-'>
-    {/* NAVBAR */}
-    <h1 className='text-6xl'>Navbar</h1>
+    <div className='min-h-screen '>
+    <Navbar />
 
-    <div className="w-1/3 mx-auto">
+    <div className="w-1/3 mx-auto mt-[89px]">
         <h1 className="text-center mb-[41px] font-Inter text-[32px]">Club Register</h1>
 
-        <form>
-            <Input 
-                label='Fullname'
-                name='name'
-                onChange={handleFullNameChange}
-                required
-                value={fullName}
-                autocomplete='off'
-                placeholder='Firstname Lastname'
-                type='text'
-            />
+        <form className=''>
+            <div className='mb-4'>
+                <Input 
+                    label='Fullname'
+                    name='name'
+                    onChange={handleFullNameChange}
+                    required
+                    value={fullName}
+                    autocomplete='off'
+                    placeholder='Firstname Lastname'
+                    type='text'
+                />
+            </div>
 
-            <Input 
-                label='Emaii'
-                name='email'
-                onChange={handleEmailChange}
-                required
-                value={email}
-                autocomplete="off"
-                placeholder='hello@example@gmail.com'
-                type='text'
-            />
+            <div className='mb-4'>
+                <Input 
+                    label='Email'
+                    name='email'
+                    onChange={handleEmailChange}
+                    required
+                    value={email}
+                    autocomplete="off"
+                    placeholder='hello@example@gmail.com'
+                    type='text'
+                />
+            </div>
 
-            <Input 
-                label='Password'
-                name='password'
-                onChange={handlePasswordChange}
-                required
-                value={password}
-                autocomplete='off'
-                placeholder='XXXXXX'
-                type='password'
-            />
+            <div className='mb-4'>
+                <Input 
+                    label='Password'
+                    name='password'
+                    onChange={handlePasswordChange}
+                    required
+                    value={password}
+                    autocomplete='off'
+                    placeholder='XXXXXX'
+                    type='password'
+                />
+            </div>
 
             <div className="flex my-[25px]">
                 <input type="checkbox" className='w-[26px] h-[26px]'/>
@@ -72,7 +77,7 @@ const Register = () => {
                 fullWidth
             />
 
-            <div className='flex items-center my-[25px] border border-black'>
+            <div className='flex items-center my-[25px]'>
                 <hr className='flex-[0.5]'/>
                 <span className='mx-[31.5px]'>OR</span>
                 <hr className='flex-[0.5]'/>

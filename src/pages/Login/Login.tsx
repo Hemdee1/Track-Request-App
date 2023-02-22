@@ -29,6 +29,14 @@ const Login = () => {
 
   const LoginAction = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    if(!email || !password) {
+      setErrors({type: "failed", status: false, message: 'Email and password can not be empty'})
+      setTimeout( ()=> {
+        CloseError(true)
+      }, 3000)
+      return
+    }
+    setIsButtonLoading(true)
     try{
       setIsButtonLoading(true)
       await useLogin(email, password);
@@ -38,14 +46,17 @@ const Login = () => {
       navigate("/dashboard/new");
     } catch(err:any) {
       const error = useCustomError(err.message);
-      if(error) setErrors({type: "failed", status: false, message: error?.toString()});
+      if(error) setErrors({type: "failed", status: false, message: error?.toString() + " or password"});
       Logger(error)
     }
+
+    setIsButtonLoading(false)
   }
 
 function CloseError(data:boolean){
   setErrors({...getErrors, status:data})
 }
+
 
   return (
     <div className="mt-[120px] w-full min-h-[50vh]">
@@ -84,7 +95,7 @@ function CloseError(data:boolean){
           name={"rememberme"}
           onClick={getVal}
         />
-        <Button type="primary" Label="Login" fullWidth className="my-5" onClick={LoginAction}/>
+        <Button type="primary" Label="Login" fullWidth className="my-5" onClick={LoginAction} isLoading={isButtonLoading}/>
 
         <div className="flex items-center my-[25px]">
           <hr className="flex-[0.5]" />
@@ -99,6 +110,7 @@ function CloseError(data:boolean){
           fullWidth
           icon={GoogleIcon}
           altText="Google button"
+          onClick={() => useSignInWithGoogle()}
         />
       </form>
     </div>

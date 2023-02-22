@@ -42,7 +42,7 @@ const Alert = ({status, type, message, func}:AlertAltProps):JSX.Element => {
     <div className='my-4 flex items-center justify-between p-6 border-rose-600 border-2 rounded-md min-h-[60px] bg-rose-100'>
         <div className='flex items-center gap-3'>
           <span><AiFillCloseCircle className='text-[24px] text-rose-600'/></span>
-          <p className='text-rose-700'>{message + ' or password' ?? 'This is some error message'}</p> 
+          <p className='text-rose-700'>{message  ?? 'This is some error message'}</p> 
         </div>
         <span onClick={close}>  <MdOutlineClose className='text-[24px] text-rose-600 cursor-pointer'/> </span>
     </div>

@@ -6,6 +6,7 @@ import QueuedRequest from "./QueuedRequest";
 import UnavailableRequest from "./UnavailableRequest";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
+import RequestPage from "./RequestPage";
 
 export {
   TestingAPI,
@@ -16,4 +17,5 @@ export {
   UnavailableRequest,
   Profile,
   EditProfile,
+  RequestPage,
 };

@@ -259,40 +259,49 @@ const TestingAPI = () => {
         <br />
       </div>
 
+      {/*  */}
       <h1 className="mt-10">All Datas</h1>
       <div>
-        {datas?.map((data) => (
-          <div key={data.id}>
-            {data.artist} - {data.title}
-          </div>
-        ))}
-      </div>
+        {!datas ? (
+          <p className="text-xl font-medium">Loading...</p>
+        ) : (
+          <>
+            <div>
+              {datas?.map((data) => (
+                <div key={data.id}>
+                  {data.artist} - {data.title}
+                </div>
+              ))}
+            </div>
 
-      <h1 className="mt-10">New Datas</h1>
-      <div>
-        {newDatas?.map((data) => (
-          <div key={data.id}>
-            {data.artist} - {data.title}
-          </div>
-        ))}
-      </div>
+            <h1 className="mt-10">New Datas</h1>
+            <div>
+              {newDatas?.map((data) => (
+                <div key={data.id}>
+                  {data.artist} - {data.title}
+                </div>
+              ))}
+            </div>
 
-      <h1 className="mt-10">Queing Datas</h1>
-      <div>
-        {queDatas?.map((data) => (
-          <div key={data.id}>
-            {data.artist} - {data.title}
-          </div>
-        ))}
-      </div>
+            <h1 className="mt-10">Queing Datas</h1>
+            <div>
+              {queDatas?.map((data) => (
+                <div key={data.id}>
+                  {data.artist} - {data.title}
+                </div>
+              ))}
+            </div>
 
-      <h1 className="mt-10">User Datas</h1>
-      <div>
-        {userDatas?.map((data) => (
-          <div key={data.id}>
-            {data.artist} - {data.title}
-          </div>
-        ))}
+            <h1 className="mt-10">User Datas</h1>
+            <div>
+              {userDatas?.map((data) => (
+                <div key={data.id}>
+                  {data.artist} - {data.title}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

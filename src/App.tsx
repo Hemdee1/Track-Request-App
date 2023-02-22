@@ -8,6 +8,7 @@ import {
   PlayedRequest,
   Profile,
   QueuedRequest,
+  RequestPage,
   TestingAPI,
   UnavailableRequest,
 } from "./pages";
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route element={<HomepageLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/request/:id" element={<RequestPage />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard/new" element={<NewRequest />} />

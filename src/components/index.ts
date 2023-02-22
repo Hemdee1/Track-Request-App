@@ -13,6 +13,7 @@ import MusicPlayedBox from "./MusicPlayedBox";
 import MusicNewBox from "./MusicNewBox";
 import MusicQueuedBox from "./MusicQueuedBox";
 import MusicUnavailableBox from "./MusicUnavailableBox";
+import MusicRequestBox from "./MusicRequestBox";
 
 export {
   Welcome,
@@ -30,4 +31,5 @@ export {
   MusicNewBox,
   MusicQueuedBox,
   MusicUnavailableBox,
+  MusicRequestBox,
 };

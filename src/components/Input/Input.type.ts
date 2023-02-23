@@ -3,7 +3,7 @@ export type InputFieldProps = {
     label: string
     value: string
     onChange: (value: string) => void
-    type: 'text'| 'password',
+    type: 'text'| 'password' | 'email',
     placeholder?: string
     error?: string
     required: boolean

@@ -29,7 +29,7 @@ const TestingAPI = () => {
 
   const [img, setImg] = useState<File>();
 
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<UserType>();
 
   const [datas, setDatas] = useState<MusicType[]>();
   const [newDatas, setNewDatas] = useState<MusicType[]>();
@@ -65,7 +65,7 @@ const TestingAPI = () => {
         value.photoURL = user.photoURL;
       }
 
-      await useUpdateProfile(value, setUser);
+      await useUpdateProfile(value);
     } else return;
   };
 

@@ -6,9 +6,11 @@ import {
   useCustomError,
   UserType,
   useSignIn,
+  useSignInWithGoogle,
 } from "../../hooks/useFirebase";
 import { useNavigate } from "react-router-dom";
-import BtnLoader from "../../components/Button/btnLoader";
+import Alert from "../../components/Alert";
+import { AlertProps } from "../../components/Alert/Alert";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -27,14 +29,24 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setLoading(false);
-      setError("");
       navigate("/profile");
       // navigate(`/cp/${user?.clubName}`);
     }
   }, [user]);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>("");
+
+  const [getErrors, setErrors] = useState<AlertProps>({
+    type: "failed",
+    status: true,
+    message: "",
+  });
+
+  function CloseError(data: boolean) {
+    setTimeout(() => {
+      setErrors({ ...getErrors, status: data });
+    }, 3000);
+  }
 
   const handleFullNameChange = (newValue: string) => {
     setFullName(newValue);
@@ -52,21 +64,35 @@ const Register = () => {
     setPassword(newValue);
   };
 
-  const handleSubmit = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!email || !password || !clubName || !fullName) {
-      return setError("All inputs field must be filled!");
+      // return setError("All inputs field must be filled!");
+      setErrors({
+        type: "failed",
+        status: false,
+        message: "Input fields can not be empty",
+      });
+      CloseError(true);
+      return;
     }
 
     setLoading(true);
     try {
       await useSignIn(email, password, clubName, fullName);
+
+      setErrors({ type: "success", status: false, message: "Success" });
+      CloseError(true);
     } catch (err: any) {
       const error = useCustomError(err.message);
-      setError(error);
+      if (error)
+        setErrors({
+          type: "failed",
+          status: false,
+          message: error?.toString() + " or password",
+        });
+      CloseError(true);
     }
   };
 
@@ -76,6 +102,8 @@ const Register = () => {
         <h1 className="text-center mb-[41px] text-2xl font-medium">
           Club Register
         </h1>
+
+        <Alert {...getErrors} func={CloseError} />
 
         <form>
           <div className="mb-4">
@@ -130,23 +158,13 @@ const Register = () => {
             />
           </div>
 
-          {/* <Button
+          <Button
             Label="Create Club Profile"
-            isLoading
+            isLoading={loading}
             type="primary"
             className="w-full font-medium"
             onClick={handleSubmit}
-          /> */}
-
-          <button
-            className="w-full h-[60px] text-white font-medium bg-[var(--primary-color)] rounded-md"
-            disabled={loading}
-            onClick={(e) => handleSubmit(e)}
-          >
-            {loading ? <BtnLoader /> : <span>Create Club Profile</span>}
-          </button>
-
-          <p className="text-red-500">{error}</p>
+          />
 
           <div className="flex items-center my-[25px]">
             <hr className="flex-[0.5]" />
@@ -161,6 +179,7 @@ const Register = () => {
             fullWidth
             icon={GoogleIcon}
             altText="Google button"
+            onClick={() => useSignInWithGoogle()}
           />
         </form>
       </div>

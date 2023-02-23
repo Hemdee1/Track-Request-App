@@ -58,6 +58,7 @@ export type UserType = {
   facebook: string;
   twitter: string;
   instagram: string;
+  session: boolean;
 };
 
 // get realtime collection data for the DJ
@@ -164,6 +165,7 @@ export const useSignIn = async (
     facebook: "",
     twitter: "",
     instagram: "",
+    session: false,
   };
 
   try {
@@ -189,6 +191,7 @@ export const useSignInWithGoogle = async () => {
     facebook: "",
     twitter: "",
     instagram: "",
+    session: false,
   };
 
   try {
@@ -221,16 +224,25 @@ export const useAuthChange = async (
 ) => {
   onAuthStateChanged(auth, async (user) => {
     // get user profile data
-    try {
-      if (user) {
-        const colRef = collection(db, "profile", "document", user.email!);
-        const snapshot = await getDocs(colRef);
-        const doc = snapshot.docs[0];
 
-        setDatas({ ...(doc.data() as UserType), id: doc.id });
-      } else {
-        setDatas(undefined);
-      }
+    try {
+      // ADDING A DELAY OF 3S FOR THE USER PROFILE TO BE CREATED BEFORE FETCHING
+      setTimeout(async () => {
+        if (user) {
+          const colRef = collection(
+            db,
+            "profile",
+            "document",
+            user.email?.toLowerCase()!
+          );
+          const snapshot = await getDocs(colRef);
+          const doc = snapshot.docs[0];
+
+          setDatas({ ...(doc.data() as UserType), id: doc.id });
+        } else {
+          setDatas(undefined);
+        }
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -247,6 +259,7 @@ export type UserTypeWithImage = {
   twitter?: string;
   instagram?: string;
   photoURL?: string | File;
+  session: boolean;
 };
 
 // UPDATE THE USER PROFILE

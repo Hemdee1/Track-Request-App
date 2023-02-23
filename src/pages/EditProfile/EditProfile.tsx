@@ -1,4 +1,4 @@
-import { Header } from "../../components";
+import { Button, Header } from "../../components";
 import { useEffect, useLayoutEffect, useState } from "react";
 import {
   useAuthChange,
@@ -9,9 +9,11 @@ import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserType>();
 
+  const [user, setUser] = useState<UserType>();
   const [img, setImg] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     useAuthChange(setUser);
@@ -30,8 +32,10 @@ const EditProfile = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const data = await useUpdateProfile(user!);
 
+    setLoading(false);
     if (data === undefined) {
       navigate("/profile");
     }
@@ -186,12 +190,15 @@ const EditProfile = () => {
           </article>
         </div>
       </div>
-      <button
-        className="px-7 py-2 mx-auto mt-10 bg-[#35CA8B] text-white text-xl rounded-3xl font-medium flex items-center"
+
+      <Button
+        Label="Submit"
+        type="primary"
+        altText="button"
+        className="mx-auto font-medium text-xl"
+        isLoading={loading}
         onClick={handleSubmit}
-      >
-        Submit
-      </button>
+      />
     </main>
   );
 };

@@ -1,4 +1,11 @@
-import { Message, MusicQueuedBox, MusicUnavailableBox } from "../../components";
+import { Message, MusicUnavailableBox } from "../../components";
+import { useEffect, useState } from "react";
+import {
+  MusicType,
+  useAuthChange,
+  useGetRequest,
+  UserType,
+} from "../../hooks/useFirebase";
 
 const music = {
   cover: "/user.png",
@@ -17,7 +24,29 @@ type musicType = {
 const allMusic = [music, music, music, music, music, music];
 
 const UnavailableRequest = () => {
-  if (allMusic.length < 1) {
+  const [user, setUser] = useState<UserType>();
+  const [datas, setDatas] = useState<MusicType[] | undefined>([]);
+  const [FilterDatas, setFilterDatas] = useState<MusicType[] | undefined>();
+
+  useEffect(() => {
+    useAuthChange(setUser);
+  }, []);
+
+  useEffect(() => {
+    setFilterDatas(datas?.filter((data) => data.status === "unavailable"));
+  }, [datas]);
+
+  useEffect(() => {
+    useGetRequest("DJ YK", setDatas);
+  }, []);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     useGetRequest(user?.clubName!, setDatas);
+  //   }
+  // }, [user]);
+
+  if (!FilterDatas || FilterDatas?.length < 1) {
     return (
       <section className="pt-36">
         <Message
@@ -30,7 +59,7 @@ const UnavailableRequest = () => {
 
   return (
     <section className="min-h-[90vh] py-[30px] sm:py-[87px] w-[606px] max-w-full mx-auto font-Inter">
-      {allMusic.map((data, index) => (
+      {FilterDatas.map((data, index) => (
         <MusicUnavailableBox key={index} {...data} />
       ))}
     </section>

@@ -1,12 +1,26 @@
 import { BiPlay } from "react-icons/bi";
+import { MusicType, useUpdateMusicState } from "../../hooks/useFirebase";
 
-type MusicQueuedBoxProps = {
-  cover: string;
-  title: string;
-  artist: string;
+type Clubname = {
+  clubName: string;
 };
+type MusicQueuedBoxProps = MusicType & Clubname;
 
-const MusicQueuedBox = ({ cover, title, artist }: MusicQueuedBoxProps) => {
+const MusicQueuedBox = ({
+  cover,
+  title,
+  artist,
+  id,
+  clubName,
+}: MusicQueuedBoxProps) => {
+  // const handleClick = (status: "played") => {
+  //   useUpdateMusicState(clubName, id, status);
+  // };
+
+  const handleClick = (status: "played") => {
+    useUpdateMusicState("DJ YK", id, status);
+  };
+
   return (
     <article className="px-6 flex justify-between pb-4 pt-6 border-b border-[#61818E80] border-opacity-50">
       <div className="flex items-center gap-5 px-1">
@@ -21,7 +35,10 @@ const MusicQueuedBox = ({ cover, title, artist }: MusicQueuedBoxProps) => {
         </div>
       </div>
 
-      <button className="w-10 sm:w-[122px] h-10 sm:h-[47px] flex justify-center items-center gap-2 bg-[#35CA8B33] bg-opacity-20 rounded-3xl border border-[#61818E80] border-opacity-50 font-medium text-[#61818E]">
+      <button
+        className="w-10 sm:w-[122px] h-10 sm:h-[47px] flex justify-center items-center gap-2 bg-[#35CA8B33] bg-opacity-20 rounded-3xl border border-[#61818E80] border-opacity-50 font-medium text-[#61818E]"
+        onClick={() => handleClick("played")}
+      >
         <span className="hidden sm:block">Play</span>
         <BiPlay color="#42AA89" size={30} />
       </button>

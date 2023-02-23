@@ -4,7 +4,11 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import FullLogo from "../../assets/SVGs/FullLogo";
 import LogoIcon from "../../assets/SVGs/LogoIcon";
 import { GoInfo } from "react-icons/go";
-import { useAuthChange, UserType } from "../../hooks/useFirebase";
+import {
+  useAuthChange,
+  UserType,
+  useUpdateDJSession,
+} from "../../hooks/useFirebase";
 
 const Header = () => {
   const [user, setUser] = useState<UserType>();
@@ -13,13 +17,27 @@ const Header = () => {
     useAuthChange(setUser);
   }, []);
 
-  const [session, setSession] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const { pathname } = useLocation();
 
   const handleSession = () => {
-    setSession((prev) => !prev);
+    if (!user?.session) {
+      useUpdateDJSession(user!, true, setUser);
+    } else {
+      setOpenModal(true);
+    }
   };
+
+  const handleModal = (status: boolean) => {
+    if (status) {
+      useUpdateDJSession(user!, false, setUser);
+      setOpenModal(false);
+    } else {
+      setOpenModal(false);
+    }
+  };
+  console.log(user?.session);
 
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
@@ -68,7 +86,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  session
+                  user?.session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -77,7 +95,7 @@ const Header = () => {
           </span>
 
           <span className="flex gap-6 items-center">
-            <h5 className="text-[#6B6B6B] font-Inter font-medium capitalize">
+            <h5 className="text-[#6B6B6B] min-w-[120px] font-Inter font-medium capitalize">
               {user?.clubName}
             </h5>
 
@@ -110,7 +128,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  session
+                  user?.session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -180,7 +198,7 @@ const Header = () => {
       {/* NOTICE MODAL */}
       <div
         className={`w-[280px] sm:w-[400px] bg-white px-6 sm:px-14 py-6 sm:py-10 flex flex-col gap-4 sm:gap-8 font-Inter absolute right-3 z-20 shadow-md shadow-gray-300 rounded-xl transition-all duration-500 ${
-          session
+          openModal
             ? "visible opacity-100  top-16 sm:top-24"
             : "invisible opacity-0 top-10"
         }`}
@@ -195,13 +213,13 @@ const Header = () => {
         <div className="flex gap-2">
           <button
             className="flex-1 py-2 rounded-md text-[#BCBCBC] border border-[#A2A2A2] font-medium"
-            onClick={() => setSession(false)}
+            onClick={() => handleModal(false)}
           >
             Cancel
           </button>
           <button
             className="flex-1 py-2 rounded-md text-white border bg-[#35CA8B] font-medium"
-            onClick={() => setSession(false)}
+            onClick={() => handleModal(true)}
           >
             Proceed
           </button>

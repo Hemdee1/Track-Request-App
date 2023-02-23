@@ -312,6 +312,25 @@ export const useUpdateProfile = async (
   }
 };
 
+// Update the session of DJ
+export const useUpdateDJSession = async (
+  value: UserType,
+  session: boolean,
+  setUser: React.Dispatch<React.SetStateAction<UserType | undefined>>
+) => {
+  const docRef = doc(db, "profile", "document", value.email, value.id);
+
+  try {
+    await updateDoc(docRef, {
+      session,
+    });
+
+    setUser({ ...value, session });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // CUSTOM ERRORS
 export const useCustomError = (message: string) => {
   if (

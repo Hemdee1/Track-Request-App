@@ -62,14 +62,17 @@ const EditProfile = () => {
                 alt="user"
                 className="h-[200px] w-[200px] rounded-full object-cover"
               />
-            ) : (
+            ) : user ? (
               <div className="h-[200px] w-[200px] bg-[#35CA8B] grid place-items-center font-semibold text-[70px] text-white rounded-full">
                 {user?.clubName.slice(0, 1)}
               </div>
+            ) : (
+              <div className="h-[200px] w-[200px] bg-[#35CA8B] animate-pulse rounded-full"></div>
             )}
             {/*  */}
             <input
               type="file"
+              accept="image/jpeg, image/jpg, image/png"
               onChange={handleChangeImg}
               name="profilePicture"
               id="profilePicture"
@@ -90,15 +93,19 @@ const EditProfile = () => {
             >
               Email
             </label>
-            <input
-              type="text"
-              value={user?.email}
-              onChange={(e) =>
-                user ? setUser({ ...user, email: e.target.value }) : null
-              }
-              disabled
-              className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
-            />
+            {user ? (
+              <input
+                type="text"
+                value={user?.email}
+                onChange={(e) =>
+                  user ? setUser({ ...user, email: e.target.value }) : null
+                }
+                disabled
+                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+              />
+            ) : (
+              <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
+            )}
             <p className="mt-1 text-[#6B6B6B]">
               Note: Your email can't be changed
             </p>
@@ -110,15 +117,19 @@ const EditProfile = () => {
             >
               Full Name:
             </label>
-            <input
-              type="text"
-              name="fullname"
-              value={user?.fullName}
-              onChange={(e) =>
-                user ? setUser({ ...user, fullName: e.target.value }) : null
-              }
-              className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
-            />
+            {user ? (
+              <input
+                type="text"
+                name="fullname"
+                value={user?.fullName}
+                onChange={(e) =>
+                  user ? setUser({ ...user, fullName: e.target.value }) : null
+                }
+                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+              />
+            ) : (
+              <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
+            )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9]">
             <label
@@ -127,15 +138,19 @@ const EditProfile = () => {
             >
               Club Name:
             </label>
-            <input
-              type="text"
-              name="clubname"
-              value={user?.clubName}
-              onChange={(e) =>
-                user ? setUser({ ...user, clubName: e.target.value }) : null
-              }
-              className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
-            />
+            {user ? (
+              <input
+                type="text"
+                name="clubname"
+                value={user?.clubName}
+                onChange={(e) =>
+                  user ? setUser({ ...user, clubName: e.target.value }) : null
+                }
+                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+              />
+            ) : (
+              <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
+            )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9]">
             <label
@@ -144,15 +159,19 @@ const EditProfile = () => {
             >
               Facebook link:
             </label>
-            <input
-              type="text"
-              name="facebook"
-              value={user?.facebook}
-              onChange={(e) =>
-                user ? setUser({ ...user, facebook: e.target.value }) : null
-              }
-              className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
-            />
+            {user ? (
+              <input
+                type="text"
+                name="facebook"
+                value={user?.facebook}
+                onChange={(e) =>
+                  user ? setUser({ ...user, facebook: e.target.value }) : null
+                }
+                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+              />
+            ) : (
+              <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
+            )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9]">
             <label
@@ -161,15 +180,19 @@ const EditProfile = () => {
             >
               Twitter link:
             </label>
-            <input
-              type="text"
-              name="twitter"
-              value={user?.twitter}
-              onChange={(e) =>
-                user ? setUser({ ...user, twitter: e.target.value }) : null
-              }
-              className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
-            />
+            {user ? (
+              <input
+                type="text"
+                name="twitter"
+                value={user?.twitter}
+                onChange={(e) =>
+                  user ? setUser({ ...user, twitter: e.target.value }) : null
+                }
+                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+              />
+            ) : (
+              <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
+            )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9]">
             <label
@@ -178,15 +201,19 @@ const EditProfile = () => {
             >
               Instagram link:
             </label>
-            <input
-              type="text"
-              name="instagram"
-              value={user?.instagram}
-              onChange={(e) =>
-                user ? setUser({ ...user, instagram: e.target.value }) : null
-              }
-              className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
-            />
+            {user ? (
+              <input
+                type="text"
+                name="instagram"
+                value={user?.instagram}
+                onChange={(e) =>
+                  user ? setUser({ ...user, instagram: e.target.value }) : null
+                }
+                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+              />
+            ) : (
+              <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
+            )}
           </article>
         </div>
       </div>

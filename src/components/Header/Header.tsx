@@ -37,7 +37,6 @@ const Header = () => {
       setOpenModal(false);
     }
   };
-  console.log(user?.session);
 
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
@@ -95,9 +94,13 @@ const Header = () => {
           </span>
 
           <span className="flex gap-6 items-center">
-            <h5 className="text-[#6B6B6B] min-w-[120px] font-Inter font-medium capitalize">
-              {user?.clubName}
-            </h5>
+            {user ? (
+              <h5 className="text-[#6B6B6B] min-w-[120px] font-Inter font-medium capitalize">
+                {user?.clubName}
+              </h5>
+            ) : (
+              <span className="w-[100px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse"></span>
+            )}
 
             {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
@@ -105,10 +108,12 @@ const Header = () => {
                 alt="user"
                 className="h-[54px] w-[54px] rounded-full object-cover"
               />
-            ) : (
+            ) : user ? (
               <div className="h-[54px] w-[54px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
                 {user?.clubName.slice(0, 1)}
               </div>
+            ) : (
+              <div className="h-[54px] w-[54px] bg-[#35CA8B] animate-pulse rounded-full"></div>
             )}
           </span>
         </div>
@@ -141,10 +146,12 @@ const Header = () => {
                 alt="user"
                 className="h-10 lg:h-[54px] w-10 lg:w-[54px] rounded-full object-cover"
               />
-            ) : (
+            ) : user ? (
               <div className="h-10 lg:h-[54px] w-10 lg:w-[54px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
                 {user?.clubName.slice(0, 1)}
               </div>
+            ) : (
+              <div className="h-10 lg:h-[54px] w-10 lg:w-[54px] bg-[#35CA8B] rounded-full"></div>
             )}
             <span className="ml-3">
               <Hamburger toggled={isOpen} toggle={setIsOpen} />

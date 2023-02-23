@@ -48,7 +48,7 @@ const QueuedRequest = () => {
 
   if (!FilterDatas || FilterDatas?.length < 1) {
     return (
-      <section className="pt-36">
+      <section className="min-h-[90vh] pt-36">
         <Message
           image="/message.svg"
           text="You currently don't have any queued track, your requests will be displayed in this section"

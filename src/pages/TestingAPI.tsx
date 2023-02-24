@@ -29,7 +29,7 @@ const TestingAPI = () => {
 
   const [img, setImg] = useState<File>();
 
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<UserType>();
 
   const [datas, setDatas] = useState<MusicType[]>();
   const [newDatas, setNewDatas] = useState<MusicType[]>();
@@ -65,7 +65,7 @@ const TestingAPI = () => {
         value.photoURL = user.photoURL;
       }
 
-      await useUpdateProfile(value, setUser);
+      await useUpdateProfile(value);
     } else return;
   };
 
@@ -78,7 +78,7 @@ const TestingAPI = () => {
 
   const Signin = async () => {
     try {
-      await useSignIn(email, password, userName);
+      await useSignIn(email, password, userName, "");
 
       setEmail("");
       setPassword("");
@@ -103,7 +103,7 @@ const TestingAPI = () => {
   const updateState = () => {
     if (!state || !id) return;
 
-    useUpdateMusicState("DJ YK", id, state);
+    useUpdateMusicState("DJ YK", id, "new");
   };
 
   useEffect(() => {
@@ -125,7 +125,10 @@ const TestingAPI = () => {
 
   localStorage.getItem("mxrequest_id")
     ? null
-    : localStorage.setItem("mxrequest_id", "" + Date.now());
+    : localStorage.setItem(
+        "mxrequest_id",
+        "" + Date.now() + Math.round(Math.random() * 1000000)
+      );
 
   return (
     <section className="p-10">

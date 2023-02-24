@@ -51,15 +51,17 @@ export type MusicType = {
 export type UserType = {
   id: string;
   email: string;
-  username: string;
+  clubName: string;
+  fullName: string;
   photoURL: string | File;
   photoQR: string | File;
   facebook: string;
   twitter: string;
   instagram: string;
+  session: boolean;
 };
 
-// get realtime collection data
+// get realtime collection data for the DJ
 export const useGetRequest = async (
   collectionName: string,
   setDatas: React.Dispatch<React.SetStateAction<MusicType[] | undefined>>
@@ -129,8 +131,8 @@ export const useRequestMusic = async (
 export const useUpdateMusicState = async (
   collectionName: string,
   id: string,
-  // status: "new" | "que" | "unavailable" | "played"
-  status: string
+  status: "new" | "queued" | "unavailable" | "played"
+  // status: string
 ) => {
   const docRef = doc(db, "clubs", "document", collectionName, id);
 
@@ -147,7 +149,8 @@ export const useUpdateMusicState = async (
 export const useSignIn = async (
   email: string,
   password: string,
-  username: string
+  clubName: string,
+  fullName: string
 ) => {
   const user = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -155,12 +158,14 @@ export const useSignIn = async (
   const colRef = collection(db, "profile", "document", user.user.email!);
   const value = {
     email,
-    username,
+    clubName,
+    fullName,
     photoURL: "",
     photoQR: "",
     facebook: "",
     twitter: "",
     instagram: "",
+    session: false,
   };
 
   try {
@@ -179,12 +184,14 @@ export const useSignInWithGoogle = async () => {
 
   const value = {
     email: user.user.email,
-    username: user.user.displayName,
+    fullName: user.user.displayName,
     photoURL: user.user.photoURL,
+    clubName: "",
     photoQR: "",
     facebook: "",
     twitter: "",
     instagram: "",
+    session: false,
   };
 
   try {
@@ -213,20 +220,29 @@ export const useLogout = async () => {
 
 // SUBSCRIBING TO AUTH STATE CHANGE
 export const useAuthChange = async (
-  setDatas: React.Dispatch<React.SetStateAction<UserType | null>>
+  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined>>
 ) => {
   onAuthStateChanged(auth, async (user) => {
     // get user profile data
-    try {
-      if (user) {
-        const colRef = collection(db, "profile", "document", user.email!);
-        const snapshot = await getDocs(colRef);
-        const doc = snapshot.docs[0];
 
-        setDatas({ ...(doc.data() as UserType), id: doc.id });
-      } else {
-        setDatas(null);
-      }
+    try {
+      // ADDING A DELAY OF 3S FOR THE USER PROFILE TO BE CREATED BEFORE FETCHING
+      setTimeout(async () => {
+        if (user) {
+          const colRef = collection(
+            db,
+            "profile",
+            "document",
+            user.email?.toLowerCase()!
+          );
+          const snapshot = await getDocs(colRef);
+          const doc = snapshot.docs[0];
+
+          setDatas({ ...(doc.data() as UserType), id: doc.id });
+        } else {
+          setDatas(undefined);
+        }
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -236,18 +252,20 @@ export const useAuthChange = async (
 export type UserTypeWithImage = {
   id: string;
   email?: string;
-  username?: string;
+  fullName?: string;
+  clubName?: string;
   photoQR?: string | File;
   facebook?: string;
   twitter?: string;
   instagram?: string;
   photoURL?: string | File;
+  session: boolean;
 };
 
 // UPDATE THE USER PROFILE
 export const useUpdateProfile = async (
-  value: UserTypeWithImage,
-  setDatas: React.Dispatch<React.SetStateAction<UserType | null>>
+  value: UserTypeWithImage
+  // setDatas: React.Dispatch<React.SetStateAction<UserType | null>>
 ) => {
   try {
     // if there is a new photo, upload and return the url
@@ -277,18 +295,37 @@ export const useUpdateProfile = async (
     });
 
     // fetch the updated profile
-    const colRef = collection(
-      db,
-      "profile",
-      "document",
-      value.email!.toLowerCase()
-    );
-    const snapshot = await getDocs(colRef);
-    const res = snapshot.docs[0];
+    // const colRef = collection(
+    //   db,
+    //   "profile",
+    //   "document",
+    //   value.email!.toLowerCase()
+    // );
+    // const snapshot = await getDocs(colRef);
+    // const res = snapshot.docs[0];
 
-    setDatas({ ...(res.data() as UserType), id: res.id });
+    // setDatas({ ...(res.data() as UserType), id: res.id });
 
-    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Update the session of DJ
+export const useUpdateDJSession = async (
+  value: UserType,
+  session: boolean,
+  setUser: React.Dispatch<React.SetStateAction<UserType | undefined>>
+) => {
+  const docRef = doc(db, "profile", "document", value.email, value.id);
+
+  try {
+    await updateDoc(docRef, {
+      session,
+    });
+
+    setUser({ ...value, session });
   } catch (error) {
     console.log(error);
   }

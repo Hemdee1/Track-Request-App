@@ -1,18 +1,51 @@
 import Hamburger from "hamburger-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import FullLogo from "../../assets/SVGs/FullLogo";
 import LogoIcon from "../../assets/SVGs/LogoIcon";
 import { GoInfo } from "react-icons/go";
+import {
+  useAuthChange,
+  UserType,
+  useUpdateDJSession,
+} from "../../hooks/useFirebase";
+import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
 const Header = () => {
-  const [session, setSession] = useState(false);
-  const img = true;
+  const [user, setUser] = useState<UserType>();
+
+  useEffect(() => {
+    useAuthChange(setUser);
+  }, []);
+
+  const [openModal, setOpenModal] = useState(false);
 
   const { pathname } = useLocation();
 
+  const [theme, setTheme] = useState(getLocalStorage());
+
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    setTheme(value);
+    setThemeUpdate(value);
+  };
+
   const handleSession = () => {
-    setSession((prev) => !prev);
+    if (!user?.session) {
+      useUpdateDJSession(user!, true, setUser);
+    } else {
+      setOpenModal(true);
+    }
+  };
+
+  const handleModal = (status: boolean) => {
+    if (status) {
+      useUpdateDJSession(user!, false, setUser);
+      setOpenModal(false);
+    } else {
+      setOpenModal(false);
+    }
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +53,8 @@ const Header = () => {
 
   return (
     <header className="w-full h-[80px] lg:h-[124px] flex items-center bg-white font-Inter">
-      <div className="w-[1248px] max-w-full mx-auto justify-between items-center px-6 hidden lg:flex">
-        <div className="flex gap-12">
+      <div className="w-[1248px] max-w-full mx-auto justify-between items-center gap-8 px-6 hidden lg:flex">
+        <div className="flex items-center gap-8">
           <Link to="/">
             <FullLogo />
           </Link>
@@ -49,6 +82,15 @@ const Header = () => {
           >
             Public page
           </NavLink>
+          <select
+            className="px-4 py-1 shadow bg-gray-100 shadow-gray-400 rounded-md"
+            value={theme}
+            onChange={handleThemeChange}
+          >
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="system">System</option>
+          </select>
         </div>
 
         <div className="flex gap-[50px]">
@@ -62,7 +104,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  session
+                  user?.session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -71,19 +113,26 @@ const Header = () => {
           </span>
 
           <span className="flex gap-6 items-center">
-            <h5 className="text-[#6B6B6B] font-Inter font-medium">
-              DJ Hoolander
-            </h5>
-            {img ? (
-              <img
-                src="/user.png"
-                alt="user"
-                className="h-[54px] w-[54px] object-cover rounded-full"
-              />
+            {user ? (
+              <h5 className="text-[#6B6B6B] min-w-[120px] font-Inter font-medium capitalize">
+                {user?.clubName}
+              </h5>
             ) : (
+              <span className="w-[100px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse"></span>
+            )}
+
+            {user?.photoURL && !(user?.photoURL instanceof File) ? (
+              <img
+                src={user?.photoURL}
+                alt="user"
+                className="h-[54px] w-[54px] rounded-full object-cover"
+              />
+            ) : user ? (
               <div className="h-[54px] w-[54px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
-                D
+                {user?.clubName.slice(0, 1)}
               </div>
+            ) : (
+              <div className="h-[54px] w-[54px] bg-[#35CA8B] animate-pulse rounded-full"></div>
             )}
           </span>
         </div>
@@ -103,25 +152,26 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  session
+                  user?.session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
               ></span>
             </button>
 
-            {img ? (
+            {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
-                src="/user.png"
+                src={user?.photoURL}
                 alt="user"
-                className="h-10 lg:h-[54px] w-10 lg:w-[54px] object-cover rounded-full"
+                className="h-10 lg:h-[54px] w-10 lg:w-[54px] rounded-full object-cover"
               />
-            ) : (
+            ) : user ? (
               <div className="h-10 lg:h-[54px] w-10 lg:w-[54px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
-                D
+                {user?.clubName.slice(0, 1)}
               </div>
+            ) : (
+              <div className="h-10 lg:h-[54px] w-10 lg:w-[54px] bg-[#35CA8B] rounded-full"></div>
             )}
-
             <span className="ml-3">
               <Hamburger toggled={isOpen} toggle={setIsOpen} />
             </span>
@@ -163,6 +213,16 @@ const Header = () => {
                 Public page
               </NavLink>
             </li>
+            <span className=" font-medium ml-7">Theme:</span>
+            <select
+              className="px-6 py-2 shadow bg-gray-100 shadow-gray-400 rounded-md m-7"
+              value={theme}
+              onChange={handleThemeChange}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
           </ul>
 
           <p className="copyright text-slate-400 w-full text-center absolute bottom-10">
@@ -174,7 +234,7 @@ const Header = () => {
       {/* NOTICE MODAL */}
       <div
         className={`w-[280px] sm:w-[400px] bg-white px-6 sm:px-14 py-6 sm:py-10 flex flex-col gap-4 sm:gap-8 font-Inter absolute right-3 z-20 shadow-md shadow-gray-300 rounded-xl transition-all duration-500 ${
-          session
+          openModal
             ? "visible opacity-100  top-16 sm:top-24"
             : "invisible opacity-0 top-10"
         }`}
@@ -189,13 +249,13 @@ const Header = () => {
         <div className="flex gap-2">
           <button
             className="flex-1 py-2 rounded-md text-[#BCBCBC] border border-[#A2A2A2] font-medium"
-            onClick={() => setSession(false)}
+            onClick={() => handleModal(false)}
           >
             Cancel
           </button>
           <button
             className="flex-1 py-2 rounded-md text-white border bg-[#35CA8B] font-medium"
-            onClick={() => setSession(false)}
+            onClick={() => handleModal(true)}
           >
             Proceed
           </button>

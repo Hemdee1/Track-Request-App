@@ -4,22 +4,33 @@ import LogoIcon from "../../assets/SVGs/LogoIcon";
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "../Button";
 import Hamburger from "hamburger-react";
-import { widthSetter } from '../../utils';
+import { widthSetter } from "../../utils";
+import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
 export const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const closeMenu = () => setIsOpen(false);
 
+  const [theme, setTheme] = useState(getLocalStorage());
 
- return (
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    setTheme(value);
+    setThemeUpdate(value);
+  };
+
+  return (
     <nav className=" lg:h-[100px] flex items-center justify-center overflow-x-hidden fixed bg-white z-[1000] w-full top-0">
-      <div className={`navbarContent ${widthSetter} items-center justify-between lg:flex  hidden`}>
+      <div
+        className={`navbarContent ${widthSetter} items-center justify-between lg:flex  hidden`}
+      >
         <Link to="/" className="brand">
           <FullLogo />
         </Link>
 
         <div className="links flex">
-          <ul className="flex gap-20 text-slate-500">
+          <ul className="flex gap-20 items-center text-slate-500">
             <li>
               <NavLink
                 to="/"
@@ -40,6 +51,15 @@ export const Navbar = (): JSX.Element => {
                 About
               </NavLink>
             </li>
+            <select
+              className="px-4 py-1 shadow bg-gray-100 shadow-gray-400 rounded-md"
+              value={theme}
+              onChange={handleThemeChange}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
           </ul>
         </div>
 
@@ -149,6 +169,16 @@ export const Navbar = (): JSX.Element => {
                 <Button type="primary" fullWidth={true} Label="Login" />
               </NavLink>
             </li>
+            <span className=" font-medium ml-7">Theme:</span>
+            <select
+              className="px-6 py-2 shadow bg-gray-100 shadow-gray-400 rounded-md  m-7"
+              value={theme}
+              onChange={handleThemeChange}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
           </ul>
 
           <p className="copyright text-slate-400 w-full text-center absolute bottom-10">
@@ -157,7 +187,5 @@ export const Navbar = (): JSX.Element => {
         </div>
       </section>
     </nav>
-  )
-
- 
-}
+  );
+};

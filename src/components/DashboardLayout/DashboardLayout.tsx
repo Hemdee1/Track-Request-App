@@ -6,7 +6,7 @@ import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 const DashboardLayout = () => {
   return (
     <section>
-      <div className="fixed w-full left-0 top-0">
+      <div className="bg-white dark:bg-black text-black dark:text-white fixed w-full left-0 top-0">
         <Header />
         <div className="w-full h-[82px] relative">
           <GoArrowLeft className="absolute left-0 text-white top-7 text-xl select-none md:hidden" />

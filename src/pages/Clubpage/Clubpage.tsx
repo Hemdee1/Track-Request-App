@@ -18,6 +18,7 @@ import {
   UserType,
 } from "../../hooks/useFirebase";
 import { useLocation } from "react-router";
+import { musicList } from "../../hooks/offlineFile";
 
 export interface TrackInterface {
   cover: string;
@@ -86,21 +87,25 @@ const Clubpage = () => {
 
   const selectMusic = () => {};
 
-  const handleSearchChange = () => {};
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+  };
 
   return (
     <>
       <section className={`${widthSetter} mx-auto mt-[200px] flex flex-wrap`}>
         <div className=" w-[90%] md:w-[60%] mx-auto relative pr-[0px] sm:pr-[5%]">
           <div className=" absolute -top-14 right-0">
-            {user?.session ? (
-              <button className="px-5 py-3 font-medium rounded-[30px] bg-[#35CA8B] text-white animate-pulse">
+            {user && user?.session ? (
+              <button className="px-5 py-3 text-sm font-medium rounded-[30px] bg-[#35CA8B] text-white animate-pulse">
                 Active
               </button>
-            ) : (
-              <button className="px-5 py-3 font-medium rounded-[30px] bg-red-200">
+            ) : user && !user.session ? (
+              <button className="px-5 py-3 text-sm font-medium rounded-[30px] bg-gray-200">
                 Inactive
               </button>
+            ) : (
+              <div className="px-10 py-5 rounded-[30px] bg-gray-200 animate-pulse"></div>
             )}
           </div>
           <div className="flex items-center flex-wrap gap-6">

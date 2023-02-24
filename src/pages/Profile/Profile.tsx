@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 
 const url = import.meta.env.PROD
-  ? "mxrequest-app.netlify.app"
+  ? "https://mxrequest-app.netlify.app/cp/"
   : "http://localhost:5173/cp/";
 
 const Profile = () => {

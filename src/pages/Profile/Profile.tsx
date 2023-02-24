@@ -7,7 +7,7 @@ import { useAuthChange, useLogout, UserType } from "../../hooks/useFirebase";
 import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 
-const url = "https://www.mxrequest/cp";
+const url = "https://www.mxrequest/cp/";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const Profile = () => {
   };
 
   const copyURL = () => {
-    navigator.clipboard.writeText(url + user?.id);
+    navigator.clipboard.writeText(url + btoa(user?.email!));
 
     setOpenCopy(true);
 
@@ -70,7 +70,7 @@ const Profile = () => {
               </button>
               {user ? (
                 <span className="text-white text-sm sm:text-base font-medium pr-5 dm:pr-10 break-all">
-                  {url + user?.id}
+                  {url + btoa(user?.email)}
                 </span>
               ) : (
                 <span className="w-[200px] sm:w-[400px] max-w-full h-8 rounded-md bg-gray-200 animate-pulse"></span>
@@ -126,7 +126,7 @@ const Profile = () => {
             /> */}
             {user ? (
               <QRCodeCanvas
-                value={url + user?.id}
+                value={url + btoa(user?.email)}
                 includeMargin
                 className="w-full h-full"
                 id="qrCode"

@@ -312,6 +312,25 @@ export const useUpdateProfile = async (
   }
 };
 
+// get CLUB PROFILE
+export const useGetClubProfile = async (
+  collectionName: string,
+  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined>>
+) => {
+  const colRef = collection(db, "profile", "document", collectionName);
+
+  try {
+    const docs = await getDocs(colRef);
+    const club = docs.docs.map((doc) => {
+      return { ...(doc.data() as UserType), id: doc.id };
+    });
+
+    setDatas(club[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Update the session of DJ
 export const useUpdateDJSession = async (
   value: UserType,

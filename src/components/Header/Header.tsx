@@ -9,6 +9,7 @@ import {
   UserType,
   useUpdateDJSession,
 } from "../../hooks/useFirebase";
+import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
 const Header = () => {
   const [user, setUser] = useState<UserType>();
@@ -20,6 +21,15 @@ const Header = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const { pathname } = useLocation();
+
+  const [theme, setTheme] = useState(getLocalStorage());
+
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    setTheme(value);
+    setThemeUpdate(value);
+  };
 
   const handleSession = () => {
     if (!user?.session) {
@@ -43,8 +53,8 @@ const Header = () => {
 
   return (
     <header className="w-full h-[80px] lg:h-[124px] flex items-center bg-white font-Inter">
-      <div className="w-[1248px] max-w-full mx-auto justify-between items-center px-6 hidden lg:flex">
-        <div className="flex gap-12">
+      <div className="w-[1248px] max-w-full mx-auto justify-between items-center gap-8 px-6 hidden lg:flex">
+        <div className="flex items-center gap-8">
           <Link to="/">
             <FullLogo />
           </Link>
@@ -72,6 +82,15 @@ const Header = () => {
           >
             Public page
           </NavLink>
+          <select
+            className="px-4 py-1 shadow bg-gray-100 shadow-gray-400 rounded-md"
+            value={theme}
+            onChange={handleThemeChange}
+          >
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="system">System</option>
+          </select>
         </div>
 
         <div className="flex gap-[50px]">
@@ -194,6 +213,16 @@ const Header = () => {
                 Public page
               </NavLink>
             </li>
+            <span className=" font-medium ml-7">Theme:</span>
+            <select
+              className="px-6 py-2 shadow bg-gray-100 shadow-gray-400 rounded-md m-7"
+              value={theme}
+              onChange={handleThemeChange}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
           </ul>
 
           <p className="copyright text-slate-400 w-full text-center absolute bottom-10">

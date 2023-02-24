@@ -7,7 +7,9 @@ import { useAuthChange, useLogout, UserType } from "../../hooks/useFirebase";
 import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 
-const url = "https://www.mxrequest/cp/";
+const url = import.meta.env.PROD
+  ? "mxrequest-app.netlify.app"
+  : "http://localhost:5173/cp/";
 
 const Profile = () => {
   const navigate = useNavigate();

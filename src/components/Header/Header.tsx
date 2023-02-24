@@ -114,7 +114,7 @@ const Header = () => {
 
           <span className="flex gap-6 items-center">
             {user ? (
-              <h5 className="text-[#6B6B6B] min-w-[120px] font-Inter font-medium capitalize">
+              <h5 className="text-[#6B6B6B] text-right min-w-[120px] font-Inter font-medium capitalize">
                 {user?.clubName}
               </h5>
             ) : (

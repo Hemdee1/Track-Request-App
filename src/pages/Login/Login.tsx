@@ -106,7 +106,7 @@ const Login = () => {
             name="email"
             type="email"
             value={email}
-            placeholder="enter emaiil"
+            placeholder="enter email"
             onChange={handleEmailChange}
             autocomplete="off"
             required

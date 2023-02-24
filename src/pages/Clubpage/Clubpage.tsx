@@ -190,12 +190,12 @@ const Clubpage = () => {
               (requestedTracks.length > 0) ? requestedTracks.map( (item:RequestedTracksProps, index:number)=> {
                 return <TrackCard title={item.trackname} artist={item.artists} cover={item.cover} type={`${item.status}`} isResult={false} key={index} className='my-2 min-w-full'/> 
               })
-            ) : (
+             : 
               <Message
                 image={Image}
                 text="You currently have not made any track requests, your requests will be displayed in this section"
               />
-            )}
+              }
           </div>
         </div>
       </section>

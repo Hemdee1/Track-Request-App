@@ -4,7 +4,9 @@ const About = () => {
   return (
     <main className="pt-[150px] px-6 font-Inter w-full min-h-[80vh]">
       <div className="w-[800px] mx-auto max-w-full">
-        <h1 className="text-2xl font-medium text-center">About</h1>
+        <h1 className="font-bold text-2xl text-[#6B6B6B] text-center mb-10 uppercase">
+          About
+        </h1>
         <p className="mt-10 text-[#6B6B6B] tracking-wider">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. A
           repudiandae blanditiis neque voluptates architecto cupiditate deleniti

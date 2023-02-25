@@ -69,7 +69,7 @@ export const useGetRequest = async (
   const colRef = collection(db, "clubs", "document", collectionName);
 
   const q = query(colRef, orderBy("time", "desc"));
-  console.log("getting realtime collection of data");
+  // console.log("getting realtime collection of data");
 
   try {
     onSnapshot(q, (snap) => {
@@ -320,12 +320,13 @@ export const useGetClubProfile = async (
   const colRef = collection(db, "profile", "document", collectionName);
 
   try {
-    const docs = await getDocs(colRef);
-    const club = docs.docs.map((doc) => {
-      return { ...(doc.data() as UserType), id: doc.id };
-    });
+    onSnapshot(colRef, (snap) => {
+      const clubs = snap.docs.map((doc) => {
+        return { ...(doc.data() as UserType), id: doc.id };
+      });
 
-    setDatas(club[0]);
+      setDatas(clubs[0]);
+    });
   } catch (error) {
     console.log(error);
   }
@@ -335,7 +336,7 @@ export const useGetClubProfile = async (
 export const useUpdateDJSession = async (
   value: UserType,
   session: boolean,
-  setUser: React.Dispatch<React.SetStateAction<UserType | undefined>>
+  setUser: React.Dispatch<React.SetStateAction<UserType | undefined | null>>
 ) => {
   const docRef = doc(db, "profile", "document", value.email, value.id);
 

@@ -34,6 +34,16 @@ interface Tx {
 export interface RequestedTracksProps extends TrackInterface {
   status: "queued" | "played" | "unavailable";
 }
+
+// SET AN ID FOR THE NEW USER
+localStorage.getItem("mxrequest_id")
+  ? null
+  : localStorage.setItem(
+      "mxrequest_id",
+      "" + Date.now() + Math.round(Math.random() * 1000000)
+    );
+
+// COMPONENT
 const Clubpage = () => {
   const [search, setSearch] = useState<string>("");
   const [getTracks, setTracks] = useState<TrackInterface[]>([]);
@@ -60,50 +70,84 @@ const Clubpage = () => {
   const [datas, setDatas] = useState<MusicType[]>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[]>();
 
+  const [wrongLInk, setWrongLInk] = useState(false);
+
   const { pathname } = useLocation();
 
   useEffect(() => {
     // const link = "https://www.mxrequest/cp/c2FubXVoeUBnbWFpbC5jb20=";
     const url = pathname.split("/");
-    const email = atob(url[url.length - 1]);
 
-    useGetClubProfile(email, setUser);
+    try {
+      const email = atob(url[url.length - 1]);
+      useGetClubProfile(email, setUser);
+    } catch (error) {
+      setWrongLInk(true);
+    }
   }, []);
 
   useEffect(() => {
     if (user) {
+      // useGetRequest(user.email, setDatas);
       useGetRequest("DJ YK", setDatas);
     }
   }, [user]);
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("mxrequest_id")!);
-    console.log(id);
 
     setFilterDatas(datas?.filter((data) => data.user_id === id));
   }, [datas]);
-
-  console.log(FilterDatas);
-
-  const selectMusic = () => {};
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
   };
 
+  const selectMusic = () => {};
+
+  // IF THE LINK IS INCORRECT, SHOW ERROR PAGE
+  if (wrongLInk) {
+    return (
+      <div className="w-full min-h-screen pt-[80px] bg-white dark:bg-black dark:text-white text-black bg-opacity-10 backdrop-blur-lg grid place-items-center px-6">
+        <div className="flex flex-col gap-6 items-center">
+          <img src="/failed.ico" alt="failed image" className="w-32" />
+          <h1 className="font-medium text-xl text-center">
+            OOPS!!! <br /> The link you entered is Incorrect <br /> Or the Club
+            Profile has been deleted
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
+  // IF THERE IS NO USER, SHOW LOADING PAGE
+  if (!user)
+    return (
+      <div className="w-full min-h-screen pt-[80px] bg-white dark:bg-black dark:text-white text-black bg-opacity-10 backdrop-blur-lg grid place-items-center">
+        <div className="flex flex-col gap-6 items-center">
+          <h1 className="font-medium text-center">
+            Fetching Club Profile, <br /> Wait a moment....
+          </h1>
+          <span className="loader"></span>
+        </div>
+      </div>
+    );
+
   return (
     <>
-      <section className={`${widthSetter} mx-auto pt-[200px] flex flex-wrap`}>
+      <section
+        className={`${widthSetter} mx-auto pt-[200px] min-h-screen flex flex-wrap`}
+      >
         <div className=" w-[90%] md:w-[60%] mx-auto relative pr-[0px] sm:pr-[5%]">
-          <div className=" absolute -top-14 right-6">
+          <div className=" absolute -top-14 right-0 sm:right-6">
             {user && user?.session ? (
-              <button className="px-5 py-3 text-sm font-medium rounded-[30px] bg-[#35CA8B] text-white animate-pulse">
+              <div className="px-5 py-3 text-sm font-medium rounded-[30px] bg-[#35CA8B] text-white animate-pulse">
                 Active
-              </button>
+              </div>
             ) : user && !user.session ? (
-              <button className="px-5 py-3 text-sm font-medium rounded-[30px] bg-gray-200">
+              <div className="px-3 sm:px-5 py-2 sm:py-3 text-sm font-medium rounded-[30px] bg-gray-200 dark:bg-gray-700">
                 Inactive
-              </button>
+              </div>
             ) : (
               <div className="px-10 py-5 rounded-[30px] bg-gray-200 animate-pulse"></div>
             )}
@@ -124,26 +168,26 @@ const Clubpage = () => {
             )}
 
             {user ? (
-              <div className="h-14 w-[150px] grid place-items-center border border-[#AAAAAA] rounded-[30px] font-medium capitalize ml-3 break-all px-6 text-slate-500">
+              <div className="h-14 w-[180px] sm:w-auto grid place-items-center border border-[#AAAAAA] rounded-[30px] font-medium capitalize ml-3 text-center text-[#35CA8B] px-6">
                 {user.clubName}
               </div>
             ) : (
               <div className="h-14 w-[150px] animate-pulse rounded-[30px] bg-gray-300"></div>
             )}
 
-            <div className="flex h-full gap-4 items-center ml-7 text-slate-500">
+            <div className="flex h-full gap-4 items-center ml-7 text-[#35CA8B]">
               {user?.twitter && (
-                <a href={user?.twitter}>
+                <a href={user?.twitter} target="_blank">
                   <FaTwitter size={24} />
                 </a>
-              )}{" "}
+              )}
               {user?.facebook && (
-                <a href={user?.facebook}>
+                <a href={user?.facebook} target="_blank">
                   <FaFacebook size={24} />
                 </a>
               )}
               {user?.instagram && (
-                <a href={user?.instagram}>
+                <a href={user?.instagram} target="_blank">
                   <FaInstagram size={24} />
                 </a>
               )}
@@ -184,7 +228,7 @@ const Clubpage = () => {
           {/* results */}
           {search.length > 0 ? (
             <section
-              className="z-[500] h-[400px] w-full absolute overflow-y-scroll bg-white shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
+              className="z-[500] h-[300px] w-full absolute overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px] border-gray-300
             "
             >
               <div>

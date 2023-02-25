@@ -15,10 +15,12 @@ import "./global.css";
 import { DashboardLayout, HomepageLayout } from "./components";
 import Clubpage from "./pages/Clubpage";
 import Login from "./pages/Login";
+import AnimatedBackground from "./components/AnimatedBackground";
 
 function App() {
   return (
     <div className="bg-white text-black dark:bg-[black] dark:text-white">
+      <AnimatedBackground />
       <Routes>
         <Route element={<HomepageLayout />}>
           <Route path="/" element={<HomePage />} />

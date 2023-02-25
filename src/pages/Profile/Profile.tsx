@@ -111,7 +111,9 @@ const Profile = () => {
 
             {user ? (
               <div className="font-medium text-[#6B6B6B] break-all">
-                <h3 className="text-[22px] mb-1">{user?.clubName}</h3>
+                <h3 className="text-[22px] mb-1 text-[#35ca8b]">
+                  {user?.clubName}
+                </h3>
                 <h5>{user?.email}</h5>
               </div>
             ) : (

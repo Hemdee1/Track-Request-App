@@ -13,10 +13,17 @@ import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
 const Header = () => {
   const [user, setUser] = useState<UserType | null>();
+  const [session, setSession] = useState<Boolean | null>(null);
 
   useEffect(() => {
     useAuthChange(setUser);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setSession(user?.session);
+    }
+  }, [user]);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -33,6 +40,7 @@ const Header = () => {
 
   const handleSession = () => {
     if (!user?.session) {
+      setSession(true);
       useUpdateDJSession(user!, true, setUser);
     } else {
       setOpenModal(true);
@@ -41,6 +49,7 @@ const Header = () => {
 
   const handleModal = (status: boolean) => {
     if (status) {
+      setSession(false);
       useUpdateDJSession(user!, false, setUser);
       setOpenModal(false);
     } else {
@@ -89,7 +98,7 @@ const Header = () => {
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
-            <option value="system">System</option>
+            <option value="system">System &nbsp; &nbsp;</option>
           </select>
         </div>
 
@@ -104,7 +113,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  user?.session
+                  session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -152,7 +161,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  user?.session
+                  session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -221,7 +230,7 @@ const Header = () => {
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
-              <option value="system">System</option>
+              <option value="system">System &nbsp; &nbsp;</option>
             </select>
           </ul>
 

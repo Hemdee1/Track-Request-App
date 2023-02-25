@@ -67,7 +67,7 @@ const HomePage = () => {
 
   return (
     <>
-      <AnimatedBackground />
+      {/* <AnimatedBackground /> */}
       <section className="xl:w-[1200px] sm:w-3/4 w-[90%] mx-auto flex flex-wrap items-center xl:justify-between justify-center md:min-h-[76vh] h-auto z-[10] relative">
         <div className="xl:w-[45%] lg:[45%] w-[100%] lg:mt-[200px] mt-[150px]">
           <h1 className=" text-4xl text-slate-500">

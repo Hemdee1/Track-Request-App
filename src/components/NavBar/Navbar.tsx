@@ -58,7 +58,7 @@ export const Navbar = (): JSX.Element => {
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
-              <option value="system">System</option>
+              <option value="system">System &nbsp; &nbsp;</option>
             </select>
           </ul>
         </div>
@@ -177,7 +177,7 @@ export const Navbar = (): JSX.Element => {
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
-              <option value="system">System</option>
+              <option value="system">System &nbsp; &nbsp;</option>
             </select>
           </ul>
 

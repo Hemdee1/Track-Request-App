@@ -95,7 +95,7 @@ const Login = () => {
   }
 
   return (
-    <div className="mt-[120px] w-full min-h-[50vh]">
+    <div className="pt-[120px] w-full min-h-[50vh]">
       <form className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto">
         <h1 className=" text-2xl text-center my-10 font-medium">Club login</h1>
 

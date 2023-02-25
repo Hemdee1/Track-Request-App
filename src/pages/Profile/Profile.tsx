@@ -52,9 +52,9 @@ const Profile = () => {
 
   return (
     <main className="pb-20">
-      <div className="fixed left-0 top-0 w-full">
+      <div className="fixed left-0 top-0 w-full z-[2]">
         <Header />
-        <div className="w-full h-[82px] bg-[#61818E] z-[2]">
+        <div className="w-full h-[82px] bg-[#61818E]">
           <div className="w-[740px] px-6 mx-auto max-w-full h-full flex items-center justify-between">
             <div
               className="flex gap-2 items-center cursor-pointer"
@@ -92,7 +92,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <section className="w-[740px] max-w-full mx-auto px-6 mt-52 md:mt-72 font-Inter">
+      <section className="w-[740px] max-w-full mx-auto px-6 pt-52 md:pt-72 font-Inter">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex gap-5 items-center">
             {user?.photoURL && !(user?.photoURL instanceof File) ? (
@@ -102,11 +102,11 @@ const Profile = () => {
                 className="w-[90px] h-[90px] rounded-full object-cover"
               />
             ) : user ? (
-              <div className="h-[90px] w-[90px] bg-[#35CA8B] grid place-items-center font-semibold text-2xl text-white rounded-full">
+              <div className="h-[90px] w-[90px] bg-[#35CA8B] grid place-items-center font-semibold text-4xl text-white rounded-full">
                 {user?.clubName.slice(0, 1)}
               </div>
             ) : (
-              <div className="h-[90px] w-[90px] bg-[#35CA8B] animate-pulse -z-[1] grid place-items-center font-semibold text-2xl text-white rounded-full"></div>
+              <div className="h-[90px] w-[90px] bg-[#35CA8B] animate-pulse  grid place-items-center font-semibold text-2xl text-white rounded-full"></div>
             )}
 
             {user ? (
@@ -115,7 +115,7 @@ const Profile = () => {
                 <h5>{user?.email}</h5>
               </div>
             ) : (
-              <div className="-z-[1]">
+              <div className="">
                 <span className="w-[100px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse"></span>
                 <span className="w-[200px] mt-5 block max-w-full h-5 rounded-md bg-gray-200 animate-pulse"></span>
               </div>
@@ -134,7 +134,7 @@ const Profile = () => {
                 id="qrCode"
               />
             ) : (
-              <div className="w-[100px] mt-5 block max-w-full h-[100px] rounded-md bg-gray-200 animate-pulse -z-[1]"></div>
+              <div className="w-[100px] mt-5 block max-w-full h-[100px] rounded-md bg-gray-200 animate-pulse "></div>
             )}
           </div>
         </div>
@@ -148,7 +148,7 @@ const Profile = () => {
                 {user?.twitter}
               </span>
             ) : (
-              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse -z-[1]"></span>
+              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
             )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
@@ -159,7 +159,7 @@ const Profile = () => {
                 {user?.facebook}
               </span>
             ) : (
-              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse -z-[1]"></span>
+              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
             )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
@@ -170,7 +170,7 @@ const Profile = () => {
                 {user?.instagram}
               </span>
             ) : (
-              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse -z-[1]"></span>
+              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
             )}
           </article>
         </div>
@@ -178,7 +178,7 @@ const Profile = () => {
         <div className="flex justify-center items-center gap-10 mt-20">
           <Link
             to="/profile/edit"
-            className="px-7 py-2 bg-white rounded-md font-medium flex items-center gap-2 text-[#6B6B6B] border border-[#969696]"
+            className="px-7 py-2 rounded-md font-medium flex items-center gap-2 text-[#6B6B6B] border border-[#969696]"
           >
             Edit <FaPen />
           </Link>

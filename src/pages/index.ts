@@ -7,6 +7,7 @@ import UnavailableRequest from "./UnavailableRequest";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import Register from "./Register/Register";
+import About from "./About";
 
 export {
   TestingAPI,
@@ -18,4 +19,5 @@ export {
   Profile,
   EditProfile,
   Register,
+  About,
 };

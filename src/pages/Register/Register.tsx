@@ -97,8 +97,8 @@ const Register = () => {
   };
 
   return (
-    <div className="h-auto ">
-      <div className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto mt-[120px]">
+    <div className="h-auto">
+      <div className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto pt-[120px]">
         <h1 className="text-center mb-[41px] text-2xl font-medium">
           Club Register
         </h1>
@@ -114,7 +114,7 @@ const Register = () => {
               required
               value={fullName}
               autocomplete="off"
-              placeholder="FirstName LastName"
+              placeholder="Full Name"
               type="text"
             />
           </div>

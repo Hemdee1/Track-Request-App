@@ -11,6 +11,8 @@ export const setThemeUpdate = (theme: string) => {
     document.documentElement.classList.add("dark");
   } else {
     localStorage.removeItem("theme");
+    document.documentElement.classList?.remove("light");
+    document.documentElement.classList?.remove("dark");
 
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       document.documentElement.classList.add("dark");

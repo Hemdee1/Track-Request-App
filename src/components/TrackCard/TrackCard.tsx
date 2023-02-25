@@ -30,7 +30,9 @@ const TrackCard = (props: TrackCardProps): JSX.Element => {
         </div>
 
         <div className="details">
-          <p className="songTitle text-xs sm:text-sm">{props.title}</p>
+          <p className="songTitle text-xs sm:text-sm text-black dark:text-white">
+            {props.title}
+          </p>
           <p className="artistName text-stone-400 text-xs sm:text-base">
             {props.artist}
           </p>

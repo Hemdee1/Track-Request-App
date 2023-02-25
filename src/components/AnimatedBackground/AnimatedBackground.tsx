@@ -6,7 +6,7 @@ import "./animated.css";
 import { useEffect } from "react";
 const AnimatedBackground = (): JSX.Element => {
   return (
-    <div className="w-full h-full overflow-hidden -z-[1000] fixed">
+    <div className="w-full h-full overflow-hidden fixed">
       <div className="w-[900px] h-[900px] absolute -bottom-[350px] left-[20%]">
         <Glow1 />
       </div>

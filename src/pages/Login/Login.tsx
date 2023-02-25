@@ -104,7 +104,6 @@ const Login = () => {
   return (
     <div className="pt-[120px] w-full min-h-[50vh]">
       <form className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto">
-        {" "}
         <h1 className="font-bold text-2xl text-[#6B6B6B] text-center mb-10 uppercase">
           Club Login
         </h1>

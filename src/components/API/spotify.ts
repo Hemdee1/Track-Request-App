@@ -13,77 +13,66 @@ export const checkToken = () => {
   return null
 }
 
-export const generateToken = () => {
+
+export const getSpotifyToken = async ():Promise<string> => {
   // generate new token
-  let token
-  const authOptions = {
-    method:'post',
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      'Authorization': 'Basic ' + (new Buffer(Cid + ':' + CSec).toString('base64')),
-      'Content-Type' : 'application/x-www-form-urlencoded'
-    },
-    data: {
-      grant_type: 'client_credentials'
-    },
-    json: true
-  };
-  
-  axios(authOptions)
-  .then((response) => {
-    Logger('calling spotify api for Auth code...')
-    token = response?.data?.access_token;
-    localStorage.setItem('access_token', token);
-    Logger('New token generated ✅✅✅')
-  })
-  .catch((error) => console.log(error))
-  return token
-}
+  let token:string = '';
+  const Cid = "164f32a969034dadbb1219ae0ecc8c2f"
+  const CSec = "5356efc476ca4b5385d4042bc9011027"
+    // generate new token
+    const authOptions = {
+      method:'post',
+      url: 'https://accounts.spotify.com/api/token',
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(Cid + ':' + CSec).toString('base64')),
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      data: {
+        grant_type: 'client_credentials'
+      },
+      json: true
+    };
 
-
-export const getNewRelease = () => {
-  Logger('Starting Local storage check... ')
-  try{
-    const sotredNewRelease = localStorage.getItem('new_release') ?? null;
-    if(sotredNewRelease) return JSON.parse(sotredNewRelease);
-  }catch(err) {
-    Logger({checkError: err})
-  }
-  Logger('Local storage check passed ✅')
-
-  let storedToken = localStorage.getItem('access_token');
-  let accessToken, newRelease;
-  if(storedToken) {
-    accessToken = storedToken;
-  }
-  let authOptions = {
-    method: 'get',
-    maxBodyLength: Infinity,
-      url: 'https://api.spotify.com/v1/browse/new-releases',
-      headers: { 
-        'Authorization': 'Bearer ' + accessToken
-      }
-  }
-
-  axios(authOptions)
-  .then( (response)=> {
-    Logger('getting new release from spotify...')
-    Logger(response?.data?.albums?.items)
-    newRelease = JSON.stringify(response?.data?.albums?.items);
-    localStorage.setItem('new_release', newRelease);
-  })
-  .catch( (error) =>{
-    if(error.status === "401") {
-      Logger('Token expired...')
-      Logger('Generating new token...')
-      generateToken();
-      getNewRelease();
-      return
+    const activeToken = localStorage.getItem('access_token')
+    if(activeToken) {
+      Logger('Token found ✅✅✅')
+      return activeToken;
+    } else {
+      const response = await axios(authOptions)
+      localStorage.setItem('access_token', response?.data?.access_token);
+      Logger('New token generated 🚀🚀🚀');
+      return response?.data?.access_token;
     }
-    console.log(error)
-  })
-  return newRelease;
 }
+
+export const getSpotifyNewRelease = async (token:string) => {
+    const sotredNewRelease = localStorage.getItem('new_release');
+    if(sotredNewRelease) {
+      return JSON.parse(sotredNewRelease)
+    } else {
+          let authOptions = {
+            method: 'get',
+            maxBodyLength: Infinity,
+              url: 'https://api.spotify.com/v1/browse/new-releases',
+              headers: { 
+                'Authorization': 'Bearer ' + token
+              }
+          }
+        try{
+          const nr = await axios(authOptions)
+          if(nr.status === 200){
+            const newRelease = nr.data.albums.items
+            localStorage.setItem('new_release', JSON.stringify(newRelease));
+            return newRelease;
+          }
+        }catch(error){
+          console.log(error)
+        }
+    }
+
+ 
+}
+
 
 let searchedtracks:any[];
 export const searchTracks = (search: string) => {
@@ -91,7 +80,7 @@ export const searchTracks = (search: string) => {
   if(!search) return 
   if(checkToken()) {token = checkToken()}
   else {
-    token = generateToken()
+    token = getSpotifyToken()
   };
 
   const options = {
@@ -119,12 +108,11 @@ export const searchTracks = (search: string) => {
     })
 
     searchedtracks = sorted;
-
   })
   .catch( (error) => {
     console.log(error.response.status)
     if(error.response.status === 401){
-      generateToken();
+      getSpotifyToken();
       searchTracks(search);
     }
   })

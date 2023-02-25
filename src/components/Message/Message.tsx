@@ -9,7 +9,7 @@ const Message = ({ image, text }: MessageProp) => {
       <img
         src={image}
         alt="img"
-        className="object-contain w-[80px] h-[80px] mb-[46px]"
+        className="object-contain w-[80px] h-[80px] mb-[46px] dark:invert"
       />
 
       <p className="font-Inter text-[#9F9F9F] w-[304px]">{text}</p>

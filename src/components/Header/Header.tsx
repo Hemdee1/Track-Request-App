@@ -12,11 +12,18 @@ import {
 import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
 const Header = () => {
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
+  const [session, setSession] = useState<Boolean | null>(null);
 
   useEffect(() => {
     useAuthChange(setUser);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setSession(user?.session);
+    }
+  }, [user]);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -33,6 +40,7 @@ const Header = () => {
 
   const handleSession = () => {
     if (!user?.session) {
+      setSession(true);
       useUpdateDJSession(user!, true, setUser);
     } else {
       setOpenModal(true);
@@ -41,6 +49,7 @@ const Header = () => {
 
   const handleModal = (status: boolean) => {
     if (status) {
+      setSession(false);
       useUpdateDJSession(user!, false, setUser);
       setOpenModal(false);
     } else {
@@ -52,7 +61,7 @@ const Header = () => {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="w-full h-[80px] lg:h-[124px] flex items-center bg-white font-Inter">
+    <header className="w-full h-[80px] lg:h-[124px] flex items-center bg-white text-black dark:bg-black dark:text-white font-Inter">
       <div className="w-[1248px] max-w-full mx-auto justify-between items-center gap-8 px-6 hidden lg:flex">
         <div className="flex items-center gap-8">
           <Link to="/">
@@ -83,13 +92,13 @@ const Header = () => {
             Public page
           </NavLink>
           <select
-            className="px-4 py-1 shadow bg-gray-100 shadow-gray-400 rounded-md"
+            className="px-4 py-1 shadow bg-gray-100 dark:bg-black shadow-gray-400 rounded-md"
             value={theme}
             onChange={handleThemeChange}
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
-            <option value="system">System</option>
+            <option value="system">System &nbsp; &nbsp;</option>
           </select>
         </div>
 
@@ -104,7 +113,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  user?.session
+                  session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -114,7 +123,7 @@ const Header = () => {
 
           <span className="flex gap-6 items-center">
             {user ? (
-              <h5 className="text-[#6B6B6B] min-w-[120px] font-Inter font-medium capitalize">
+              <h5 className="text-[#6B6B6B] text-right min-w-[70px] font-Inter font-medium capitalize">
                 {user?.clubName}
               </h5>
             ) : (
@@ -140,7 +149,7 @@ const Header = () => {
 
       {/* Mobile navigation */}
       <section className="lg:hidden flex items-center w-full h-full z-20">
-        <div className="mobile-menue-top w-full px-4 flex mx-auto items-center justify-between bg-white">
+        <div className="mobile-menue-top w-full px-4 flex mx-auto items-center justify-between bg-white text-black dark:bg-black dark:text-white">
           <Link to="/" onClick={closeMenu}>
             <LogoIcon />
           </Link>
@@ -152,7 +161,7 @@ const Header = () => {
             >
               <span
                 className={`h-5 w-5 rounded-[27px] block transition-all duration-500 ${
-                  user?.session
+                  session
                     ? "translate-x-4 bg-[#35CA8B]"
                     : "translate-x-0 bg-gray-400"
                 }`}
@@ -179,7 +188,7 @@ const Header = () => {
         </div>
 
         <div
-          className={`fixed left-0 top-[80px] h-full w-full bg-white ${
+          className={`fixed left-0 top-[80px] h-full w-full bg-white text-black dark:bg-black dark:text-white ${
             isOpen
               ? "translate-x-[0%] h-[calc(100vh-100px)]"
               : "-translate-x-[100%] h-auto"
@@ -215,17 +224,17 @@ const Header = () => {
             </li>
             <span className=" font-medium ml-7">Theme:</span>
             <select
-              className="px-6 py-2 shadow bg-gray-100 shadow-gray-400 rounded-md m-7"
+              className="px-6 py-2 shadow bg-gray-100 dark:bg-black shadow-gray-400 rounded-md m-7"
               value={theme}
               onChange={handleThemeChange}
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
-              <option value="system">System</option>
+              <option value="system">System &nbsp; &nbsp;</option>
             </select>
           </ul>
 
-          <p className="copyright text-slate-400 w-full text-center absolute bottom-10">
+          <p className="copyright text-slate-400 w-full text-center absolute bottom-32">
             © copyright mxrequest 2023
           </p>
         </div>
@@ -233,7 +242,7 @@ const Header = () => {
 
       {/* NOTICE MODAL */}
       <div
-        className={`w-[280px] sm:w-[400px] bg-white px-6 sm:px-14 py-6 sm:py-10 flex flex-col gap-4 sm:gap-8 font-Inter absolute right-3 z-20 shadow-md shadow-gray-300 rounded-xl transition-all duration-500 ${
+        className={`w-[280px] sm:w-[400px] bg-white text-black dark:bg-black dark:text-white px-6 sm:px-14 py-6 sm:py-10 flex flex-col gap-4 sm:gap-8 font-Inter absolute right-3 z-20 shadow-md shadow-gray-300 dark:shadow-gray-800 rounded-xl transition-all duration-500 ${
           openModal
             ? "visible opacity-100  top-16 sm:top-24"
             : "invisible opacity-0 top-10"

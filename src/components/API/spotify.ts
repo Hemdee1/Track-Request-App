@@ -1,17 +1,17 @@
-import axios from 'axios';
-import { Buffer } from 'buffer';
-import { Logger } from '../../utils';
+import axios from "axios";
+import { Buffer } from "buffer";
+import { Logger } from "../../utils";
 
-const baseURL = "https://api.spotify.com"
-const Cid = "164f32a969034dadbb1219ae0ecc8c2f"
-const CSec = "5356efc476ca4b5385d4042bc9011027"
+const baseURL = "https://api.spotify.com";
+const Cid = "164f32a969034dadbb1219ae0ecc8c2f";
+const CSec = "5356efc476ca4b5385d4042bc9011027";
 
 export const checkToken = () => {
   // check if an active token exist
-  const activeToken = localStorage.getItem('access_token') ?? null
-  if(activeToken) return activeToken;
-  return null
-}
+  const activeToken = localStorage.getItem("access_token") ?? null;
+  if (activeToken) return activeToken;
+  return null;
+};
 
 
 export const getSpotifyToken = async ():Promise<string> => {
@@ -74,7 +74,7 @@ export const getSpotifyNewRelease = async (token:string) => {
 }
 
 
-let searchedtracks:any[];
+let searchedtracks: any[];
 export const searchTracks = (search: string) => {
   let token;
   if(!search) return 
@@ -84,28 +84,30 @@ export const searchTracks = (search: string) => {
   };
 
   const options = {
-    method: 'get',
+    method: "get",
     maxBodyLength: Infinity,
-    url: baseURL+'/v1/search?type=track&q='+search,
-    headers : {
-      'Authorization' : 'Bearer '+token,
-      'Content-Type': 'application/json'
+    url: baseURL + "/v1/search?type=track&q=" + search,
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
     },
-  }
+  };
 
   axios(options)
-  .then( (response) => {
-    let sorted:any[] = [];
-    let i = response?.data?.tracks?.items;
+    .then((response) => {
+      let sorted: any[] = [];
+      let i = response?.data?.tracks?.items;
 
-    i.map( (item:any) => {
-      const cover = item?.album?.images[1].url;
-      const artists = item?.album?.artists.map((artist:any) => {
-         return artist.name
-      }).join(', ');
-      const trackname = item?.name;
-      sorted = [...sorted, {cover, artists, trackname}]
-    })
+      i.map((item: any) => {
+        const cover = item?.album?.images[1].url;
+        const artists = item?.album?.artists
+          .map((artist: any) => {
+            return artist.name;
+          })
+          .join(", ");
+        const trackname = item?.name;
+        sorted = [...sorted, { cover, artists, trackname }];
+      });
 
     searchedtracks = sorted;
   })
@@ -117,4 +119,4 @@ export const searchTracks = (search: string) => {
     }
   })
   return searchedtracks;
-}
+};

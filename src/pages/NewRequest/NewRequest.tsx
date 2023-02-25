@@ -25,7 +25,7 @@ const music = {
 const allMusic = [music, music, music, music, music, music];
 
 const NewRequest = () => {
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
   const [datas, setDatas] = useState<MusicType[] | undefined>([]);
   const [FilterDatas, setFilterDatas] = useState<MusicType[] | undefined>();
 

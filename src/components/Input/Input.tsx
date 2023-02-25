@@ -30,14 +30,14 @@ const Input = (props: InputFieldProps) => {
     >
       <label
         htmlFor={props.name}
-        className="font-normal mb-2 block text-black font-Inter"
+        className="font-normal mb-2 block text-[#6B6B6B] font-Inter"
       >
         {props.label}
       </label>
 
       <input
         className={
-          "border border-gray-300 placeholder-[#B4B4B4] rounded py-4 pl-7 w-full"
+          "border border-gray-300 bg-transparent placeholder-[#B4B4B4] rounded py-4 pl-7 w-full"
         }
         id={props.name}
         name={props.name}

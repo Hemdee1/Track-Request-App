@@ -69,7 +69,7 @@ export const useGetRequest = async (
   const colRef = collection(db, "clubs", "document", collectionName);
 
   const q = query(colRef, orderBy("time", "desc"));
-  console.log("getting realtime collection of data");
+  // console.log("getting realtime collection of data");
 
   try {
     onSnapshot(q, (snap) => {
@@ -220,7 +220,7 @@ export const useLogout = async () => {
 
 // SUBSCRIBING TO AUTH STATE CHANGE
 export const useAuthChange = async (
-  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined>>
+  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined | null>>
 ) => {
   onAuthStateChanged(auth, async (user) => {
     // get user profile data
@@ -240,7 +240,7 @@ export const useAuthChange = async (
 
           setDatas({ ...(doc.data() as UserType), id: doc.id });
         } else {
-          setDatas(undefined);
+          setDatas(null);
         }
       }, 2000);
     } catch (error) {
@@ -312,11 +312,31 @@ export const useUpdateProfile = async (
   }
 };
 
+// get CLUB PROFILE
+export const useGetClubProfile = async (
+  collectionName: string,
+  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined | null>>
+) => {
+  const colRef = collection(db, "profile", "document", collectionName);
+
+  try {
+    onSnapshot(colRef, (snap) => {
+      const clubs = snap.docs.map((doc) => {
+        return { ...(doc.data() as UserType), id: doc.id };
+      });
+
+      setDatas(clubs[0]);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Update the session of DJ
 export const useUpdateDJSession = async (
   value: UserType,
   session: boolean,
-  setUser: React.Dispatch<React.SetStateAction<UserType | undefined>>
+  setUser: React.Dispatch<React.SetStateAction<UserType | undefined | null>>
 ) => {
   const docRef = doc(db, "profile", "document", value.email, value.id);
 

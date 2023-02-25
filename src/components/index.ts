@@ -12,6 +12,7 @@ import MusicPlayedBox from "./MusicPlayedBox";
 import MusicNewBox from "./MusicNewBox";
 import MusicQueuedBox from "./MusicQueuedBox";
 import MusicUnavailableBox from "./MusicUnavailableBox";
+import AutoLoginLoading from "./AutoLoginLoading";
 
 export {
   Input,
@@ -28,4 +29,5 @@ export {
   MusicNewBox,
   MusicQueuedBox,
   MusicUnavailableBox,
+  AutoLoginLoading,
 };

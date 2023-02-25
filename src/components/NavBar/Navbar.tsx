@@ -21,7 +21,7 @@ export const Navbar = (): JSX.Element => {
   };
 
   return (
-    <nav className=" lg:h-[100px] flex items-center justify-center overflow-x-hidden fixed bg-white z-[1000] w-full top-0">
+    <nav className="bg-white text-black dark:bg-black dark:text-white lg:h-[100px] flex items-center justify-center overflow-x-hidden fixed z-[1000] w-full top-0">
       <div
         className={`navbarContent ${widthSetter} items-center justify-between lg:flex  hidden`}
       >
@@ -52,13 +52,13 @@ export const Navbar = (): JSX.Element => {
               </NavLink>
             </li>
             <select
-              className="px-4 py-1 shadow bg-gray-100 shadow-gray-400 rounded-md"
+              className="px-4 py-1 shadow bg-gray-100 dark:bg-black shadow-gray-400 rounded-md"
               value={theme}
               onChange={handleThemeChange}
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
-              <option value="system">System</option>
+              <option value="system">System &nbsp; &nbsp;</option>
             </select>
           </ul>
         </div>
@@ -88,8 +88,8 @@ export const Navbar = (): JSX.Element => {
       </div>
 
       {/* Mobile navigation */}
-      <section className="mobile-menue lg:hidden flex flex-col w-full z-[1000] h-aut bg-white">
-        <div className="mobile-menue-top w-full px-[2%] fixed flex mx-auto items-center justify-between h-[100px] bg-white">
+      <section className="mobile-menue lg:hidden flex flex-col w-full z-[1000]">
+        <div className="mobile-menue-top w-full px-[2%] fixed flex mx-auto items-center justify-between h-[100px] bg-white text-black dark:bg-black dark:text-white">
           <Link to="/" className="brand" onClick={closeMenu}>
             <LogoIcon />
           </Link>
@@ -109,7 +109,7 @@ export const Navbar = (): JSX.Element => {
         </div>
 
         <div
-          className={`menu-items  fixed left-0 top-[100px] w-full bg-white ${
+          className={`menu-items  fixed left-0 top-[100px] w-full bg-white text-black dark:bg-black dark:text-white ${
             isOpen
               ? "translate-x-[0%] h-[calc(100vh-100px)]"
               : "-translate-x-[100%] h-auto"
@@ -171,13 +171,13 @@ export const Navbar = (): JSX.Element => {
             </li>
             <span className=" font-medium ml-7">Theme:</span>
             <select
-              className="px-6 py-2 shadow bg-gray-100 shadow-gray-400 rounded-md  m-7"
+              className="px-6 py-2 shadow bg-gray-100 dark:bg-black shadow-gray-400 rounded-md  m-7"
               value={theme}
               onChange={handleThemeChange}
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
-              <option value="system">System</option>
+              <option value="system">System &nbsp; &nbsp;</option>
             </select>
           </ul>
 

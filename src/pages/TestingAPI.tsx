@@ -29,7 +29,7 @@ const TestingAPI = () => {
 
   const [img, setImg] = useState<File>();
 
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
 
   const [datas, setDatas] = useState<MusicType[]>();
   const [newDatas, setNewDatas] = useState<MusicType[]>();

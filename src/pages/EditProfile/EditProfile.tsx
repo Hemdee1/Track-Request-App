@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const EditProfile = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
   const [img, setImg] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -46,9 +46,12 @@ const EditProfile = () => {
       <div className="w-full fixed left-0 top-0 z-10">
         <Header />
       </div>
-      <div className="mt-40 w-[640px] px-6 mx-auto max-w-full font-Inter">
+      <div className="pt-40 w-[640px] px-6 mx-auto max-w-full font-Inter">
+        <h1 className="font-bold text-2xl text-[#6B6B6B] text-center mb-10 uppercase">
+          Update Your Profile
+        </h1>
         <div className="w-full flex flex-col justify-center items-center">
-          {/* THREE STATE FOR THE IMAGE */}
+          {/* FOUR STATE FOR THE IMAGE */}
           <div className="relative overflow-hidden">
             {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
@@ -101,7 +104,7 @@ const EditProfile = () => {
                   user ? setUser({ ...user, email: e.target.value }) : null
                 }
                 disabled
-                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+                className="w-full px-6 py-3 border-2 border-[#b5c2c780] bg-gray-300 dark:bg-gray-600 rounded-md"
               />
             ) : (
               <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
@@ -125,7 +128,7 @@ const EditProfile = () => {
                 onChange={(e) =>
                   user ? setUser({ ...user, fullName: e.target.value }) : null
                 }
-                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+                className="w-full px-6 py-3 border-2 border-[#b5c2c780] bg-white dark:bg-black rounded-md"
               />
             ) : (
               <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
@@ -146,7 +149,7 @@ const EditProfile = () => {
                 onChange={(e) =>
                   user ? setUser({ ...user, clubName: e.target.value }) : null
                 }
-                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+                className="w-full px-6 py-3 border-2 border-[#b5c2c780] bg-white dark:bg-black rounded-md"
               />
             ) : (
               <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
@@ -167,7 +170,7 @@ const EditProfile = () => {
                 onChange={(e) =>
                   user ? setUser({ ...user, facebook: e.target.value }) : null
                 }
-                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+                className="w-full px-6 py-3 border-2 border-[#b5c2c780] bg-white dark:bg-black rounded-md"
               />
             ) : (
               <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
@@ -188,7 +191,7 @@ const EditProfile = () => {
                 onChange={(e) =>
                   user ? setUser({ ...user, twitter: e.target.value }) : null
                 }
-                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+                className="w-full px-6 py-3 border-2 border-[#b5c2c780] bg-white dark:bg-black rounded-md"
               />
             ) : (
               <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
@@ -209,7 +212,7 @@ const EditProfile = () => {
                 onChange={(e) =>
                   user ? setUser({ ...user, instagram: e.target.value }) : null
                 }
-                className="w-full px-6 py-3 bg-[#b5c2c780] rounded-md"
+                className="w-full px-6 py-3 border-2 border-[#b5c2c780] bg-white dark:bg-black rounded-md"
               />
             ) : (
               <div className="w-full max-w-full h-12 rounded-md bg-gray-200 animate-pulse"></div>
@@ -222,7 +225,7 @@ const EditProfile = () => {
         Label="Submit"
         type="primary"
         altText="button"
-        className="mx-auto font-medium text-xl"
+        className="mx-auto font-medium text-xl mt-10"
         isLoading={loading}
         onClick={handleSubmit}
       />

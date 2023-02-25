@@ -1,5 +1,5 @@
 import React, { FormEvent, useState, useEffect } from "react";
-import { Button, Input } from "../../components";
+import { AutoLoginLoading, Button, Input } from "../../components";
 import Radio from "../../components/Radio";
 import GoogleIcon from "../../assets/google.svg";
 import {
@@ -21,7 +21,8 @@ const Login = () => {
     setPassword(newValue);
   };
 
-  const [getUser, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
+  const [autoLoginLoading, setAutoLoginLoading] = useState(true);
 
   useEffect(() => {
     useAuthChange(setUser);
@@ -44,9 +45,12 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(getUser);
-    if (getUser) navigate("/profile");
-  }, [getUser]);
+    if (user) {
+      navigate("/profile");
+    } else if (user === null) {
+      setAutoLoginLoading(false);
+    }
+  }, [user]);
 
   const LoginAction = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -79,7 +83,7 @@ const Login = () => {
         setErrors({
           type: "failed",
           status: false,
-          message: error?.toString() + " or password",
+          message: error,
         });
       CloseError(true);
       Logger(error);
@@ -94,11 +98,15 @@ const Login = () => {
     }, 3000);
   }
 
+  if (autoLoginLoading) {
+    return <AutoLoginLoading />;
+  }
   return (
-    <div className="mt-[120px] w-full min-h-[50vh]">
+    <div className="pt-[120px] w-full min-h-[50vh]">
       <form className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto">
-        <h1 className=" text-2xl text-center my-10 font-medium">Club login</h1>
-
+        <h1 className="font-bold text-2xl text-[#6B6B6B] text-center mb-10 uppercase">
+          Club Login
+        </h1>
         <Alert {...getErrors} func={CloseError} />
         <div className="mb-4">
           <Input
@@ -106,13 +114,12 @@ const Login = () => {
             name="email"
             type="email"
             value={email}
-            placeholder="enter emaiil"
+            placeholder="enter email"
             onChange={handleEmailChange}
             autocomplete="off"
             required
           />
         </div>
-
         <div className="mb-4">
           <Input
             label="Password"
@@ -125,7 +132,6 @@ const Login = () => {
             required
           />
         </div>
-
         <Radio
           label={"keep me signed in"}
           name={"rememberme"}
@@ -139,13 +145,11 @@ const Login = () => {
           onClick={LoginAction}
           isLoading={isButtonLoading}
         />
-
         <div className="flex items-center my-[25px]">
           <hr className="flex-[0.5]" />
           <span className="mx-[31.5px]">OR</span>
           <hr className="flex-[0.5]" />
         </div>
-
         <Button
           Label="Sign in with Google"
           setIcon={GoogleIcon}

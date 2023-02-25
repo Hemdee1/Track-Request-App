@@ -70,6 +70,8 @@ const Clubpage = () => {
   const [datas, setDatas] = useState<MusicType[]>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[]>();
 
+  const [filterMusic, setFilterMusic] = useState<typeof musicList>([]);
+
   const [wrongLInk, setWrongLInk] = useState(false);
 
   const { pathname } = useLocation();
@@ -102,6 +104,14 @@ const Clubpage = () => {
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
+
+    const filter = musicList.filter(
+      (music) =>
+        music.artist.toLowerCase().includes(search) ||
+        music.title.toLowerCase().includes(search)
+    );
+
+    setFilterMusic(filter);
   };
 
   const selectMusic = () => {};
@@ -228,14 +238,14 @@ const Clubpage = () => {
 
           {/* results */}
           {search.length > 0 ? (
-            <section
-              className="z-[500] h-[300px] w-full absolute overflow-y-scroll shadow-lg p-3 sm:p-10 rounded-xl border-[1px] border-gray-300
-            "
-            >
+            <section className="z-[500] h-[300px] absolute right-0 md:right-14 left-0 overflow-y-scroll shadow-md p-3 sm:p-10 rounded-xl shadow-gray-600 backdrop-blur-lg">
               <div>
-                {getTracks.map((item, index): JSX.Element => {
+                {filterMusic.map((item, index): JSX.Element => {
                   return (
-                    <div className="flex min-w-full overflow-x-hidden my-2">
+                    <div
+                      key={index}
+                      className="flex min-w-full overflow-x-hidden my-4"
+                    >
                       <span
                         onClick={() => selectMusic()}
                         className={` cursor-pointer ${
@@ -248,9 +258,9 @@ const Clubpage = () => {
                           key={index}
                           isResult={true}
                           cover={item.cover}
-                          title={item.trackname}
-                          artist={item.artists}
-                          className="rounded-lg hover:border-[var(--primary-color)] hover:border-2"
+                          title={item.title}
+                          artist={item.artist}
+                          className="rounded-lg bg-slate-100 dark:bg-gray-900 hover:border-[var(--primary-color)] hover:border-2"
                         />{" "}
                       </span>
                     </div>
@@ -267,12 +277,11 @@ const Clubpage = () => {
         {/* request list */}
         <div className="w-[96%] mx-auto md:w-[40%] md:mt-0 mt-10 md:border-l-[1px] border-slate-200 md:pl-10">
           <div className="flex items-center justify-between">
-            {" "}
-            <p>Requests</p>{" "}
+            <p>Requests</p>
             <Tag content={`${numOfTracks} / ${max}`} isFilled={false} />
           </div>
 
-          <div className="w-full mt-10 md:max-h-[50vh] md:overflow-y-scroll overflow-x-hidden">
+          <div className="w-full mt-10 md:max-h-[70vh] md:overflow-y-scroll overflow-x-hidden">
             {FilterDatas && FilterDatas?.length > 0 ? (
               FilterDatas?.map((data, index) => {
                 return (

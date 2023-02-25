@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Input } from "../../components";
+import { AutoLoginLoading, Button, Input } from "../../components";
 import GoogleIcon from "../../assets/google.svg";
 import {
   useAuthChange,
@@ -20,7 +20,8 @@ const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
+  const [autoLoginLoading, setAutoLoginLoading] = useState(true);
 
   useEffect(() => {
     useAuthChange(setUser);
@@ -29,8 +30,9 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setLoading(false);
-      navigate("/profile");
-      // navigate(`/cp/${user?.clubName}`);
+      navigate("/profile/edit");
+    } else if (user === null) {
+      setAutoLoginLoading(false);
     }
   }, [user]);
 
@@ -90,16 +92,20 @@ const Register = () => {
         setErrors({
           type: "failed",
           status: false,
-          message: error?.toString() + " or password",
+          message: error,
         });
       CloseError(true);
     }
   };
 
+  if (autoLoginLoading) {
+    return <AutoLoginLoading />;
+  }
+
   return (
     <div className="h-auto">
       <div className="w-[450px] max-w-full px-[5%] sm:px-[0px] mx-auto pt-[120px]">
-        <h1 className="text-center mb-[41px] text-2xl font-medium">
+        <h1 className="font-bold text-2xl text-[#6B6B6B] text-center mb-10 uppercase">
           Club Register
         </h1>
 

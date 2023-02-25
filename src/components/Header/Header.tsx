@@ -12,7 +12,7 @@ import {
 import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
 const Header = () => {
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
 
   useEffect(() => {
     useAuthChange(setUser);

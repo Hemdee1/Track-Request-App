@@ -13,7 +13,7 @@ const url = import.meta.env.PROD
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
   const [openCopy, setOpenCopy] = useState(false);
 
   useEffect(() => {

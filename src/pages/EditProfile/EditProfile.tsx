@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const EditProfile = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null>();
   const [img, setImg] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -47,6 +47,9 @@ const EditProfile = () => {
         <Header />
       </div>
       <div className="pt-40 w-[640px] px-6 mx-auto max-w-full font-Inter">
+        <h1 className="font-bold text-2xl text-[#6B6B6B] text-center mb-10 uppercase">
+          Update Your Profile
+        </h1>
         <div className="w-full flex flex-col justify-center items-center">
           {/* FOUR STATE FOR THE IMAGE */}
           <div className="relative overflow-hidden">

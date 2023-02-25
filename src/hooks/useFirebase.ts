@@ -220,7 +220,7 @@ export const useLogout = async () => {
 
 // SUBSCRIBING TO AUTH STATE CHANGE
 export const useAuthChange = async (
-  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined>>
+  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined | null>>
 ) => {
   onAuthStateChanged(auth, async (user) => {
     // get user profile data
@@ -240,7 +240,7 @@ export const useAuthChange = async (
 
           setDatas({ ...(doc.data() as UserType), id: doc.id });
         } else {
-          setDatas(undefined);
+          setDatas(null);
         }
       }, 2000);
     } catch (error) {

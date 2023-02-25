@@ -66,7 +66,7 @@ const Clubpage = () => {
   // const [mins, setMins] = useState(0);
   // const [secs, setSecs] = useState(0);
   const [canRequest, setCanRequest] = useState<boolean>(true);
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<UserType | null | undefined>(null);
   const [datas, setDatas] = useState<MusicType[]>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[]>();
 
@@ -80,6 +80,7 @@ const Clubpage = () => {
 
     try {
       const email = atob(url[url.length - 1]);
+
       useGetClubProfile(email, setUser);
     } catch (error) {
       setWrongLInk(true);
@@ -106,12 +107,12 @@ const Clubpage = () => {
   const selectMusic = () => {};
 
   // IF THE LINK IS INCORRECT, SHOW ERROR PAGE
-  if (wrongLInk) {
+  if (user === undefined || wrongLInk) {
     return (
-      <div className="w-full min-h-screen pt-[80px] bg-white dark:bg-black dark:text-white text-black bg-opacity-10 backdrop-blur-lg grid place-items-center px-6">
+      <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center px-6">
         <div className="flex flex-col gap-6 items-center">
-          <img src="/failed.ico" alt="failed image" className="w-32" />
-          <h1 className="font-medium text-xl text-center">
+          <img src="/failed.ico" alt="failed image" className="w-20" />
+          <h1 className="font-medium text-center">
             OOPS!!! <br /> The link you entered is Incorrect <br /> Or the Club
             Profile has been deleted
           </h1>
@@ -123,12 +124,12 @@ const Clubpage = () => {
   // IF THERE IS NO USER, SHOW LOADING PAGE
   if (!user)
     return (
-      <div className="w-full min-h-screen pt-[80px] bg-white dark:bg-black dark:text-white text-black bg-opacity-10 backdrop-blur-lg grid place-items-center">
+      <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center">
         <div className="flex flex-col gap-6 items-center">
+          <span className="loader"></span>
           <h1 className="font-medium text-center">
             Fetching Club Profile, <br /> Wait a moment....
           </h1>
-          <span className="loader"></span>
         </div>
       </div>
     );
@@ -228,7 +229,7 @@ const Clubpage = () => {
           {/* results */}
           {search.length > 0 ? (
             <section
-              className="z-[500] h-[300px] w-full absolute overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px] border-gray-300
+              className="z-[500] h-[300px] w-full absolute overflow-y-scroll shadow-lg p-3 sm:p-10 rounded-xl border-[1px] border-gray-300
             "
             >
               <div>

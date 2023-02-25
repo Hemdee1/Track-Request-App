@@ -7,18 +7,26 @@ import { useAuthChange, useLogout, UserType } from "../../hooks/useFirebase";
 import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 
-const url = import.meta.env.PROD
-  ? "https://mxrequest-app.netlify.app/cp/"
-  : "http://localhost:5173/cp/";
-
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserType | null>();
+  const [url, setUrl] = useState("");
   const [openCopy, setOpenCopy] = useState(false);
 
   useEffect(() => {
     useAuthChange(setUser);
   }, []);
+
+  useEffect(() => {
+    const url = import.meta.env.PROD
+      ? "https://mxrequest-app.netlify.app/cp/"
+      : "http://localhost:5173/cp/";
+
+    if (user) {
+      const encode = btoa(user?.email!);
+      setUrl(url + encode.slice(0, encode.length - 1));
+    }
+  }, [user]);
 
   const handleLogout = async () => {
     await useLogout();
@@ -41,13 +49,13 @@ const Profile = () => {
   };
 
   const copyURL = () => {
-    navigator.clipboard.writeText(url + btoa(user?.email!));
+    navigator.clipboard.writeText(url);
 
     setOpenCopy(true);
 
     setTimeout(() => {
       setOpenCopy(false);
-    }, 10000);
+    }, 3000);
   };
 
   return (
@@ -72,7 +80,7 @@ const Profile = () => {
               </button>
               {user ? (
                 <span className="text-white text-sm sm:text-base font-medium pr-5 dm:pr-10 break-all">
-                  {url + btoa(user?.email)}
+                  {url}
                 </span>
               ) : (
                 <span className="w-[200px] sm:w-[400px] max-w-full h-8 rounded-md bg-gray-200 animate-pulse"></span>
@@ -130,7 +138,7 @@ const Profile = () => {
             /> */}
             {user ? (
               <QRCodeCanvas
-                value={url + btoa(user?.email)}
+                value={url}
                 includeMargin
                 className="w-full h-full"
                 id="qrCode"

@@ -37,7 +37,7 @@ const Input = (props: InputFieldProps) => {
 
       <input
         className={
-          "border border-gray-300 bg-white dark:bg-black placeholder-[#B4B4B4] rounded py-4 pl-7 w-full"
+          "border border-gray-300 bg-transparent placeholder-[#B4B4B4] rounded py-4 pl-7 w-full"
         }
         id={props.name}
         name={props.name}

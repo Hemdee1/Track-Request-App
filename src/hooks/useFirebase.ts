@@ -315,7 +315,7 @@ export const useUpdateProfile = async (
 // get CLUB PROFILE
 export const useGetClubProfile = async (
   collectionName: string,
-  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined>>
+  setDatas: React.Dispatch<React.SetStateAction<UserType | undefined | null>>
 ) => {
   const colRef = collection(db, "profile", "document", collectionName);
 

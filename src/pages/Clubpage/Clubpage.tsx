@@ -8,7 +8,10 @@ import { Input, Message } from "../../components";
 import ClubInfoCard from "../../components/ClubInfoCard";
 import Image from "../../assets/Images/emptyy.png";
 import Photo from "../../assets/Images/album-cover.png";
-import { searchSpotifyTracks, getSpotifyToken } from '../../components/API/spotify';
+import {
+  searchSpotifyTracks,
+  getSpotifyToken,
+} from "../../components/API/spotify";
 import { Logger } from "../../utils";
 import Alert, { AlertProps } from "../../components/Alert/Alert";
 import {
@@ -19,7 +22,7 @@ import {
 } from "../../hooks/useFirebase";
 import { useLocation } from "react-router";
 import { musicList } from "../../hooks/offlineFile";
-import { useRequestMusic } from '../../hooks/useFirebase';
+import { useRequestMusic } from "../../hooks/useFirebase";
 
 export interface TrackInterface {
   cover: string;
@@ -52,7 +55,9 @@ const Clubpage = () => {
   const [limitReached, setLimitReached] = useState<boolean>(false);
   const [numOfTracks, setNumOfTracks] = useState<number>(0);
   const [max, setMax] = useState<number>(10);
-  const [requestedTracks, setRequestedTracks] = useState<RequestedTracksProps[]>([])
+  const [requestedTracks, setRequestedTracks] = useState<
+    RequestedTracksProps[]
+  >([]);
   const [getErrors, setErrors] = useState<AlertProps>({
     type: "warning",
     status: true,
@@ -72,8 +77,7 @@ const Clubpage = () => {
   const [datas, setDatas] = useState<MusicType[]>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[]>();
 
-
-  const [filterMusic, setFilterMusic] = useState<typeof musicList>([]);
+  const [networkError, setNetworkError] = useState(false);
   const [wrongLInk, setWrongLInk] = useState(false);
   const { pathname } = useLocation();
 
@@ -91,77 +95,123 @@ const Clubpage = () => {
     if (user) {
       useGetRequest(user.email, setDatas);
       // useGetRequest("DJ YK", setDatas);
-    
     }
   }, [user]);
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("mxrequest_id")!);
     setFilterDatas(datas?.filter((data) => data.user_id === id));
-    console.log({datas})
+    console.log({ datas });
   }, [datas]);
-
-
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
     // GETTING TRACKS FROM SPOTIFY
-    (async ()=> {
-      const trks = await searchSpotifyTracks(value);
-      console.log({tracksss: trks})
-      if(trks) setTracks(trks)
-    })()
-    
+    (async () => {
+      try {
+        const trks = await searchSpotifyTracks(value);
+        console.log({ tracksss: trks });
+        if (trks) setTracks(trks);
+      } catch (error: any) {
+        if (error.code === "ERR_CANCELED") {
+          setNetworkError(true);
+        }
+      }
+    })();
   };
-  const userSelectioin = (index:number) => {
-    setCurrSelect(index)
-  } 
+  const userSelectioin = (index: number) => {
+    setCurrSelect(index);
+  };
 
-  const confirmSelection = (item:TrackInterface) => {
-    if(limitReached) return;
-    const options = {
-        title: item.trackname,
-        artist: item.artists,
-        cover: item.cover,
-    }
-    useRequestMusic(user?.email!, options)
-    let rq:RequestedTracksProps[] = [...requestedTracks, {...item, status:'queued' }]
-    localStorage.setItem('requested_tracks', JSON.stringify(rq))
-    setCurrSelect(undefined)
-    setSearch('')
-    if(numOfTracks < max) setNumOfTracks(numOfTracks + 1)
-    setRequestedTracks([...rq])
+  const [lockInput, setLockInput] = useState(false);
 
+  function millisToMinutesAndSeconds(millis: number) {
+    const minutes = Math.floor(millis / 60000);
+    const seconds = +((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   }
 
+  // FOR COUNTDOWN TIMER
+  const countdownTimer = (then: number) => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = then - now;
+
+      const value = millisToMinutesAndSeconds(diff);
+      document.querySelector("#timer")!.innerHTML = value;
+
+      if (now > then) {
+        setLockInput(false);
+        clearInterval(interval);
+      }
+    }, 1000);
+  };
+
+  useEffect(() => {
+    const timer = localStorage.getItem("mx_timer");
+
+    if (timer) {
+      const lockTime = JSON.parse(timer);
+
+      if (lockTime < Date.now()) return;
+
+      setLockInput(true);
+      countdownTimer(lockTime);
+    }
+  }, []);
+
+  const confirmSelection = (item: TrackInterface) => {
+    if (limitReached) return;
+    const options = {
+      title: item.trackname,
+      artist: item.artists,
+      cover: item.cover,
+    };
+    useRequestMusic(user?.email!, options);
+    let rq: RequestedTracksProps[] = [
+      ...requestedTracks,
+      { ...item, status: "queued" },
+    ];
+    localStorage.setItem("requested_tracks", JSON.stringify(rq));
+    setCurrSelect(undefined);
+    setSearch("");
+    if (numOfTracks < max) setNumOfTracks(numOfTracks + 1);
+    setRequestedTracks([...rq]);
+
+    // lock the input and set up a timer
+    setLockInput(true);
+    const lockTime = Date.now() + 60000; // now + 1min
+    countdownTimer(lockTime);
+    localStorage.setItem("mx_timer", JSON.stringify(lockTime));
+  };
 
   // IF THE LINK IS INCORRECT, SHOW ERROR PAGE
-  if (user === undefined || wrongLInk) {
-    return (
-      <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center px-6">
-        <div className="flex flex-col gap-6 items-center">
-          <img src="/failed.ico" alt="failed image" className="w-20" />
-          <h1 className="font-medium text-center">
-            OOPS!!! <br /> The link you entered is Incorrect <br /> Or the Club
-            Profile has been deleted
-          </h1>
-        </div>
-      </div>
-    );
-  }
+  // if (user === undefined || wrongLInk) {
+  //   return (
+  //     <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center px-6">
+  //       <div className="flex flex-col gap-6 items-center">
+  //         <img src="/failed.ico" alt="failed image" className="w-20" />
+  //         <h1 className="font-medium text-center">
+  //           OOPS!!! <br /> The link you entered is Incorrect <br /> Or the Club
+  //           Profile has been deleted
+  //         </h1>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // IF THERE IS NO USER, SHOW LOADING PAGE
-  if (!user)
-    return (
-      <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center">
-        <div className="flex flex-col gap-6 items-center">
-          <span className="loader"></span>
-          <h1 className="font-medium text-center">
-            Fetching Club Profile, <br /> Wait a moment....
-          </h1>
-        </div>
-      </div>
-    );
+  // if (!user)
+  //   return (
+  //     <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center">
+  //       <div className="flex flex-col gap-6 items-center">
+  //         <span className="loader"></span>
+  //         <h1 className="font-medium text-center">
+  //           Fetching Club Profile, <br /> Wait a moment....
+  //         </h1>
+  //       </div>
+  //     </div>
+  //   );
 
   return (
     <>
@@ -238,51 +288,80 @@ const Clubpage = () => {
                 onChange={handleSearchChange}
                 autocomplete="off"
                 required
+                disabled={lockInput}
               />
             </form>
 
             <p className="text-slate-500 my-2">
               Search for tracks and click on the result to request them
             </p>
-            {/* {!canRequest ? (
-              <Tag
-                content={`${mins}:${secs}s until you can request again`}
-                isFilled={true}
-                className="my-5"
-              />
-            ) : (
-              ""
-            )} */}
+            {lockInput && user && (
+              <div className="rounded-full my-5 border-[var(--primary-color)] w-[max-content] border-[2px] text-slate-500 dark:text-gray-200 px-7 py-2 bg-[#b6ecd49b]">
+                <span id="timer">0:00</span>s until you can request again
+              </div>
+            )}
           </div>
 
           {/* results */}
-          {
-            search.length > 0 ?
-            <section className='z-[500] h-[400px] w-full absolute overflow-y-scroll bg-white shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
-            '>
-            <div>
-              {getTracks.map((item, index):JSX.Element => {
-                return <div className='flex min-w-full overflow-x-hidden my-2' key={index}>
-                    <span onClick={() => userSelectioin(index)} className={` cursor-pointer ${ currSelect === index ? 'min-w-[calc(100%-300px)] overflow-x-clip' : 'min-w-full'}`} ><TrackCard key={index} isResult={true} cover={item.cover} title={item.trackname} artist={item.artists} className='rounded-lg hover:border-[var(--primary-color)] hover:border-2'/> </span><div className='text-rose-800 rounded-xl flex items-center justify-center min-h-full min-w-[150px] bg-rose-300 border-rose-700 border-[1px] cursor-pointer'
-                    onClick={() => setCurrSelect(undefined)}
-                    >Cancel</div> 
-                    
+          {search.length > 0 ? (
+            <section
+              className="z-[500] h-[400px] w-full absolute overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
+            "
+            >
+              {networkError && (
+                <p>
+                  Your network is not able to connect to Spotify right at the
+                  moment. Please try again later!!
+                </p>
+              )}
+
+              <div>
+                {getTracks.map((item, index): JSX.Element => {
+                  return (
                     <div
-                   className='text-green-800 rounded-xl flex items-center justify-center min-h-full min-w-[150px] bg-green-300 cursor-pointer'
-                   onClick={() => confirmSelection(item)}
-                   >Confirm</div>
-             
-                </div>
-              }) }
-            </div>
+                      className="flex min-w-full overflow-x-hidden my-2"
+                      key={index}
+                    >
+                      <span
+                        onClick={() => userSelectioin(index)}
+                        className={` cursor-pointer ${
+                          currSelect === index
+                            ? "min-w-[calc(100%-300px)] overflow-x-clip"
+                            : "min-w-full"
+                        }`}
+                      >
+                        <TrackCard
+                          key={index}
+                          isResult={true}
+                          cover={item.cover}
+                          title={item.trackname}
+                          artist={item.artists}
+                          className="rounded-lg hover:border-[var(--primary-color)] hover:border-2"
+                        />{" "}
+                      </span>
+                      <div
+                        className="text-rose-800 rounded-xl flex items-center justify-center min-h-full min-w-[150px] bg-rose-300 border-rose-700 border-[1px] cursor-pointer"
+                        onClick={() => setCurrSelect(undefined)}
+                      >
+                        Cancel
+                      </div>
+
+                      <div
+                        className="text-green-800 rounded-xl flex items-center justify-center min-h-full min-w-[150px] bg-green-300 cursor-pointer"
+                        onClick={() => confirmSelection(item)}
+                      >
+                        Confirm
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </section>
-            :
+          ) : (
             <></>
-           }
-              {/* end of results */}
+          )}
+          {/* end of results */}
         </div>
-
-
 
         {/* request list */}
         <div className="w-[96%] mx-auto md:w-[40%] md:mt-0 mt-10 md:border-l-[1px] border-slate-200 md:pl-10">

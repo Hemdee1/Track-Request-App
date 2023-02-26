@@ -1,7 +1,7 @@
 export const musicList = [
   {
     id: "new-1",
-    artist: "Kizz Daniel",
+    artists: "Kizz Daniel",
     duration: "2:56",
     title: "Cough (Odo)",
     cover: "/cover/cover_1.jpeg",
@@ -9,7 +9,7 @@ export const musicList = [
   },
   {
     id: "new-2",
-    artist: "Ayra Starr",
+    artists: "Ayra Starr",
     duration: "3:09",
     title: "Rush",
     cover: "/cover/cover_2.jpeg",
@@ -17,7 +17,7 @@ export const musicList = [
   },
   {
     id: "new-3",
-    artist: "Bella Shmurda",
+    artists: "Bella Shmurda",
     duration: "2:09",
     title: "New Born Fela",
     cover: "/cover/cover_3.jpg",
@@ -25,7 +25,7 @@ export const musicList = [
   },
   {
     id: "new-4",
-    artist: "Blaqbonez ft JAE5",
+    artists: "Blaqbonez ft JAE5",
     duration: "2:30",
     title: "Back In Uni",
     cover: "/cover/cover_4.jpeg",
@@ -33,7 +33,7 @@ export const musicList = [
   },
   {
     id: "new-5",
-    artist: "Pheelz ft Davido",
+    artists: "Pheelz ft Davido",
     duration: "2:14",
     title: "Electricity",
     cover: "/cover/cover_5.png",
@@ -41,7 +41,7 @@ export const musicList = [
   },
   {
     id: "new-6",
-    artist: "Oxlade",
+    artists: "Oxlade",
     duration: "2:27",
     title: "KU LO SA",
     cover: "/cover/cover_6.webp",
@@ -49,7 +49,7 @@ export const musicList = [
   },
   {
     id: "new-7",
-    artist: "JAE5 ft Dave & BNXN",
+    artists: "JAE5 ft Dave & BNXN",
     duration: "3:24",
     title: "Propeller",
     cover: "/cover/cover_7.png",
@@ -57,7 +57,7 @@ export const musicList = [
   },
   {
     id: "new-8",
-    artist: "Olamide",
+    artists: "Olamide",
     duration: "2:35",
     title: "We Outside",
     cover: "/cover/cover_8.jpeg",
@@ -65,7 +65,7 @@ export const musicList = [
   },
   {
     id: "new-9",
-    artist: "Joeboy",
+    artists: "Joeboy",
     duration: "3:09",
     title: "Contour",
     cover: "/cover/cover_9.jpg",
@@ -73,7 +73,7 @@ export const musicList = [
   },
   {
     id: "new-10",
-    artist: "Zinoleesky",
+    artists: "Zinoleesky",
     duration: "2:24",
     title: "Call Of Duty",
     cover: "/cover/cover_10.jpg",
@@ -82,7 +82,7 @@ export const musicList = [
 
   {
     id: "popular-1",
-    artist: "Asake",
+    artists: "Asake",
     duration: "2:19",
     title: "Terminator",
     cover: "/cover/cover_11.jpeg",
@@ -90,7 +90,7 @@ export const musicList = [
   },
   {
     id: "popular-2",
-    artist: "Magix ft Ayra Starr",
+    artists: "Magix ft Ayra Starr",
     duration: "2:26",
     title: "Love Don't Cost A Dime",
     cover: "/cover/cover_12.jpeg",
@@ -98,7 +98,7 @@ export const musicList = [
   },
   {
     id: "popular-3",
-    artist: "Burna Boy",
+    artists: "Burna Boy",
     duration: "2:52",
     title: "Last Last",
     cover: "/cover/cover_13.jpg",
@@ -106,7 +106,7 @@ export const musicList = [
   },
   {
     id: "popular-4",
-    artist: "Kizz Daniel ft Tekno",
+    artists: "Kizz Daniel ft Tekno",
     duration: "2:59",
     title: "Buga",
     cover: "/cover/cover_14.jpeg",
@@ -114,7 +114,7 @@ export const musicList = [
   },
   {
     id: "popular-5",
-    artist: "Steven ft Portable & TI Blaze",
+    artists: "Steven ft Portable & TI Blaze",
     duration: "3:22",
     title: "Ali Remix",
     cover: "/cover/cover_15.png",
@@ -122,7 +122,7 @@ export const musicList = [
   },
   {
     id: "popular-6",
-    artist: "Asake ft Burna Boy",
+    artists: "Asake ft Burna Boy",
     duration: "3:30",
     title: "Sungba Remix",
     cover: "/cover/cover_16.jpeg",
@@ -130,7 +130,7 @@ export const musicList = [
   },
   {
     id: "popular-7",
-    artist: "Fireboy",
+    artists: "Fireboy",
     duration: "3:27",
     title: "Playboy",
     cover: "/cover/cover_17.jpeg",
@@ -138,7 +138,7 @@ export const musicList = [
   },
   {
     id: "popular-8",
-    artist: "BNXN ft Wande Coal",
+    artists: "BNXN ft Wande Coal",
     duration: "3:33",
     title: "Kenkele",
     cover: "/cover/cover_18.png",
@@ -146,7 +146,7 @@ export const musicList = [
   },
   {
     id: "popular-9",
-    artist: "Asake",
+    artists: "Asake",
     duration: "2:33",
     title: "PBUY",
     cover: "/cover/cover_19.png",
@@ -154,7 +154,7 @@ export const musicList = [
   },
   {
     id: "popular-10",
-    artist: "Zinoleesky",
+    artists: "Zinoleesky",
     duration: "2:05",
     title: "Loving You",
     cover: "/cover/cover_20.jpg",

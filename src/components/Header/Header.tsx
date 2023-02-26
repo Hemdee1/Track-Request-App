@@ -6,6 +6,7 @@ import LogoIcon from "../../assets/SVGs/LogoIcon";
 import { GoInfo } from "react-icons/go";
 import {
   useAuthChange,
+  useClearClubSession,
   UserType,
   useUpdateDJSession,
 } from "../../hooks/useFirebase";
@@ -50,8 +51,9 @@ const Header = () => {
   const handleModal = (status: boolean) => {
     if (status) {
       setSession(false);
-      useUpdateDJSession(user!, false, setUser);
       setOpenModal(false);
+      useUpdateDJSession(user!, false, setUser);
+      useClearClubSession(user?.email!);
     } else {
       setOpenModal(false);
     }

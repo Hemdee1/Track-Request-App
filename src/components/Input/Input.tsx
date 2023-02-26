@@ -47,6 +47,7 @@ const Input = (props: InputFieldProps) => {
         onChange={handleInputChange}
         autoComplete={props.autocomplete}
         placeholder={props.placeholder}
+        disabled={props.disabled}
       />
 
       {props.type === "password" && (

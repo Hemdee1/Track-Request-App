@@ -30,7 +30,7 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setLoading(false);
-      navigate("/profile/edit");
+      navigate("/profile");
     } else if (user === null) {
       setAutoLoginLoading(false);
     }

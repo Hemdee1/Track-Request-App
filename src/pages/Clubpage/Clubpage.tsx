@@ -11,7 +11,7 @@ import Photo from "../../assets/Images/album-cover.png";
 import {
   searchSpotifyTracks,
   getSpotifyToken,
-} from "../../components/API/spotify";
+} from "../../assets/API/spotify";
 import { Logger } from "../../utils";
 import Alert, { AlertProps } from "../../components/Alert/Alert";
 import {
@@ -23,6 +23,8 @@ import {
 import { useLocation } from "react-router";
 import { musicList } from "../../hooks/offlineFile";
 import { useRequestMusic } from "../../hooks/useFirebase";
+import { FiAlertTriangle } from "react-icons/fi";
+import { AiOutlineDisconnect } from "react-icons/ai";
 
 export interface TrackInterface {
   cover: string;
@@ -107,6 +109,11 @@ const Clubpage = () => {
   const handleSearchChange = (value: string) => {
     setSearch(value);
     // GETTING TRACKS FROM SPOTIFY
+
+    // setNetworkError(true);
+    // return 
+    setCurrSelect(undefined);
+
     (async () => {
       try {
         const trks = await searchSpotifyTracks(value);
@@ -152,7 +159,6 @@ const Clubpage = () => {
 
     if (timer) {
       const lockTime = JSON.parse(timer);
-
       if (lockTime < Date.now()) return;
 
       setLockInput(true);
@@ -219,19 +225,7 @@ const Clubpage = () => {
         className={`${widthSetter} mx-auto pt-[200px] min-h-screen flex flex-wrap`}
       >
         <div className=" w-[90%] md:w-[60%] mx-auto relative pr-[0px] sm:pr-[5%]">
-          <div className=" absolute -top-14 right-0 sm:right-6">
-            {user && user?.session ? (
-              <div className="px-5 py-3 text-sm font-medium rounded-[30px] bg-[#35CA8B] text-white animate-pulse">
-                Active
-              </div>
-            ) : user && !user.session ? (
-              <div className="px-3 sm:px-5 py-2 sm:py-3 text-sm font-medium rounded-[30px] bg-gray-200 dark:bg-gray-700">
-                Inactive
-              </div>
-            ) : (
-              <div className="px-10 py-5 rounded-[30px] bg-gray-200 animate-pulse"></div>
-            )}
-          </div>
+          
           <div className="flex items-center flex-wrap gap-6">
             {user?.photoURL && !(user?.photoURL instanceof File) ? (
               <img
@@ -272,6 +266,22 @@ const Clubpage = () => {
                 </a>
               )}
             </div>
+
+            {/* status */}
+            <div className=" absolute right-[5%]  ">
+            {user && user?.session ? (
+              <div className="px-5 py-3 text-sm font-medium rounded-[30px] bg-[#35CA8B] text-white animate-pulse">
+                Online
+              </div>
+            ) : user && !user.session ? (
+              <div className="px-3 sm:px-5 py-2 sm:py-3 text-sm font-medium rounded-[30px] bg-gray-200 dark:bg-gray-700">
+                Offline
+              </div>
+            ) : (
+              <div className="px-10 py-5 rounded-[30px] bg-gray-200 animate-pulse"></div>
+            )}
+          </div>
+            {/* end of status */}
           </div>
           <h3 className="mt-6 mb-10 text-slate-500">
             This is the official song request page for {user?.clubName}
@@ -305,13 +315,14 @@ const Clubpage = () => {
           {/* results */}
           {search.length > 0 ? (
             <section
-              className="z-[500] h-[400px] w-full absolute overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
+              className="z-[500]  min-h-auto max-h-[400px] w-[92%] absolute overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
             "
             >
               {networkError && (
-                <p>
-                  Your network is not able to connect to Spotify right at the
-                  moment. Please try again later!!
+                <p className=" text-slate-400 flex gap-5 items-center">
+                  {/* <FiAlertTriangle className=" text-3xl"/> */}
+                  <AiOutlineDisconnect className=" text-4xl"/>
+                  Unable to connect to Spotify servers at the moment, please check your connection and try again.
                 </p>
               )}
 

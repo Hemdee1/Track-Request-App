@@ -866,6 +866,14 @@ select{
   bottom: 8rem;
 }
 
+.right-5{
+  right: 1.25rem;
+}
+
+.right-\[5\%\]{
+  right: 5%;
+}
+
 .-z-\[1000\]{
   z-index: -1000;
 }
@@ -1054,6 +1062,10 @@ select{
   margin-top: 1.5rem;
 }
 
+.mr-\[5\%\]{
+  margin-right: 5%;
+}
+
 .block{
   display: block;
 }
@@ -1174,6 +1186,14 @@ select{
   height: 4rem;
 }
 
+.h-\[500px\]{
+  height: 500px;
+}
+
+.max-h-\[400px\]{
+  max-height: 400px;
+}
+
 .min-h-\[50vh\]{
   min-height: 50vh;
 }
@@ -1196,6 +1216,10 @@ select{
 
 .min-h-\[80vh\]{
   min-height: 80vh;
+}
+
+.min-h-\[80\%\]{
+  min-height: 80%;
 }
 
 .w-1\/2{
@@ -1375,6 +1399,22 @@ select{
   width: 800px;
 }
 
+.w-\[30px\]{
+  width: 30px;
+}
+
+.w-\[60px\]{
+  width: 60px;
+}
+
+.w-\[95\%\]{
+  width: 95%;
+}
+
+.w-\[92\%\]{
+  width: 92%;
+}
+
 .min-w-\[120px\]{
   min-width: 120px;
 }
@@ -1393,6 +1433,10 @@ select{
 
 .min-w-\[70px\]{
   min-width: 70px;
+}
+
+.min-w-\[250px\]{
+  min-width: 250px;
 }
 
 .max-w-\[80\%\]{
@@ -1714,6 +1758,11 @@ select{
   border-color: #b5c2c780;
 }
 
+.border-rose-500{
+  --tw-border-opacity: 1;
+  border-color: rgb(244 63 94 / var(--tw-border-opacity));
+}
+
 .border-opacity-50{
   --tw-border-opacity: 0.5;
 }
@@ -1828,6 +1877,11 @@ select{
 .bg-slate-100{
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.bg-rose-500{
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 63 94 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-20{
@@ -2026,6 +2080,10 @@ select{
   padding-top: 150px;
 }
 
+.pr-\[5\%\]{
+  padding-right: 5%;
+}
+
 .text-center{
   text-align: center;
 }
@@ -2082,6 +2140,11 @@ select{
 .text-base{
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+.text-3xl{
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .font-light{
@@ -2410,6 +2473,11 @@ select{
 .dark .dark\:text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dark .dark\:text-gray-200{
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
 .dark .dark\:shadow-gray-800{

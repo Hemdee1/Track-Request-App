@@ -9,7 +9,7 @@ import { Logger, selectRandom } from "../../utils";
 import {
   getSpotifyNewRelease,
   getSpotifyToken,
-} from "../../components/API/spotify";
+} from "../../assets/API/spotify";
 import { musicList } from "../../hooks/offlineFile";
 
 interface Release {
@@ -137,7 +137,7 @@ const HomePage = () => {
                         key={index}
                         src={item.cover ?? Image}
                         alt={"image title"}
-                        className="w-[250px] row-span-2 h-[80%] object-cover mt-10 rounded-3xl border-4 border-[var(--primary-color)]"
+                        className="w-[250px] row-span-2 h-[80%] object-cover mt-10 rounded-3xl border-4 border-[var(--primary-color)] bg-rose-500 "
                       />
                     );
                   return (

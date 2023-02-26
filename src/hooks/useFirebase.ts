@@ -91,9 +91,9 @@ export const useClearClubSession = async (collectionName: string) => {
   try {
     const snapshot = await getDocs(colRef);
 
+    console.log({docRef: snapshot.docs});
     snapshot.docs.map(async (res) => {
       const docRef = doc(db, collectionName, res.id);
-
       await deleteDoc(docRef);
     });
   } catch (error) {

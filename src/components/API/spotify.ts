@@ -4,8 +4,6 @@ import { Logger } from "../../utils";
 import { TrackInterface } from "../../pages/Clubpage/Clubpage";
 
 const baseURL = "https://api.spotify.com";
-const Cid = "164f32a969034dadbb1219ae0ecc8c2f";
-const CSec = "5356efc476ca4b5385d4042bc9011027";
 
 interface resetToken {
   reset?: boolean;

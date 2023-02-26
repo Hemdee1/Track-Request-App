@@ -4,12 +4,23 @@ import { PulseProp } from './pulse.type';
 import Played from '../../assets/SVGs/played';
 import Notfound from '../../assets/SVGs/notfound';
 
-const Pulse = memo(function Pulse ({type, color}:PulseProp) :JSX.Element{
-  const [status, setStatus] = useState<PulseProp>({type: type, color: "#F2B71E"});  
+const Pulse = memo(function Pulse ({type}:PulseProp) :JSX.Element{
+  const [status, setStatus] = useState<PulseProp>({type: type, color: "#F2B71E"}); 
+  const [component, setComponent] = useState(<PendingSvg/>) 
+
   useEffect( ()=> {
-     if(type === 'played'){ setStatus({type: "played",color: "#35CA8B"})}
-     else if(type === 'unavailable') setStatus({type: "queued", color: "#F24E1E"})
-     else {setStatus({type: "unavailable", color: "#F2B71E"})}
+     if(type === 'played'){ 
+      setStatus({type: "played",color: "#35CA8B"});
+      setComponent(<Played />);
+     }
+     else if(type === 'queued') {
+      setStatus({type: "queued", color: "#F24E1E"});
+      setComponent(<PendingSvg />);
+     }
+     else {
+      setStatus({type: "unavailable", color: "#F2B71E"});
+      setComponent(<Notfound />);
+     }
     
   }, []);
   const FakeArray = new Array(1,2,3)
@@ -23,9 +34,11 @@ const Pulse = memo(function Pulse ({type, color}:PulseProp) :JSX.Element{
       })
     }
     <span className="z-40 flex">
-    { status.type === "queued" ? <PendingSvg/> : ''}
+    {/* { status.type === "queued" ? <PendingSvg/> : ''}
     { status.type === "played" ? <Played /> : ''}
-    { status.type === "unavailable" ? <Notfound /> : ''}
+    { status.type === "unavailable" ? <Notfound /> : ''} */}
+    {component}
+    
     </span>
 
     </div>

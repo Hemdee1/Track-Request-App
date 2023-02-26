@@ -8,7 +8,7 @@ import { Input, Message } from "../../components";
 import ClubInfoCard from "../../components/ClubInfoCard";
 import Image from "../../assets/Images/emptyy.png";
 import Photo from "../../assets/Images/album-cover.png";
-import { searchTracks } from "../../components/API/spotify";
+import { searchSpotifyTracks, getSpotifyToken } from '../../components/API/spotify';
 import { Logger } from "../../utils";
 import Alert, { AlertProps } from "../../components/Alert/Alert";
 import {
@@ -19,6 +19,7 @@ import {
 } from "../../hooks/useFirebase";
 import { useLocation } from "react-router";
 import { musicList } from "../../hooks/offlineFile";
+import { useRequestMusic } from '../../hooks/useFirebase';
 
 export interface TrackInterface {
   cover: string;
@@ -51,17 +52,18 @@ const Clubpage = () => {
   const [limitReached, setLimitReached] = useState<boolean>(false);
   const [numOfTracks, setNumOfTracks] = useState<number>(0);
   const [max, setMax] = useState<number>(10);
-  // const [getErrors, setErrors] = useState<AlertProps>({
-  //   type: "warning",
-  //   status: true,
-  //   message: "Club / DJ session request limit of 10 tracks request reached",
-  // });
-  // const [getReqErrors, setReqErrors] = useState<AlertProps>({
-  //   type: "warning",
-  //   status: true,
-  //   message:
-  //     "You recently made a request which have been queued, you will be able to make another request when the timer ends",
-  // });
+  const [requestedTracks, setRequestedTracks] = useState<RequestedTracksProps[]>([])
+  const [getErrors, setErrors] = useState<AlertProps>({
+    type: "warning",
+    status: true,
+    message: "Club / DJ session request limit of 10 tracks request reached",
+  });
+  const [getReqErrors, setReqErrors] = useState<AlertProps>({
+    type: "warning",
+    status: true,
+    message:
+      "You recently made a request which have been queued, you will be able to make another request when the timer ends",
+  });
   // const [time, setTime] = useState(0);
   // const [mins, setMins] = useState(0);
   // const [secs, setSecs] = useState(0);
@@ -70,19 +72,15 @@ const Clubpage = () => {
   const [datas, setDatas] = useState<MusicType[]>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[]>();
 
+
   const [filterMusic, setFilterMusic] = useState<typeof musicList>([]);
-
   const [wrongLInk, setWrongLInk] = useState(false);
-
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // const link = "https://www.mxrequest/cp/c2FubXVoeUBnbWFpbC5jb20=";
     const url = pathname.split("/");
-
     try {
       const email = atob(url[url.length - 1]);
-
       useGetClubProfile(email, setUser);
     } catch (error) {
       setWrongLInk(true);
@@ -91,30 +89,51 @@ const Clubpage = () => {
 
   useEffect(() => {
     if (user) {
-      // useGetRequest(user.email, setDatas);
-      useGetRequest("DJ YK", setDatas);
+      useGetRequest(user.email, setDatas);
+      // useGetRequest("DJ YK", setDatas);
+    
     }
   }, [user]);
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("mxrequest_id")!);
-
     setFilterDatas(datas?.filter((data) => data.user_id === id));
+    console.log({datas})
   }, [datas]);
+
+
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
-
-    const filter = musicList.filter(
-      (music) =>
-        music.artist.toLowerCase().includes(search) ||
-        music.title.toLowerCase().includes(search)
-    );
-
-    setFilterMusic(filter);
+    // GETTING TRACKS FROM SPOTIFY
+    (async ()=> {
+      const trks = await searchSpotifyTracks(value);
+      console.log({tracksss: trks})
+      if(trks) setTracks(trks)
+    })()
+    
   };
+  const userSelectioin = (index:number) => {
+    setCurrSelect(index)
+  } 
 
-  const selectMusic = () => {};
+  const confirmSelection = (item:TrackInterface) => {
+    if(limitReached) return;
+    const options = {
+        title: item.trackname,
+        artist: item.artists,
+        cover: item.cover,
+    }
+    useRequestMusic(user?.email!, options)
+    let rq:RequestedTracksProps[] = [...requestedTracks, {...item, status:'queued' }]
+    localStorage.setItem('requested_tracks', JSON.stringify(rq))
+    setCurrSelect(undefined)
+    setSearch('')
+    if(numOfTracks < max) setNumOfTracks(numOfTracks + 1)
+    setRequestedTracks([...rq])
+
+  }
+
 
   // IF THE LINK IS INCORRECT, SHOW ERROR PAGE
   if (user === undefined || wrongLInk) {
@@ -205,7 +224,7 @@ const Clubpage = () => {
             </div>
           </div>
           <h3 className="mt-6 mb-10 text-slate-500">
-            This is the official song request page for{" "}
+            This is the official song request page for {user?.clubName}
             <span className="font-medium">{user?.clubName} Club</span>
           </h3>
           <div>
@@ -237,42 +256,33 @@ const Clubpage = () => {
           </div>
 
           {/* results */}
-          {search.length > 0 ? (
-            <section className="z-[500] h-[300px] absolute right-0 md:right-14 left-0 overflow-y-scroll shadow-md p-3 sm:p-10 rounded-xl shadow-gray-600 backdrop-blur-lg">
-              <div>
-                {filterMusic.map((item, index): JSX.Element => {
-                  return (
+          {
+            search.length > 0 ?
+            <section className='z-[500] h-[400px] w-full absolute overflow-y-scroll bg-white shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
+            '>
+            <div>
+              {getTracks.map((item, index):JSX.Element => {
+                return <div className='flex min-w-full overflow-x-hidden my-2' key={index}>
+                    <span onClick={() => userSelectioin(index)} className={` cursor-pointer ${ currSelect === index ? 'min-w-[calc(100%-300px)] overflow-x-clip' : 'min-w-full'}`} ><TrackCard key={index} isResult={true} cover={item.cover} title={item.trackname} artist={item.artists} className='rounded-lg hover:border-[var(--primary-color)] hover:border-2'/> </span><div className='text-rose-800 rounded-xl flex items-center justify-center min-h-full min-w-[150px] bg-rose-300 border-rose-700 border-[1px] cursor-pointer'
+                    onClick={() => setCurrSelect(undefined)}
+                    >Cancel</div> 
+                    
                     <div
-                      key={index}
-                      className="flex min-w-full overflow-x-hidden my-4"
-                    >
-                      <span
-                        onClick={() => selectMusic()}
-                        className={` cursor-pointer ${
-                          currSelect === index
-                            ? "min-w-[calc(100%-300px)]"
-                            : "min-w-full"
-                        }`}
-                      >
-                        <TrackCard
-                          key={index}
-                          isResult={true}
-                          cover={item.cover}
-                          title={item.title}
-                          artist={item.artist}
-                          className="rounded-lg bg-slate-100 dark:bg-gray-900 hover:border-[var(--primary-color)] hover:border-2"
-                        />{" "}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+                   className='text-green-800 rounded-xl flex items-center justify-center min-h-full min-w-[150px] bg-green-300 cursor-pointer'
+                   onClick={() => confirmSelection(item)}
+                   >Confirm</div>
+             
+                </div>
+              }) }
+            </div>
             </section>
-          ) : (
+            :
             <></>
-          )}
-          {/* end of results */}
+           }
+              {/* end of results */}
         </div>
+
+
 
         {/* request list */}
         <div className="w-[96%] mx-auto md:w-[40%] md:mt-0 mt-10 md:border-l-[1px] border-slate-200 md:pl-10">

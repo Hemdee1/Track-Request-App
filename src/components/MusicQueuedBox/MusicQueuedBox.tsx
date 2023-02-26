@@ -13,13 +13,13 @@ const MusicQueuedBox = ({
   id,
   clubName,
 }: MusicQueuedBoxProps) => {
-  // const handleClick = (status: "played") => {
-  //   useUpdateMusicState(clubName, id, status);
-  // };
-
   const handleClick = (status: "played") => {
-    useUpdateMusicState("DJ YK", id, status);
+    useUpdateMusicState(clubName, id, status);
   };
+
+  // const handleClick = (status: "played") => {
+  //   useUpdateMusicState("DJ YK", id, status);
+  // };
 
   return (
     <article className="px-6 flex justify-between pb-4 pt-6 border-b border-[#61818E80] border-opacity-50">

@@ -36,15 +36,15 @@ const PlayedRequest = () => {
     setFilterDatas(datas?.filter((data) => data.status === "played"));
   }, [datas]);
 
-  useEffect(() => {
-    useGetRequest("DJ YK", setDatas);
-  }, []);
-
   // useEffect(() => {
-  //   if (user) {
-  //     useGetRequest(user?.clubName!, setDatas);
-  //   }
-  // }, [user]);
+  //   useGetRequest("DJ YK", setDatas);
+  // }, []);
+
+  useEffect(() => {
+    if (user) {
+      useGetRequest(user?.email!, setDatas);
+    }
+  }, [user]);
 
   if (!FilterDatas || FilterDatas?.length < 1) {
     return (

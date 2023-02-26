@@ -20,7 +20,7 @@ import AnimatedBackground from "./components/AnimatedBackground";
 function App() {
   return (
     <div className="bg-white text-black dark:bg-[black] dark:text-white">
-      <AnimatedBackground />
+      {/* <AnimatedBackground /> */}
       <Routes>
         <Route element={<HomepageLayout />}>
           <Route path="/" element={<HomePage />} />

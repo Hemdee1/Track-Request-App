@@ -180,7 +180,7 @@ const Clubpage = () => {
 
     // lock the input and set up a timer
     setLockInput(true);
-    const lockTime = Date.now() + 60000; // now + 1min
+    const lockTime = Date.now() + 300000; // now + 5min
     countdownTimer(lockTime);
     localStorage.setItem("mx_timer", JSON.stringify(lockTime));
   };

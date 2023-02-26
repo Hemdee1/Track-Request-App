@@ -36,9 +36,11 @@ const Input = (props: InputFieldProps) => {
       </label>
 
       <input
-        className={
-          "border border-gray-300 bg-transparent placeholder-[#B4B4B4] rounded py-4 pl-7 w-full"
-        }
+        className={`border border-gray-300 placeholder-[#B4B4B4] rounded py-4 pl-7 w-full
+          ${
+            props.disabled ? "bg-slate-300 dark:bg-slate-600" : "bg-transparent"
+          }
+        `}
         id={props.name}
         name={props.name}
         type={showPassword ? "text" : props.type || "text"}

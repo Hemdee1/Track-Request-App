@@ -186,32 +186,32 @@ const Clubpage = () => {
   };
 
   // IF THE LINK IS INCORRECT, SHOW ERROR PAGE
-  // if (user === undefined || wrongLInk) {
-  //   return (
-  //     <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center px-6">
-  //       <div className="flex flex-col gap-6 items-center">
-  //         <img src="/failed.ico" alt="failed image" className="w-20" />
-  //         <h1 className="font-medium text-center">
-  //           OOPS!!! <br /> The link you entered is Incorrect <br /> Or the Club
-  //           Profile has been deleted
-  //         </h1>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (user === undefined || wrongLInk) {
+    return (
+      <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center px-6">
+        <div className="flex flex-col gap-6 items-center">
+          <img src="/failed.ico" alt="failed image" className="w-20" />
+          <h1 className="font-medium text-center">
+            OOPS!!! <br /> The link you entered is Incorrect <br /> Or the Club
+            Profile has been deleted
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   // IF THERE IS NO USER, SHOW LOADING PAGE
-  // if (!user)
-  //   return (
-  //     <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center">
-  //       <div className="flex flex-col gap-6 items-center">
-  //         <span className="loader"></span>
-  //         <h1 className="font-medium text-center">
-  //           Fetching Club Profile, <br /> Wait a moment....
-  //         </h1>
-  //       </div>
-  //     </div>
-  //   );
+  if (!user)
+    return (
+      <div className="w-full min-h-[90vh] pt-[80px] grid place-items-center">
+        <div className="flex flex-col gap-6 items-center">
+          <span className="loader"></span>
+          <h1 className="font-medium text-center">
+            Fetching Club Profile, <br /> Wait a moment....
+          </h1>
+        </div>
+      </div>
+    );
 
   return (
     <>
@@ -288,26 +288,30 @@ const Clubpage = () => {
                 onChange={handleSearchChange}
                 autocomplete="off"
                 required
-                disabled={lockInput}
+                disabled={lockInput || !user?.session}
               />
             </form>
 
             <p className="text-slate-500 my-2">
               Search for tracks and click on the result to request them
             </p>
+            {/* IF ALREADY MAKE REQUEST */}
             {lockInput && user && (
               <div className="rounded-full my-5 border-[var(--primary-color)] w-[max-content] border-[2px] text-slate-500 dark:text-gray-200 px-7 py-2 bg-[#b6ecd49b]">
                 <span id="timer">0:00</span>s until you can request again
+              </div>
+            )}
+            {/* IF CLUB IS NOT ACTIVE */}
+            {user && !user.session && (
+              <div className="rounded-full text-sm md:text-base w-[300px] md:w-auto my-5 border-[var(--primary-color)] border-[2px] text-slate-500 dark:text-gray-200 px-4 md:px-7 py-2 bg-[#b6ecd49b]">
+                The club has to be active before you can make a request.
               </div>
             )}
           </div>
 
           {/* results */}
           {search.length > 0 ? (
-            <section
-              className="z-[500] h-[400px] w-full absolute overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px]
-            "
-            >
+            <section className="z-[500] h-[400px] absolute left-0 right-0 md:right-10 overflow-y-scroll bg-white dark:bg-black shadow-lg p-3 sm:p-10 rounded-xl border-[1px] scrollbar">
               {networkError && (
                 <p>
                   Your network is not able to connect to Spotify right at the
@@ -370,7 +374,7 @@ const Clubpage = () => {
             <Tag content={`${numOfTracks} / ${max}`} isFilled={false} />
           </div>
 
-          <div className="w-full mt-10 md:max-h-[70vh] md:overflow-y-scroll overflow-x-hidden">
+          <div className="w-full mt-10 md:max-h-[70vh] md:overflow-y-scroll overflow-x-hidden scrollbar">
             {FilterDatas && FilterDatas?.length > 0 ? (
               FilterDatas?.map((data, index) => {
                 return (

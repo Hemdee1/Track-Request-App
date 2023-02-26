@@ -26,7 +26,7 @@ const allMusic = [music, music, music, music, music, music];
 
 const NewRequest = () => {
   const [user, setUser] = useState<UserType | null>();
-  const [datas, setDatas] = useState<MusicType[] | undefined>([]);
+  const [datas, setDatas] = useState<MusicType[] | undefined>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[] | undefined>();
 
   useEffect(() => {
@@ -47,12 +47,20 @@ const NewRequest = () => {
     }
   }, [user]);
 
-  if (!FilterDatas || FilterDatas?.length < 1) {
+  if (!FilterDatas) {
+    return (
+      <section className="min-h-[90vh] grid place-items-center">
+        <div className="loader"></div>
+      </section>
+    );
+  }
+
+  if (FilterDatas?.length < 1) {
     return (
       <section className="min-h-[90vh] pt-36">
         <Message
           image="/message.svg"
-          text="You currently don't have any track requests, your requests will be displayed in this section"
+          text="You currently don't have any new requests, your requests will be displayed in this section"
         />
       </section>
     );

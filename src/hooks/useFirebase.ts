@@ -112,9 +112,7 @@ export const useRequestMusic = async (
 ) => {
   // get the generated id for the user
   const user_id = JSON.parse(localStorage.getItem("mxrequest_id") || "");
-
   const colRef = collection(db, "clubs", "document", collectionName);
-
   try {
     await addDoc(colRef, {
       ...value,

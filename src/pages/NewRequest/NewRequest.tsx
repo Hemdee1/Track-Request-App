@@ -37,15 +37,15 @@ const NewRequest = () => {
     setFilterDatas(datas?.filter((data) => data.status === "new"));
   }, [datas]);
 
-  useEffect(() => {
-    useGetRequest("DJ YK", setDatas);
-  }, []);
-
   // useEffect(() => {
-  //   if (user) {
-  //     useGetRequest(user?.clubName!, setDatas);
-  //   }
-  // }, [user]);
+  //   useGetRequest("DJ YK", setDatas);
+  // }, []);
+
+  useEffect(() => {
+    if (user) {
+      useGetRequest(user?.email!, setDatas);
+    }
+  }, [user]);
 
   if (!FilterDatas || FilterDatas?.length < 1) {
     return (
@@ -62,7 +62,7 @@ const NewRequest = () => {
     <section className="min-h-[90vh] py-[30px] sm:py-[87px] w-[606px] max-w-full mx-auto font-Inter">
       <>
         {FilterDatas?.map((data, index) => (
-          <MusicNewBox key={index} {...data} clubName={user?.clubName!} />
+          <MusicNewBox key={index} {...data} clubName={user?.email!} />
         ))}
       </>
     </section>

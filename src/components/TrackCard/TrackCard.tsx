@@ -1,12 +1,18 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Pulse from "../Pulse";
 import AlbumArt from "../../assets/Images/album-cover.png";
 import { TrackCardProps } from "./Track.card.type";
 
 const TrackCard = (props: TrackCardProps): JSX.Element => {
+
+  const [type, setType] = useState(props.type)
+  useEffect(()=> {
+    setType(props.type!)
+  }, []);
+
   return (
     <div className={`flex items-center w-full ${props.className ?? ""}`}>
-      {props.isResult ? "" : <Pulse type={props.type ?? "played"} />}
+      {props.isResult ? "" : <Pulse type={type ?? "played"} />}
 
       <div
         className={`

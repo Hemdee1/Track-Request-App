@@ -12,13 +12,13 @@ const MusicNewBox = ({
   id,
   clubName,
 }: MusicNewBoxProps) => {
-  // const handleClick = (status: "queued" | "unavailable") => {
-  //   useUpdateMusicState(clubName, id, status);
-  // };
-
   const handleClick = (status: "queued" | "unavailable") => {
-    useUpdateMusicState("DJ YK", id, status);
+    useUpdateMusicState(clubName, id, status);
   };
+
+  // const handleClick = (status: "queued" | "unavailable") => {
+  //   useUpdateMusicState("DJ YK", id, status);
+  // };
 
   return (
     <article className="flex flex-col md:flex-row justify-between items-center gap-4 pb-4 pt-6 border-b border-[#61818E80] border-opacity-50">

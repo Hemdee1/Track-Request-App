@@ -70,7 +70,7 @@ const Header = () => {
             <FullLogo />
           </Link>
           <NavLink
-            to="/dashboard/new"
+            to="/dashboard"
             className={({ isActive }) =>
               `rounded-[26px] w-[162px] h-[47px] grid place-items-center font-Inter font-medium ${
                 isActive || pathname.includes("dashboard")
@@ -199,7 +199,7 @@ const Header = () => {
           <ul>
             <li className="w-full h-[80px]">
               <NavLink
-                to="/dashboard/new"
+                to="/dashboard"
                 className={({ isActive }) =>
                   isActive
                     ? "h-full items-center bg-[var(--secondary-color)] text-slate-200 w-full flex px-7"

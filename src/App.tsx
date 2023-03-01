@@ -29,15 +29,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/cp/:id" element={<Clubpage />} />
         </Route>
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard/new" element={<NewRequest />} />
-          <Route path="/dashboard/queued" element={<QueuedRequest />} />
-          <Route path="/dashboard/played" element={<PlayedRequest />} />
-          <Route
-            path="/dashboard/unavailable"
-            element={<UnavailableRequest />}
-          />
-        </Route>
+        <Route path="/dashboard" element={<DashboardLayout />} />
+
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/test" element={<TestingAPI />} />

@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 import Tag from "../../components/Tag/Tag";
 import { widthSetter } from "../../utils";
 import TrackCard from "../../components/TrackCard";
 import { Input, Message } from "../../components";
-import ClubInfoCard from "../../components/ClubInfoCard";
 import Image from "../../assets/Images/emptyy.png";
-import Photo from "../../assets/Images/album-cover.png";
-import {
-  searchSpotifyTracks,
-  getSpotifyToken,
-} from "../../components/API/spotify";
-import { Logger } from "../../utils";
-import Alert, { AlertProps } from "../../components/Alert/Alert";
+import { searchSpotifyTracks } from "../../components/API/spotify";
 import {
   MusicType,
   useGetClubProfile,
@@ -21,7 +14,6 @@ import {
   UserType,
 } from "../../hooks/useFirebase";
 import { useLocation } from "react-router";
-import { musicList } from "../../hooks/offlineFile";
 import { useRequestMusic } from "../../hooks/useFirebase";
 
 export interface TrackInterface {
@@ -52,33 +44,17 @@ const Clubpage = () => {
   const [search, setSearch] = useState<string>("");
   const [getTracks, setTracks] = useState<TrackInterface[]>([]);
   const [currSelect, setCurrSelect] = useState<number>();
-  const [limitReached, setLimitReached] = useState<boolean>(false);
-  const [numOfTracks, setNumOfTracks] = useState<number>(0);
-  const [max, setMax] = useState<number>(10);
-  const [requestedTracks, setRequestedTracks] = useState<
-    RequestedTracksProps[]
-  >([]);
-  const [getErrors, setErrors] = useState<AlertProps>({
-    type: "warning",
-    status: true,
-    message: "Club / DJ session request limit of 10 tracks request reached",
-  });
-  const [getReqErrors, setReqErrors] = useState<AlertProps>({
-    type: "warning",
-    status: true,
-    message:
-      "You recently made a request which have been queued, you will be able to make another request when the timer ends",
-  });
-  // const [time, setTime] = useState(0);
-  // const [mins, setMins] = useState(0);
-  // const [secs, setSecs] = useState(0);
-  const [canRequest, setCanRequest] = useState<boolean>(true);
+  const [max] = useState<number>(10);
+
   const [user, setUser] = useState<UserType | null | undefined>(null);
   const [datas, setDatas] = useState<MusicType[]>();
   const [FilterDatas, setFilterDatas] = useState<MusicType[]>();
 
   const [networkError, setNetworkError] = useState(false);
   const [wrongLInk, setWrongLInk] = useState(false);
+
+  const [lockInput, setLockInput] = useState(false);
+
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -101,7 +77,6 @@ const Clubpage = () => {
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("mxrequest_id")!);
     setFilterDatas(datas?.filter((data) => data.user_id === id));
-    console.log({ datas });
   }, [datas]);
 
   const handleSearchChange = (value: string) => {
@@ -110,7 +85,6 @@ const Clubpage = () => {
     (async () => {
       try {
         const trks = await searchSpotifyTracks(value);
-        console.log({ tracksss: trks });
         if (trks) setTracks(trks);
       } catch (error: any) {
         if (error.code === "ERR_CANCELED") {
@@ -122,8 +96,6 @@ const Clubpage = () => {
   const userSelectioin = (index: number) => {
     setCurrSelect(index);
   };
-
-  const [lockInput, setLockInput] = useState(false);
 
   function millisToMinutesAndSeconds(millis: number) {
     const minutes = Math.floor(millis / 60000);
@@ -150,37 +122,35 @@ const Clubpage = () => {
   useEffect(() => {
     const timer = localStorage.getItem("mx_timer");
 
-    if (timer) {
-      const lockTime = JSON.parse(timer);
+    // check if request timer is passed
+    if (!timer) return;
+    const lockTime = JSON.parse(timer);
 
-      if (lockTime < Date.now()) return;
+    if (lockTime < Date.now()) return;
 
-      setLockInput(true);
-      countdownTimer(lockTime);
-    }
+    setLockInput(true);
+    countdownTimer(lockTime);
   }, []);
 
   const confirmSelection = (item: TrackInterface) => {
-    if (limitReached) return;
     const options = {
       title: item.trackname,
       artist: item.artists,
       cover: item.cover,
     };
     useRequestMusic(user?.email!, options);
-    let rq: RequestedTracksProps[] = [
-      ...requestedTracks,
-      { ...item, status: "queued" },
-    ];
-    localStorage.setItem("requested_tracks", JSON.stringify(rq));
+
     setCurrSelect(undefined);
     setSearch("");
-    if (numOfTracks < max) setNumOfTracks(numOfTracks + 1);
-    setRequestedTracks([...rq]);
+
+    // check if limit has been reached
+    if (FilterDatas?.length === max - 1) return;
 
     // lock the input and set up a timer
     setLockInput(true);
-    const lockTime = Date.now() + 300000; // now + 5min
+
+    // const lockTime = Date.now() + 300000; // now + 5min
+    const lockTime = Date.now() + 60000; // now + 1min
     countdownTimer(lockTime);
     localStorage.setItem("mx_timer", JSON.stringify(lockTime));
   };
@@ -274,7 +244,7 @@ const Clubpage = () => {
             </div>
           </div>
           <h3 className="mt-6 mb-10 text-slate-500">
-            This is the official song request page for {user?.clubName}
+            This is the official song request page for{" "}
             <span className="font-medium">{user?.clubName} Club</span>
           </h3>
           <div>
@@ -288,23 +258,31 @@ const Clubpage = () => {
                 onChange={handleSearchChange}
                 autocomplete="off"
                 required
-                disabled={lockInput || !user?.session}
+                disabled={
+                  lockInput || !user?.session || FilterDatas?.length === max
+                }
               />
             </form>
 
             <p className="text-slate-500 my-2">
               Search for tracks and click on the result to request them
             </p>
-            {/* IF ALREADY MAKE REQUEST */}
-            {lockInput && user && (
+            {/* IF ALREADY MAKE REQUEST AND INPUT IS LOCKED */}
+            {user && lockInput && FilterDatas?.length !== max && (
               <div className="rounded-full my-5 border-[var(--primary-color)] w-[max-content] border-[2px] text-slate-500 dark:text-gray-200 px-7 py-2 bg-[#b6ecd49b]">
                 <span id="timer">0:00</span>s until you can request again
               </div>
             )}
             {/* IF CLUB IS NOT ACTIVE */}
             {user && !user.session && (
-              <div className="rounded-full text-sm md:text-base w-[300px] md:w-auto my-5 border-[var(--primary-color)] border-[2px] text-slate-500 dark:text-gray-200 px-4 md:px-7 py-2 bg-[#b6ecd49b]">
+              <div className="rounded-full text-sm md:text-base w-[300px] md:w-[max-content] my-5 border-[var(--primary-color)] border-[2px] text-slate-500 dark:text-gray-200 px-4 md:px-7 py-2 bg-[#b6ecd49b]">
                 The club has to be active before you can make a request.
+              </div>
+            )}
+            {/* IF MAX LIMIT HAS BEEN REACHED */}
+            {FilterDatas?.length === max && (
+              <div className="rounded-full text-sm md:text-base w-[300px] md:w-[max-content] my-5 border-[var(--primary-color)] border-[2px] text-slate-500 dark:text-gray-200 px-4 md:px-7 py-2 bg-[#b6ecd49b]">
+                The maximum request has been reached, come back another day!
               </div>
             )}
           </div>
@@ -371,7 +349,7 @@ const Clubpage = () => {
         <div className="w-[96%] mx-auto md:w-[40%] md:mt-0 mt-10 md:border-l-[1px] border-slate-200 md:pl-10">
           <div className="flex items-center justify-between">
             <p>Requests</p>
-            <Tag content={`${numOfTracks} / ${max}`} isFilled={false} />
+            <Tag content={`${FilterDatas?.length} / ${max}`} isFilled={false} />
           </div>
 
           <div className="w-full mt-10 md:max-h-[70vh] md:overflow-y-scroll overflow-x-hidden scrollbar">
@@ -382,7 +360,7 @@ const Clubpage = () => {
                     title={data.title}
                     artist={data.artist}
                     cover={data.cover}
-                    type={`${data.status}`}
+                    type={data.status}
                     isResult={false}
                     key={index}
                     className="my-2 min-w-full"

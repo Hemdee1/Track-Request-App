@@ -94,7 +94,11 @@ export const useClearClubSession = async (collectionName: string) => {
     snapshot.docs.map(async (res) => {
       const docRef = doc(db, collectionName, res.id);
 
-      await deleteDoc(docRef);
+      deleteDoc(docRef)
+        .then(() => {
+          console.log("all data deleted succefully");
+        })
+        .catch((err) => console.log(err));
     });
   } catch (error) {
     console.log(error);
@@ -291,18 +295,6 @@ export const useUpdateProfile = async (
     const data = await updateDoc(docRef, {
       ...value,
     });
-
-    // fetch the updated profile
-    // const colRef = collection(
-    //   db,
-    //   "profile",
-    //   "document",
-    //   value.email!.toLowerCase()
-    // );
-    // const snapshot = await getDocs(colRef);
-    // const res = snapshot.docs[0];
-
-    // setDatas({ ...(res.data() as UserType), id: res.id });
 
     return data;
   } catch (error) {

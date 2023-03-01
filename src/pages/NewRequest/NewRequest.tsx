@@ -1,61 +1,10 @@
-import { useEffect, useState } from "react";
 import { Message, MusicNewBox } from "../../components";
-import {
-  MusicType,
-  useAuthChange,
-  useGetRequest,
-  UserType,
-} from "../../hooks/useFirebase";
+import { MusicType, UserType } from "../../hooks/useFirebase";
 
-const music = {
-  id: "1",
-  cover: "/user.png",
-  title: "Should have kissed you",
-  artist: "Chris Brown",
-};
+type propsType = { datas: MusicType[] | null; user: UserType | null };
 
-// type musicType = {
-//   id: string;
-//   cover: string;
-//   title: string;
-//   artist: string;
-// };
-
-// const allMusic: musicType[] = [];
-const allMusic = [music, music, music, music, music, music];
-
-const NewRequest = () => {
-  const [user, setUser] = useState<UserType | null>();
-  const [datas, setDatas] = useState<MusicType[] | undefined>();
-  const [FilterDatas, setFilterDatas] = useState<MusicType[] | undefined>();
-
-  useEffect(() => {
-    useAuthChange(setUser);
-  }, []);
-
-  useEffect(() => {
-    setFilterDatas(datas?.filter((data) => data.status === "new"));
-  }, [datas]);
-
-  // useEffect(() => {
-  //   useGetRequest("DJ YK", setDatas);
-  // }, []);
-
-  useEffect(() => {
-    if (user) {
-      useGetRequest(user?.email!, setDatas);
-    }
-  }, [user]);
-
-  if (!FilterDatas) {
-    return (
-      <section className="min-h-[90vh] grid place-items-center">
-        <div className="loader"></div>
-      </section>
-    );
-  }
-
-  if (FilterDatas?.length < 1) {
+const NewRequest = ({ datas, user }: propsType) => {
+  if (datas?.length! < 1) {
     return (
       <section className="min-h-[90vh] pt-36">
         <Message
@@ -69,7 +18,7 @@ const NewRequest = () => {
   return (
     <section className="min-h-[90vh] py-[30px] sm:py-[87px] w-[606px] max-w-full mx-auto font-Inter">
       <>
-        {FilterDatas?.map((data, index) => (
+        {datas?.map((data, index) => (
           <MusicNewBox key={index} {...data} clubName={user?.email!} />
         ))}
       </>

@@ -158,7 +158,7 @@ const Profile = () => {
                 {user?.twitter}
               </span>
             ) : (
-              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
+              <span className="w-[300px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
             )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
@@ -169,7 +169,7 @@ const Profile = () => {
                 {user?.facebook}
               </span>
             ) : (
-              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
+              <span className="w-[300px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
             )}
           </article>
           <article className="py-5 w-full border-b border-[#D9D9D9] flex gap-5 items-center text-[#6B6B6B]">
@@ -180,7 +180,7 @@ const Profile = () => {
                 {user?.instagram}
               </span>
             ) : (
-              <span className="w-[500px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
+              <span className="w-[300px] block max-w-full h-6 rounded-md bg-gray-200 animate-pulse "></span>
             )}
           </article>
         </div>

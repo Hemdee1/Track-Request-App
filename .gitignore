@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+yoma.md
 
 # Editor directories and files
 .vscode/*

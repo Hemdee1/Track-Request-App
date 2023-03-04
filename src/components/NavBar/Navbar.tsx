@@ -7,8 +7,49 @@ import Hamburger from "hamburger-react";
 import { widthSetter } from "../../utils";
 import { getLocalStorage, setThemeUpdate } from "../../hooks/useLocalstorage";
 
+interface LinkProps {
+  id: number;
+  text: string;
+  route: string;
+  buttonChild?: React.ReactNode; // for the Button component in between the <NavLink />. NOT YET IMPLEMENTED.
+}
+
+interface MobileLinkProps extends LinkProps{
+}
+
 export const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [links] = useState<LinkProps[]>([
+    {
+      id: 1, 
+      text: "Home", 
+      route: '/'
+    }, 
+    {
+      id: 2, 
+      text: "About", 
+      route: '/about'
+    }
+  ])
+
+  const [mobileLinks] = useState<MobileLinkProps[]>([
+    {
+      id: 1, 
+      route: '/',
+      text: "Home",
+    },
+    {
+      id: 2, 
+      route: '/about', 
+      text: "About", 
+    },
+    {
+      id: 3, 
+      route: "/register", 
+      text: "Create Club profile", 
+    },
+  ])
+
   const closeMenu = () => setIsOpen(false);
 
   const [theme, setTheme] = useState(getLocalStorage());
@@ -31,26 +72,21 @@ export const Navbar = (): JSX.Element => {
 
         <div className="links flex">
           <ul className="flex gap-20 items-center text-slate-500">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? " text-[var(--primary-color)]" : ""
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  isActive ? " text-[var(--primary-color)]" : ""
-                }
-              >
-                About
-              </NavLink>
-            </li>
+            {
+              links.map((link: {id: number; text: string; route: string;}) => (
+                <li key={link.id}>
+                  <NavLink
+                    to={link.route}
+                    className={({ isActive }) => 
+                      isActive ? " text-[var(--primary-color)]" : "" 
+                    }
+                  >
+                    {link.text}
+                  </NavLink>
+                </li>
+              ))
+            }
+            
             <select
               className="px-4 py-1 shadow bg-gray-100 dark:bg-black shadow-gray-400 rounded-md"
               value={theme}
@@ -116,53 +152,26 @@ export const Navbar = (): JSX.Element => {
           }`}
         >
           <ul>
-            <li className="w-full h-[80px]">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? ` h-full items-center bg-[var(--secondary-color)] text-slate-200 w-full flex px-7 `
-                    : `
-            h-full items-center hover:bg-[var(--secondary-color)] hover:text-slate-200 w-full flex px-7
-            `
-                }
-                onClick={closeMenu}
-              >
-                Home
-              </NavLink>
-            </li>
-
-            <li className="w-full h-[80px]">
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  isActive
-                    ? ` h-full items-center bg-[var(--secondary-color)] text-slate-200 w-full flex px-7 `
-                    : `
-            h-full items-center hover:bg-[var(--secondary-color)] hover:text-slate-200 w-full flex px-7
-            `
-                }
-                onClick={closeMenu}
-              >
-                About
-              </NavLink>
-            </li>
-
-            <li className="w-full h-[80px]">
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  isActive
-                    ? ` h-full items-center bg-[var(--secondary-color)] text-slate-200 w-full flex px-7 `
-                    : `
-            h-full items-center hover:bg-[var(--secondary-color)] hover:text-slate-200 w-full flex px-7
-            `
-                }
-                onClick={closeMenu}
-              >
-                Create club profile
-              </NavLink>
-            </li>
+            {
+              mobileLinks.map((mlink: MobileLinkProps) => (
+                <li className="w-full h-[80px]">
+                  <NavLink
+                    to={mlink.route}
+                    className={({ isActive }) =>
+                      isActive
+                        ? ` h-full items-center bg-[var(--secondary-color)] text-slate-200 w-full flex px-7 `
+                        : `
+                        h-full items-center hover:bg-[var(--secondary-color)] hover:text-slate-200 w-full flex px-7
+                        `
+                          }
+                          // onClick={mlink.handleClick}
+                          onClick={closeMenu}
+                        >
+                          {mlink.text}
+                  </NavLink>
+                </li>
+              ))
+            }
 
             <li className="h-[80px] mt-5 flex items-center px-7">
               <NavLink className="w-full" to="/login" onClick={closeMenu}>
